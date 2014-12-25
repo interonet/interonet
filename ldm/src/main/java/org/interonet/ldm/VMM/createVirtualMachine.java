@@ -21,7 +21,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class createVirtualMachine implements createVM {
-	@Override
+
 	public String vmclone(int ID) throws JSchException {
 		String command = "virt-clone -o vmsource -n vmm"+ID+"  -f /home/400/vmuser/vm"+ID+".img";
 		// TODO Auto-generated method stub
@@ -59,7 +59,7 @@ public class createVirtualMachine implements createVM {
 		return result;
 	}
 
-	@Override
+
 	public void vmstart(Connect connect,  int ID) throws DocumentException, LibvirtException
 	{
 		 SAXReader reader = new SAXReader(); 
@@ -74,7 +74,9 @@ public class createVirtualMachine implements createVM {
 			vncPort.setText("590"+ID);
 			Element  interfaces = docu.getRootElement().element("devices").element("interface").element("source");
 			Attribute bridge = interfaces.attribute("bridge");
-			bridge.setText("br"+ID);
+		    bridge.setText("br"+ID);
+
+
 			String xmlDesc = docu.asXML();
 			Domain domain = connect.domainCreateXML(xmlDesc, 0);
 			domain.resume();

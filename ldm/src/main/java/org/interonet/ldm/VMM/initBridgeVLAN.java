@@ -10,6 +10,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class initBridgeVLAN implements initBV {
+
 public String createBridge() throws JSchException
 {
 	String command = "";
@@ -52,6 +53,7 @@ public String createBridge() throws JSchException
 	return result;
 	
 }
+
 public String createVLAN() throws JSchException
 {
 	String command = "modprobe 8021q;";

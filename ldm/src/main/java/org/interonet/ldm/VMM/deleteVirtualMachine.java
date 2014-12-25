@@ -16,7 +16,6 @@ import com.jcraft.jsch.Session;
 
 public class deleteVirtualMachine implements deleteVM {
 
-	@Override
 	public void vmdestroy(Connect connect , int ID) throws LibvirtException {
 		// TODO Auto-generated method stub
 		Domain domain = connect.domainLookupByName("vm"+ID);
@@ -24,8 +23,6 @@ public class deleteVirtualMachine implements deleteVM {
 	}
 
 
-
-	@Override
 	public String vmdelete(int ID) throws JSchException {
 		// TODO Auto-generated method stub
 		String command = "virsh undefine vmm"+ID+";rm -f /home/400/vmuser/vm"+ID+".img";
