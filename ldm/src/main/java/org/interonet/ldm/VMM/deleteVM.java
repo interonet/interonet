@@ -6,6 +6,7 @@ import org.libvirt.LibvirtException;
 import com.jcraft.jsch.JSchException;
 
 public interface deleteVM {
-void vmdestroy(Connect connect , int ID) throws LibvirtException;
-String vmdelete(int ID) throws JSchException;
+    void vmdestroy(Connect connect, int ID) throws LibvirtException;
+
+    String vmdelete(int ID) throws JSchException;
 }

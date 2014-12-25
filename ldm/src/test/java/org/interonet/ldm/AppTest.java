@@ -39,18 +39,18 @@ public class AppTest
      * Rigourous Test :-)
      */
     public void testApp() throws JSchException, LibvirtException, DocumentException {
-//        initBridgeVLAN bridge = new initBridgeVLAN();
-//        bridge.createBridge();
-//        bridge.createVLAN();
-//        bridge.addBridgeToVlan();
+        initBridgeVLAN bridge = new initBridgeVLAN();
+        bridge.createBridge();
+        bridge.createVLAN();
+        bridge.addBridgeToVlan();
        Connect conn = new Connect("qemu+tcp://400@202.117.15.94/system",false);
         createVirtualMachine vmm = new createVirtualMachine();
         int ID=2;
-//        vmm.vmclone(ID);
-//        vmm.vmstart(conn, ID);
-        deleteVirtualMachine vm = new deleteVirtualMachine();
-        vm.vmdestroy(conn,ID);
-        vm.vmdelete(ID);
+        vmm.vmclone(ID);
+        vmm.vmstart(conn, ID);
+//        deleteVirtualMachine vm = new deleteVirtualMachine();
+//        vm.vmdestroy(conn,ID);
+//        vm.vmdelete(ID);
 
 
 
