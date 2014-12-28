@@ -17,16 +17,13 @@ import com.jcraft.jsch.Session;
 public class deleteVirtualMachine implements deleteVM {
 
     public void vmdestroy(Connect connect, int ID) throws LibvirtException {
-        // TODO Auto-generated method stub
         Domain domain = connect.domainLookupByName("vm" + ID);
         domain.destroy();
     }
 
 
     public String vmdelete(int ID) throws JSchException {
-        // TODO Auto-generated method stub
         String command = "virsh undefine vmm" + ID + ";rm -f /home/400/vmuser/vm" + ID + ".img";
-        // TODO Auto-generated method stub
         String result = "";
         Session session = null;
         ChannelExec openChannel = null;

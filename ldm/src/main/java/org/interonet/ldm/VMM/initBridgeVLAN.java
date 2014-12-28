@@ -17,7 +17,6 @@ public class initBridgeVLAN implements initBV {
         for (int i = 1; i < 9; i++) {
             command = command + "brctl addbr br" + i + ";ifconfig br" + i + " up;";
         }
-        // TODO Auto-generated method stub
         String result = "";
         Session session = null;
         ChannelExec openChannel = null;
@@ -58,7 +57,6 @@ public class initBridgeVLAN implements initBV {
         for (int i = 1; i < 9; i++) {
             command = command + "vconfig add eth1 " + i + ";ifconfig eth1." + i + " up;";
         }
-        // TODO Auto-generated method stub
         String result = "";
         Session session = null;
         ChannelExec openChannel = null;
@@ -99,7 +97,6 @@ public class initBridgeVLAN implements initBV {
         for (int i = 1; i < 9; i++) {
             command = command + "brctl addif br" + i + " eth1." + i + ";";
         }
-        // TODO Auto-generated method stub
         String result = "";
         Session session = null;
         ChannelExec openChannel = null;
