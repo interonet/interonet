@@ -24,7 +24,6 @@ public class createVirtualMachine implements createVM {
 
     public String vmclone(int ID) throws JSchException {
         String command = "virt-clone -o vmsource -n vmm" + ID + "  -f /home/400/vmuser/vm" + ID + ".img";
-        // TODO Auto-generated method stub
         String result = "";
         Session session = null;
         ChannelExec openChannel = null;

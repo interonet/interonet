@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <name>interonet</name>
-    <url>http://maven.apache.org</url>
+    <url>http://www.interonet.org</url>
 
     <modules>
         <module>gdm</module>
