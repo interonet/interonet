@@ -55,7 +55,7 @@ public class initBridgeVLAN implements initBV {
     public String createVLAN() throws JSchException {
         String command = "modprobe 8021q;";
         for (int i = 1; i < 9; i++) {
-            command = command + "vconfig add eth1 " + i + ";ifconfig eth1." + i + " up;";
+            command = command + "vconfig add eth1 1" + i + ";ifconfig eth1.1" + i + " up;";
         }
         String result = "";
         Session session = null;
@@ -95,7 +95,7 @@ public class initBridgeVLAN implements initBV {
     public String addBridgeToVlan() throws JSchException {
         String command = "";
         for (int i = 1; i < 9; i++) {
-            command = command + "brctl addif br" + i + " eth1." + i + ";";
+            command = command + "brctl addif br" + i + " eth1.1" + i + ";";
         }
         String result = "";
         Session session = null;
