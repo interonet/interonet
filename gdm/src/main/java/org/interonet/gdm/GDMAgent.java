@@ -3,9 +3,9 @@ package org.interonet.gdm;
 import java.util.Map;
 
 public class GDMAgent {
-    GDMCore gdmCore;
+    IGDMCore gdmCore;
 
-    public GDMAgent(GDMCore gdmCore) {
+    public GDMAgent(IGDMCore gdmCore) {
         this.gdmCore = gdmCore;
     }
 

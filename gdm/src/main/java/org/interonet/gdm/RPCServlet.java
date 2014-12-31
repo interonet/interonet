@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RPCServlet extends HttpServlet {
-    private RPCServiceImpl rpcServiceImpl;
+    private RPCService rpcService;
     private JsonRpcServer jsonRpcServer;
     private GDMAgent gdmAgent;
 
@@ -25,7 +25,7 @@ public class RPCServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) {
-        RPCService rpcService = new RPCServiceImpl(gdmAgent);
-        jsonRpcServer = new JsonRpcServer(rpcService, RPCService.class);
+        IRPCService rpcService = new RPCService(gdmAgent);
+        jsonRpcServer = new JsonRpcServer(rpcService, IRPCService.class);
     }
 }

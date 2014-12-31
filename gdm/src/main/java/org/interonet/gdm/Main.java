@@ -2,13 +2,13 @@ package org.interonet.gdm;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Starting InterONet System");
-        GDMCore gdmCore = new GDMCoreImpl();
+        System.out.println("Starting InterONet GDM System");
+        IGDMCore gdmCore = new GDMCore();
         gdmCore.start();
 
-        System.out.println("Starting InterONet RPC Server");
+        System.out.println("Starting InterONet GDM RPC Server");
         GDMAgent gdmAgent = gdmCore.getAgent();
-        RPCServer gdmRPCServer = new RPCServerImpl(gdmAgent);
+        IRPCServer gdmRPCServer = new RPCServer(gdmAgent);
         gdmRPCServer.start();
         System.out.println("End");
     }
