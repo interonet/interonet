@@ -1,6 +1,9 @@
-package org.interonet.gdm;
+package org.interonet.gdm.WebService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.interonet.gdm.AuthenticationCenter.AuthToken;
+import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
+import org.interonet.gdm.Core.GDMAgent;
 
 import java.io.IOException;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.interonet.gdm;
+package org.interonet.gdm.AuthenticationCenter;
 
 import java.util.Base64;
 import java.util.HashMap;

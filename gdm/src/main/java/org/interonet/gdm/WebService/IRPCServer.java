@@ -1,4 +1,4 @@
-package org.interonet.gdm;
+package org.interonet.gdm.WebService;
 
 public interface IRPCServer {
     public void start();

@@ -1,4 +1,4 @@
-package org.interonet.gdm;
+package org.interonet.gdm.AuthenticationCenter;
 
 public class AuthToken {
     public String authToken;

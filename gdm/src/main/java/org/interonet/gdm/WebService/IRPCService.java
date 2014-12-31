@@ -1,4 +1,4 @@
-package org.interonet.gdm;
+package org.interonet.gdm.WebService;
 
 public interface IRPCService {
     public String authenticateUser(String username, String password);
