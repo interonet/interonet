@@ -1,4 +1,4 @@
-package org.interonet.ldm.Agent;
+package org.interonet.ldm.WebService;
 
 import com.googlecode.jsonrpc4j.JsonRpcServer;
 import org.interonet.ldm.LDMAgent;

@@ -1,4 +1,4 @@
-package org.interonet.ldm.Agent;
+package org.interonet.ldm.WebService;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
