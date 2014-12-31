@@ -10,9 +10,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-public class initBridgeVLAN implements initBV {
-
-    public String createBridge() throws JSchException {
+public class BridgeAndVlan implements IBridgeAndVlan {
+    @Override
+    public String createBridge() {
         String command = "";
         for (int i = 1; i < 9; i++) {
             command = command + "brctl addbr br" + i + ";ifconfig br" + i + " up;";
@@ -40,6 +40,8 @@ public class initBridgeVLAN implements initBV {
             }
         } catch (IOException e) {
             result += e.getMessage();
+        } catch (JSchException e) {
+            e.printStackTrace();
         } finally {
             if (openChannel != null && !openChannel.isClosed()) {
                 openChannel.disconnect();
@@ -52,7 +54,8 @@ public class initBridgeVLAN implements initBV {
 
     }
 
-    public String createVLAN() throws JSchException {
+    @Override
+    public String createVLAN() {
         String command = "modprobe 8021q;";
         for (int i = 1; i < 9; i++) {
             command = command + "vconfig add eth1 1" + i + ";ifconfig eth1.1" + i + " up;";
@@ -80,6 +83,8 @@ public class initBridgeVLAN implements initBV {
             }
         } catch (IOException e) {
             result += e.getMessage();
+        } catch (JSchException e) {
+            e.printStackTrace();
         } finally {
             if (openChannel != null && !openChannel.isClosed()) {
                 openChannel.disconnect();
@@ -92,7 +97,8 @@ public class initBridgeVLAN implements initBV {
 
     }
 
-    public String addBridgeToVlan() throws JSchException {
+    @Override
+    public String addBridgeToVlan() {
         String command = "";
         for (int i = 1; i < 9; i++) {
             command = command + "brctl addif br" + i + " eth1.1" + i + ";";
@@ -120,6 +126,8 @@ public class initBridgeVLAN implements initBV {
             }
         } catch (IOException e) {
             result += e.getMessage();
+        } catch (JSchException e) {
+            e.printStackTrace();
         } finally {
             if (openChannel != null && !openChannel.isClosed()) {
                 openChannel.disconnect();
@@ -129,5 +137,14 @@ public class initBridgeVLAN implements initBV {
             }
         }
         return result;
+    }
+
+    @Override
+    public void bridgeAndvlan() {
+        this.createBridge();
+        this.createVLAN();
+        this.addBridgeToVlan();
+
+
     }
 }

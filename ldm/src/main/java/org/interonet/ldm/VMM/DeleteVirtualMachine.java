@@ -14,15 +14,19 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-public class deleteVirtualMachine implements deleteVM {
-
-    public void vmdestroy(Connect connect, int ID) throws LibvirtException {
+public class DeleteVirtualMachine implements IDeleteVirtualMachine {
+    @Override
+    public void vmdestroy(Connect connect, int ID)  {
+        try {
         Domain domain = connect.domainLookupByName("vm" + ID);
-        domain.destroy();
+            domain.destroy();
+        } catch (LibvirtException e) {
+            e.printStackTrace();
+        }
     }
 
-
-    public String vmdelete(int ID) throws JSchException {
+    @Override
+    public String vmdelete(int ID)  {
         String command = "virsh undefine vmm" + ID + ";rm -f /home/400/vmuser/vm" + ID + ".img";
         String result = "";
         Session session = null;
@@ -30,6 +34,7 @@ public class deleteVirtualMachine implements deleteVM {
         try {
             JSch jsch = new JSch();
             session = jsch.getSession("root", "202.117.15.94", 22);
+
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
             session.setConfig(config);
@@ -47,7 +52,10 @@ public class deleteVirtualMachine implements deleteVM {
             }
         } catch (IOException e) {
             result += e.getMessage();
-        } finally {
+        }
+        catch (JSchException e) {
+            e.printStackTrace();
+        }finally {
             if (openChannel != null && !openChannel.isClosed()) {
                 openChannel.disconnect();
             }
@@ -57,5 +65,6 @@ public class deleteVirtualMachine implements deleteVM {
         }
         return result;
     }
+
 
 }

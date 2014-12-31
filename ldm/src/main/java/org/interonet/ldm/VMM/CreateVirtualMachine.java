@@ -20,9 +20,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-public class createVirtualMachine implements createVM {
-
-    public String vmclone(int ID) throws JSchException {
+public class CreateVirtualMachine implements ICreateVirtualMachine {
+    @Override
+    public String vmclone(int ID) {
         String command = "virt-clone -o vmsource -n vmm" + ID + "  -f /home/400/vmuser/vm" + ID + ".img";
         String result = "";
         Session session = null;
@@ -47,6 +47,8 @@ public class createVirtualMachine implements createVM {
             }
         } catch (IOException e) {
             result += e.getMessage();
+        } catch (JSchException e) {
+            e.printStackTrace();
         } finally {
             if (openChannel != null && !openChannel.isClosed()) {
                 openChannel.disconnect();
@@ -58,26 +60,33 @@ public class createVirtualMachine implements createVM {
         return result;
     }
 
-
-    public void vmstart(Connect connect, int ID) throws DocumentException, LibvirtException {
+    @Override
+    public void vmstart(Connect connect, int ID) {
         SAXReader reader = new SAXReader();
-        Document docu = (Document) reader.read(new File("/home/houlifei/vmm.xml"));
-        Element name = docu.getRootElement().element("name");
-        name.setText("vm" + ID);
-        Element disksource = docu.getRootElement().element("devices").element("disk").element("source");
-        Attribute file = disksource.attribute("file");
-        file.setText("/home/400/vmuser/vm" + ID + ".img");
-        Element graphics = docu.getRootElement().element("devices").element("graphics");
-        Attribute vncPort = graphics.attribute("port");
-        vncPort.setText("590" + ID);
-        Element interfaces = docu.getRootElement().element("devices").element("interface").element("source");
-        Attribute bridge = interfaces.attribute("bridge");
-        bridge.setText("br" + ID);
+        Document docu = null;
+        try {
+            docu = (Document) reader.read(new File("/home/houlifei/vmm.xml"));
 
-
-        String xmlDesc = docu.asXML();
-        Domain domain = connect.domainCreateXML(xmlDesc, 0);
-        domain.resume();
+            Element name = docu.getRootElement().element("name");
+            name.setText("vm" + ID);
+            Element disksource = docu.getRootElement().element("devices").element("disk").element("source");
+            Attribute file = disksource.attribute("file");
+            file.setText("/home/400/vmuser/vm" + ID + ".img");
+            Element graphics = docu.getRootElement().element("devices").element("graphics");
+            Attribute vncPort = graphics.attribute("port");
+            vncPort.setText("590" + ID);
+            Element interfaces = docu.getRootElement().element("devices").element("interface").element("source");
+            Attribute bridge = interfaces.attribute("bridge");
+            bridge.setText("br" + ID);
+            String xmlDesc = docu.asXML();
+            Domain domain = null;
+            domain = connect.domainCreateXML(xmlDesc, 0);
+            domain.resume();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (LibvirtException e) {
+            e.printStackTrace();
+        }
     }
 
 

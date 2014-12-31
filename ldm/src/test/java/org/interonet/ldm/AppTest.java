@@ -5,9 +5,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.dom4j.DocumentException;
-import org.interonet.ldm.VMM.createVirtualMachine;
-import org.interonet.ldm.VMM.deleteVirtualMachine;
-import org.interonet.ldm.VMM.initBridgeVLAN;
+import org.interonet.ldm.Core.LDMAgent;
+import org.interonet.ldm.Core.LDMCore;
+import org.interonet.ldm.VMM.CreateVirtualMachine;
+import org.interonet.ldm.VMM.BridgeAndVlan;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 
@@ -38,22 +39,16 @@ public class AppTest
     /**
      * Rigourous Test :-)
      */
-    public void testApp() throws JSchException, LibvirtException, DocumentException {
-        initBridgeVLAN bridge = new initBridgeVLAN();
-        bridge.createBridge();
-        bridge.createVLAN();
-        bridge.addBridgeToVlan();
-       Connect conn = new Connect("qemu+tcp://400@202.117.15.94/system",false);
-        createVirtualMachine vmm = new createVirtualMachine();
-        int ID=2;
-        vmm.vmclone(ID);
-        vmm.vmstart(conn, ID);
-//        deleteVirtualMachine vm = new deleteVirtualMachine();
-//        vm.vmdestroy(conn,ID);
-//        vm.vmdelete(ID);
+    public void testApp()  {
+        LDMCore ldmcore = new LDMCore();
+        ldmcore.start();
+        LDMAgent ldmagent = new LDMAgent(ldmcore);
+        String s="test";
+        s =ldmagent.powerOnVM(2);
 
 
 
-        assertTrue(true);
+
+        assertTrue(s==null);
     }
 }
