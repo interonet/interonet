@@ -1,8 +1,9 @@
-package org.interonet.gdm;
+package org.interonet.gdm.WebService;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.interonet.gdm.Core.GDMAgent;
 
 public class RPCServer implements IRPCServer {
     private GDMAgent gdmAgent;

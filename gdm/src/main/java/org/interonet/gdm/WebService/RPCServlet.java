@@ -1,6 +1,7 @@
-package org.interonet.gdm;
+package org.interonet.gdm.WebService;
 
 import com.googlecode.jsonrpc4j.JsonRpcServer;
+import org.interonet.gdm.Core.GDMAgent;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;

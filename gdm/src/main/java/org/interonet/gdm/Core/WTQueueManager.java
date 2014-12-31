@@ -1,4 +1,7 @@
-package org.interonet.gdm;
+package org.interonet.gdm.Core;
+
+import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
+import org.interonet.gdm.OperationCenter.OperationCenter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

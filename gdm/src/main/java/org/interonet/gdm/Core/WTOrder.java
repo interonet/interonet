@@ -1,4 +1,4 @@
-package org.interonet.gdm;
+package org.interonet.gdm.Core;
 
 import java.util.List;
 import java.util.Map;

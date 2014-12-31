@@ -1,4 +1,4 @@
-package org.interonet.gdm;
+package org.interonet.gdm.Core;
 
 
 import java.util.ArrayList;

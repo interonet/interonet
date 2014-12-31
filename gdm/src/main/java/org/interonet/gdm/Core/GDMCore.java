@@ -1,4 +1,9 @@
-package org.interonet.gdm;
+package org.interonet.gdm.Core;
+
+import org.interonet.gdm.AuthenticationCenter.AuthToken;
+import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
+import org.interonet.gdm.AuthenticationCenter.UserManager;
+import org.interonet.gdm.OperationCenter.OperationCenter;
 
 import java.util.List;
 import java.util.Map;

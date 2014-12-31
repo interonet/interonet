@@ -1,4 +1,4 @@
-package org.interonet.gdm;
+package org.interonet.gdm.ConfigurationCenter;
 
 import java.util.HashMap;
 import java.util.Map;

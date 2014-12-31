@@ -1,4 +1,4 @@
-package org.interonet.gdm;
+package org.interonet.gdm.OperationCenter;
 
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 
