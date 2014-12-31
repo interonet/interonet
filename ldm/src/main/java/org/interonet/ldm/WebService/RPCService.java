@@ -1,6 +1,6 @@
 package org.interonet.ldm.WebService;
 
-import org.interonet.ldm.LDMAgent;
+import org.interonet.ldm.Core.LDMAgent;
 
 public class RPCService {
     private LDMAgent ldmAgent;
