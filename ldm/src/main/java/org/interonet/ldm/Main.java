@@ -1,5 +1,7 @@
 package org.interonet.ldm;
 
+import org.interonet.ldm.Core.LDMAgent;
+import org.interonet.ldm.Core.LDMCore;
 import org.interonet.ldm.WebService.RPCServer;
 
 public class Main

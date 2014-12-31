@@ -1,4 +1,4 @@
-package org.interonet.ldm;
+package org.interonet.ldm.Core;
 
 public class LDMAgent {
     public String createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) {

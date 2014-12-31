@@ -3,7 +3,7 @@ package org.interonet.ldm.WebService;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.interonet.ldm.LDMAgent;
+import org.interonet.ldm.Core.LDMAgent;
 
 public class RPCServer {
     private LDMAgent ldmAgent;

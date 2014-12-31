@@ -1,7 +1,7 @@
 package org.interonet.ldm.WebService;
 
 import com.googlecode.jsonrpc4j.JsonRpcServer;
-import org.interonet.ldm.LDMAgent;
+import org.interonet.ldm.Core.LDMAgent;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
