@@ -12,7 +12,7 @@ import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 
 /**
- * Unit test for simple App.
+ * Unit test for simple Main.
  */
 public class AppTest 
     extends TestCase
