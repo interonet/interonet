@@ -3,7 +3,7 @@ package org.interonet.gdm.ConfigurationCenter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConfigurationCenter {
+public class ConfigurationCenter implements IConfigurationCenter {
     // configuration center. saving the mapping info from topology transformer port to the peer port, eg, switch port, or, vm port.
     public Map<String, Integer> topologyTransformer;
 
@@ -27,6 +27,7 @@ public class ConfigurationCenter {
         topologyTransformer.put("s3:3", 16);
     }
 
+    @Override
     public int getTopologyTransformerPortFromPeerPort(int switchID, int switchIDPortNum) {
         String key;
         int value = 0;
