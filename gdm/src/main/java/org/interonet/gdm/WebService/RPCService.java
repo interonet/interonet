@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
 import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
 import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
-import org.interonet.gdm.TestCore.IGDMAgent;
+import org.interonet.gdm.Core.IGDMAgent;
 
 import java.io.IOException;
 import java.util.Map;

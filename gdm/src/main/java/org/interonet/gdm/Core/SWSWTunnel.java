@@ -1,4 +1,4 @@
-package org.interonet.gdm.TestCore;
+package org.interonet.gdm.Core;
 
 public class SWSWTunnel {
     public int SwitchID;

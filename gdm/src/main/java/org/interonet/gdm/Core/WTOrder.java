@@ -1,11 +1,10 @@
-package org.interonet.gdm.TestCore;
+package org.interonet.gdm.Core;
 
 import java.util.List;
 import java.util.Map;
 
-public class WSOrder extends Order {
-
-    String orderID;
+public class WTOrder extends Order {
+    String sliceID;
     String username;
     List<Integer> switchIDs;
     List<Integer> vmIDs;
@@ -15,8 +14,11 @@ public class WSOrder extends Order {
     Map<String, String> switchConf;
     String controllerIP;
     int controllerPort;
+    List<SWSWTunnel> swswTunnel;
+    List<SWVMTunnel> swvmTunnel;
 
-    public WSOrder(String orderID,
+
+    public WTOrder(String sliceID,
                    String username,
                    List<Integer> switchIDs,
                    List<Integer> vmIDs,
@@ -25,8 +27,10 @@ public class WSOrder extends Order {
                    Map<String, String> topology,
                    Map<String, String> switchConf,
                    String controllerIP,
-                   int controllerPort) {
-        this.orderID = orderID;
+                   int controllerPort,
+                   List<SWSWTunnel> swswTunnel,
+                   List<SWVMTunnel> swvmTunnel) {
+        this.sliceID = sliceID;
         this.username = username;
         this.switchIDs = switchIDs;
         this.vmIDs = vmIDs;
@@ -36,5 +40,8 @@ public class WSOrder extends Order {
         this.switchConf = switchConf;
         this.controllerIP = controllerIP;
         this.controllerPort = controllerPort;
+        this.swswTunnel = swswTunnel;
+        this.swvmTunnel = swvmTunnel;
     }
+
 }

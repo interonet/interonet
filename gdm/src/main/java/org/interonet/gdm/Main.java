@@ -1,7 +1,7 @@
 package org.interonet.gdm;
 
-import org.interonet.gdm.TestCore.GDMCore;
-import org.interonet.gdm.TestCore.IGDMAgent;
+import org.interonet.gdm.Core.GDMCore;
+import org.interonet.gdm.Core.IGDMAgent;
 import org.interonet.gdm.WebService.RPCServer;
 
 public class Main {
