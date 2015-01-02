@@ -26,7 +26,6 @@ public class LDMAgent {
     public String powerOnVM(Integer vmID) {
         ldmCore.powerOnVM(vmID);
         return null;
-
     }
 
     public String deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) {
@@ -46,6 +45,7 @@ public class LDMAgent {
     }
 
     public String powerOffVM(Integer vmID) {
+        ldmCore.powerOnVM(vmID);
         return null;
     }
 }

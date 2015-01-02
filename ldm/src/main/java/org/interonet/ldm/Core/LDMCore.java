@@ -2,18 +2,29 @@ package org.interonet.ldm.Core;
 
 import com.jcraft.jsch.JSchException;
 import org.dom4j.DocumentException;
-import org.interonet.ldm.VMM.createVM;
-import org.interonet.ldm.VMM.createVirtualMachine;
+import org.interonet.ldm.VMM.*;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 
 public class LDMCore {
     private LDMAgent ldmAgent;
-    private createVM CreateVM;
+    private Connect connect;
+    private ICreateVirtualMachine iCreateVirtualMachine;
+    private IDeleteVirtualMachine iDeleteVirtualMachine;
+    private IBridgeAndVlan iBridgeAndVlan;
+
 
     public void start() {
         ldmAgent = new LDMAgent(this);
-        CreateVM = new createVirtualMachine();
+        iCreateVirtualMachine = new CreateVirtualMachine();
+        iDeleteVirtualMachine = new DeleteVirtualMachine();
+        iBridgeAndVlan = new BridgeAndVlan();
+        iBridgeAndVlan.bridgeAndvlan();  //创建网桥和Vlan
+        try {
+            connect = new Connect("qemu+tcp://400@202.117.15.94/system", false);
+        } catch (LibvirtException e) {
+            e.printStackTrace();
+        }
     }
 
     public LDMAgent getAgent() {
@@ -21,21 +32,12 @@ public class LDMCore {
     }
 
     public void powerOnVM(Integer vmID) {
-        try {
-            Connect conn = new Connect("qemu+tcp://400@202.117.15.94/system",false);
-            try {
-                CreateVM.vmclone(vmID);
-            } catch (JSchException e) {
-                e.printStackTrace();
-            }
-            try {
-                CreateVM.vmstart(conn, vmID);
-            } catch (DocumentException e) {
-                e.printStackTrace();
-            }
+        iCreateVirtualMachine.vmclone(vmID);
+        iCreateVirtualMachine.vmstart(connect, vmID);
+    }
 
-        } catch (LibvirtException e) {
-            e.printStackTrace();
-        }
+    public void powerOffVM(Integer vmID) {
+        iDeleteVirtualMachine.vmdestroy(connect, vmID);
+        iDeleteVirtualMachine.vmdelete(vmID);
     }
 }
