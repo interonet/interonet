@@ -1,6 +1,12 @@
 package org.interonet.ldm.Core;
 
 public class LDMAgent {
+    private LDMCore ldmCore;
+
+    public LDMAgent(LDMCore ldmCore) {
+        this.ldmCore = ldmCore;
+    }
+
     public String createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) {
         return null;
     }
@@ -18,6 +24,7 @@ public class LDMAgent {
     }
 
     public String powerOnVM(Integer vmID) {
+        ldmCore.powerOnVM(vmID);
         return null;
     }
 
@@ -38,6 +45,7 @@ public class LDMAgent {
     }
 
     public String powerOffVM(Integer vmID) {
+        ldmCore.powerOnVM(vmID);
         return null;
     }
 }

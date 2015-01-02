@@ -6,8 +6,8 @@ import org.libvirt.LibvirtException;
 
 import com.jcraft.jsch.JSchException;
 
-public interface createVM {
-    String vmclone(int ID) throws JSchException;
+public interface ICreateVirtualMachine {
+    String vmclone(int ID);
 
-    void vmstart(Connect connect, int ID) throws DocumentException, LibvirtException;
+    void vmstart(Connect connect, int ID);
 }

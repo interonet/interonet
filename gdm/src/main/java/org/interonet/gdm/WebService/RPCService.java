@@ -3,6 +3,7 @@ package org.interonet.gdm.WebService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
 import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
+import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 import org.interonet.gdm.Core.GDMAgent;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 public class RPCService implements IRPCService {
     private GDMAgent gdmagent;
-    private AuthTokenManager authTokenManager;
+    private IAuthTokenManager authTokenManager;
 
     public RPCService(GDMAgent gdmAgent) {
         this.gdmagent = gdmAgent;
