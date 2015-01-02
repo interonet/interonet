@@ -4,7 +4,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuthTokenManager {
+public class AuthTokenManager implements IAuthTokenManager {
     Map<UserPassword, AuthToken> authTokenMap;
 
     public AuthTokenManager() {
@@ -18,6 +18,7 @@ public class AuthTokenManager {
         return new String(bytesEncoded);
     }
 
+    @Override
     public AuthToken toAuthToken(String PlainText) {
         String authToken = new String(Base64.getDecoder().decode(PlainText.getBytes()));
         AuthToken authTk = new AuthToken(authToken);
@@ -28,6 +29,7 @@ public class AuthTokenManager {
         return null;
     }
 
+    @Override
     public AuthToken generate(String username, String password) {
         UserPassword userPassword = new UserPassword(username, password);
         AuthToken authToken = oneTimePassword(username, password);
@@ -40,6 +42,7 @@ public class AuthTokenManager {
     }
 
 
+    @Override
     public boolean auth(AuthToken authToken) {
         for (Map.Entry<UserPassword, AuthToken> entry : authTokenMap.entrySet()) {
             if (entry.getValue().equals(authToken))
@@ -48,6 +51,7 @@ public class AuthTokenManager {
         return false;
     }
 
+    @Override
     public String getUsernameByToken(AuthToken authToken) {
         for (Map.Entry<UserPassword, AuthToken> entry : authTokenMap.entrySet()) {
             if (entry.getValue().equals(authToken))

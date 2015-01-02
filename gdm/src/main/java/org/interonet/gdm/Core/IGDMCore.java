@@ -2,7 +2,7 @@ package org.interonet.gdm.Core;
 
 
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
-import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
+import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 
 import java.util.Map;
 
@@ -29,7 +29,7 @@ public interface IGDMCore {
 
     public String getRuningSliceInfoByID(AuthToken authToken, String SliceID);
 
-    public AuthTokenManager getAuthTokenManager();
+    public IAuthTokenManager getAuthTokenManager();
     /*
     public String stopRunningSliceByID(AuthToken authToken, String orderID);
     */

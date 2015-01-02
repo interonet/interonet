@@ -3,7 +3,7 @@ package org.interonet.gdm.AuthenticationCenter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManager {
+public class UserManager implements IUserManager {
     Map<String, String> userDB;
 
     public UserManager() {
@@ -15,6 +15,7 @@ public class UserManager {
         userDB.put("test3", "test3");
     }
 
+    @Override
     public Boolean authUser(String username, String password) {
         if (!userDB.get(username).equals(password))
             return false;

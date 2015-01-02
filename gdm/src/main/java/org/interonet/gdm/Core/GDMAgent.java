@@ -1,8 +1,7 @@
 package org.interonet.gdm.Core;
 
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
-import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
-import org.interonet.gdm.Core.IGDMCore;
+import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 
 import java.util.Map;
 
@@ -49,7 +48,7 @@ public class GDMAgent {
         return gdmCore.getRunningSliceIDsList(authToken);
     }
 
-    public AuthTokenManager getAuthTokenManager() {
+    public IAuthTokenManager getAuthTokenManager() {
         return gdmCore.getAuthTokenManager();
     }
 

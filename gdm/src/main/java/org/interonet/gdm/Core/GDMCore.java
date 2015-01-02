@@ -1,8 +1,6 @@
 package org.interonet.gdm.Core;
 
-import org.interonet.gdm.AuthenticationCenter.AuthToken;
-import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
-import org.interonet.gdm.AuthenticationCenter.UserManager;
+import org.interonet.gdm.AuthenticationCenter.*;
 import org.interonet.gdm.OperationCenter.OperationCenter;
 
 import java.util.List;
@@ -16,7 +14,7 @@ public class GDMCore implements IGDMCore {
     private WTQueueManager wtQueueOperator;
     private OperationCenter operationCenter;
     private GDMAgent gdmAgent;
-    private AuthTokenManager authTokenManager;
+    private IAuthTokenManager authTokenManager;
     private SwitchTimeTable switchTimeTable;
     private VMTimeTable vmTimeTable;
 
@@ -76,7 +74,7 @@ public class GDMCore implements IGDMCore {
 
     @Override
     public AuthToken authenticateUser(String username, String password) {
-        UserManager userManager = new UserManager();
+        IUserManager userManager = new UserManager();
         if (!(userManager.authUser(username, password))) return null;
         return authTokenManager.generate(username, password);
     }
@@ -146,7 +144,7 @@ public class GDMCore implements IGDMCore {
     }
 
     @Override
-    public AuthTokenManager getAuthTokenManager() {
+    public IAuthTokenManager getAuthTokenManager() {
         return authTokenManager;
     }
 
