@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.dom4j.DocumentException;
 import org.interonet.ldm.VMM.createVirtualMachine;
-import org.interonet.ldm.VMM.deleteVirtualMachine;
 import org.interonet.ldm.VMM.initBridgeVLAN;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
@@ -14,7 +13,7 @@ import org.libvirt.LibvirtException;
 /**
  * Unit test for simple Main.
  */
-public class AppTest 
+public class MainTest
     extends TestCase
 {
     /**
@@ -22,7 +21,7 @@ public class AppTest
      *
      * @param testName name of the test case
      */
-    public AppTest( String testName )
+    public MainTest(String testName)
     {
         super( testName );
     }
@@ -32,7 +31,7 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite( AppTest.class );
+        return new TestSuite( MainTest.class );
     }
 
     /**
