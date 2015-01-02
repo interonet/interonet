@@ -20,8 +20,8 @@ public class WSQueueManager implements Runnable {
         configurationCenter = new ConfigurationCenter();
     }
 
-    synchronized public List<WSOrder> checkOrders() {
-        List<WSOrder> list = new ArrayList<WSOrder>();
+    public List<WSOrder> checkOrders() {
+        List<WSOrder> list = new ArrayList<>();
         DayTime currentTime = new DayTime(new SimpleDateFormat("HH:mm").format(new Date()));
 
         for (WSOrder wsOrder : waitingStartQueue.getQueue()) {
@@ -31,17 +31,17 @@ public class WSQueueManager implements Runnable {
         return list;
     }
 
-    synchronized public void startSlice(List<WSOrder> wsOrderList) throws Throwable {
+    public void startSlice(List<WSOrder> wsOrderList) throws Throwable {
         for (WSOrder wsOrder : wsOrderList) {
             List<Integer> switchesIDs = wsOrder.switchIDs;
             List<Integer> vmIDs = wsOrder.vmIDs;
-            Map<String, Integer> userSW2domSW = new HashMap<String, Integer>();
-            Map<String, Integer> userVM2domVM = new HashMap<String, Integer>();
+            Map<String, Integer> userSW2domSW = new HashMap<>();
+            Map<String, Integer> userVM2domVM = new HashMap<>();
             for (int i = 0; i < switchesIDs.size(); i++)
-                userSW2domSW.put("s" + new Integer(i).toString(), switchesIDs.get(i));
+                userSW2domSW.put("s" + Integer.toString(i), switchesIDs.get(i));
 
             for (int i = 0; i < vmIDs.size(); i++)
-                userVM2domVM.put("h" + new Integer(i).toString(), vmIDs.get(i));
+                userVM2domVM.put("h" + Integer.toString(i), vmIDs.get(i));
 
             List<SWSWTunnel> swswTunnels = getswswTunnel(wsOrder.topology, userSW2domSW, userVM2domVM);
             List<SWVMTunnel> swvmTunnels = getswvmTunnel(wsOrder.topology, userSW2domSW, userVM2domVM);
@@ -92,8 +92,8 @@ public class WSQueueManager implements Runnable {
     }
 
 
-    synchronized private List<SWSWTunnel> getswswTunnel(Map<String, String> topology, Map<String, Integer> userSW2domSw, Map<String, Integer> userVM2domVM) {
-        List<SWSWTunnel> swswTunnels = new ArrayList<SWSWTunnel>();
+    private List<SWSWTunnel> getswswTunnel(Map<String, String> topology, Map<String, Integer> userSW2domSw, Map<String, Integer> userVM2domVM) {
+        List<SWSWTunnel> swswTunnels = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : topology.entrySet()) {
             String key = entry.getKey();
@@ -118,8 +118,8 @@ public class WSQueueManager implements Runnable {
         return swswTunnels;
     }
 
-    synchronized private List<SWVMTunnel> getswvmTunnel(Map<String, String> topology, Map<String, Integer> userSW2domSW, Map<String, Integer> userVM2domVM) {
-        List<SWVMTunnel> swvmTunnels = new ArrayList<SWVMTunnel>();
+    private List<SWVMTunnel> getswvmTunnel(Map<String, String> topology, Map<String, Integer> userSW2domSW, Map<String, Integer> userVM2domVM) {
+        List<SWVMTunnel> swvmTunnels = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : topology.entrySet()) {
             String key = entry.getKey();
@@ -147,17 +147,15 @@ public class WSQueueManager implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            try {
-                List<WSOrder> list = checkOrders();
-                if (list.size() != 0) {
-                    startSlice(list);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
+        while (true) try {
+            List<WSOrder> list = checkOrders();
+            if (list.size() != 0) {
+                startSlice(list);
             }
+            Thread.sleep(30000);
+            System.out.println("**************");
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 
