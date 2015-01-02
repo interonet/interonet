@@ -1,28 +1,26 @@
-package org.interonet.gdm.Core;
+package org.interonet.gdm.TestCore;
 
 import org.interonet.gdm.AuthenticationCenter.*;
+import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
 
 import java.util.List;
 import java.util.Map;
 
-public class GDMCore implements IGDMCore {
+public class GDMCore {
 
     private WaitingStartQueue wsQueue;
     private WaitingTermQueue wtQueue;
     private WSQueueManager wsQueueOperator;
     private WTQueueManager wtQueueOperator;
-    private OperationCenter operationCenter;
-    private GDMAgent gdmAgent;
+    private IOperationCenter operationCenter;
+    private IGDMAgent gdmAgent;
     private IAuthTokenManager authTokenManager;
     private SwitchTimeTable switchTimeTable;
     private VMTimeTable vmTimeTable;
 
     public GDMCore() {
     }
-
-
-    @Override
 
     public void start() {
         wsQueue = new WaitingStartQueue();
@@ -41,12 +39,10 @@ public class GDMCore implements IGDMCore {
     }
 
 
-    @Override
-    public GDMAgent getAgent() {
+    public IGDMAgent getAgent() {
         return gdmAgent;
     }
 
-    @Override
     public Boolean orderSlice(AuthToken authToken,
                               int switchesNum,
                               int vmsNum,
@@ -72,28 +68,24 @@ public class GDMCore implements IGDMCore {
 
     }
 
-    @Override
     public AuthToken authenticateUser(String username, String password) {
         IUserManager userManager = new UserManager();
         if (!(userManager.authUser(username, password))) return null;
         return authTokenManager.generate(username, password);
     }
 
-    @Override
     public String getSwitchesUsageStatus(AuthToken authToken) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
         return switchTimeTable.getTimeTable();
     }
 
-    @Override
     public String getVmsUsageStatus(AuthToken authToken) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
         return vmTimeTable.getTimeTable();
     }
 
-    @Override
     public String getOrdersIDList(AuthToken authToken) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
@@ -101,7 +93,6 @@ public class GDMCore implements IGDMCore {
         return wsQueue.getOrderIDListByUsername(username);
     }
 
-    @Override
     public String getOrderInfoByID(AuthToken authToken, String orderID) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
@@ -112,7 +103,6 @@ public class GDMCore implements IGDMCore {
 
     }
 
-    @Override
     public String deleteOrderByID(AuthToken authToken, String orderID) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
@@ -126,7 +116,6 @@ public class GDMCore implements IGDMCore {
             return "Successful";
     }
 
-    @Override
     public String getRunningSliceIDsList(AuthToken authToken) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
@@ -135,7 +124,6 @@ public class GDMCore implements IGDMCore {
 
     }
 
-    @Override
     public String getRuningSliceInfoByID(AuthToken authToken, String SliceID) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
@@ -143,13 +131,11 @@ public class GDMCore implements IGDMCore {
         return wtQueue.getOrderInfoByID(SliceID);
     }
 
-    @Override
     public IAuthTokenManager getAuthTokenManager() {
         return authTokenManager;
     }
 
 /*
-    @Override
     public String stopRunningSliceByID(AuthToken authToken, String orderID) {
         if (authTokenManager.auth(authToken) == false)
             return "Authentication failed.";

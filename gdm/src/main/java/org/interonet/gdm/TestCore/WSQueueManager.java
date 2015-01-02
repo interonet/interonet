@@ -1,7 +1,8 @@
-package org.interonet.gdm.Core;
+package org.interonet.gdm.TestCore;
 
 import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
-import org.interonet.gdm.OperationCenter.OperationCenter;
+import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
+import org.interonet.gdm.OperationCenter.IOperationCenter;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -9,10 +10,10 @@ import java.util.*;
 public class WSQueueManager implements Runnable {
     WaitingStartQueue waitingStartQueue;
     WaitingTermQueue waitingTermQueue;
-    OperationCenter operationCenter;
-    ConfigurationCenter configurationCenter;
+    IOperationCenter operationCenter;
+    IConfigurationCenter configurationCenter;
 
-    public WSQueueManager(WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, OperationCenter operationCenter) {
+    public WSQueueManager(WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, IOperationCenter operationCenter) {
         this.waitingStartQueue = wsQueue;
         this.waitingTermQueue = wtQueue;
         this.operationCenter = operationCenter;
