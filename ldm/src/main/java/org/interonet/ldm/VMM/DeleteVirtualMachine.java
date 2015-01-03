@@ -1,18 +1,17 @@
 package org.interonet.ldm.VMM;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import org.libvirt.Connect;
-import org.libvirt.Domain;
-import org.libvirt.LibvirtException;
-
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import org.libvirt.Connect;
+import org.libvirt.Domain;
+import org.libvirt.LibvirtException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class DeleteVirtualMachine implements IDeleteVirtualMachine {
     @Override
@@ -22,8 +21,7 @@ public class DeleteVirtualMachine implements IDeleteVirtualMachine {
             domain.destroy();
         } catch (LibvirtException e) {
             e.printStackTrace();
-        }
-    }
+        }    }
 
     @Override
     public String vmdelete(int ID)  {

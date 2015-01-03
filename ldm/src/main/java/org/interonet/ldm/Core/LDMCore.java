@@ -1,16 +1,16 @@
 package org.interonet.ldm.Core;
 
-import com.jcraft.jsch.JSchException;
-import org.dom4j.DocumentException;
 import org.interonet.ldm.VMM.*;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 
 public class LDMCore {
+    @SuppressWarnings("FieldCanBeLocal")
     private LDMAgent ldmAgent;
     private Connect connect;
     private ICreateVirtualMachine iCreateVirtualMachine;
     private IDeleteVirtualMachine iDeleteVirtualMachine;
+    @SuppressWarnings("FieldCanBeLocal")
     private IBridgeAndVlan iBridgeAndVlan;
 
 
