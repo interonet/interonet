@@ -1,4 +1,4 @@
-package org.interonet.gdm.TestCore;
+package org.interonet.gdm.Core;
 
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
 import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;

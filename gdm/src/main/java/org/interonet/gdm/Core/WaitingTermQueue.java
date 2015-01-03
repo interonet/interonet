@@ -1,4 +1,4 @@
-package org.interonet.gdm.TestCore;
+package org.interonet.gdm.Core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
