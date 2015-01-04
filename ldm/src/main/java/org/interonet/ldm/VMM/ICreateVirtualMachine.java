@@ -5,5 +5,5 @@ import org.libvirt.Connect;
 public interface ICreateVirtualMachine {
     String vmclone(int ID);
 
-    void vmstart(Connect connect, int ID);
+    String vmstart(Connect connect, int ID);
 }

@@ -24,7 +24,8 @@ public class MainTest
         ldmCore.start();
         LDMAgent ldmAgent = new LDMAgent(ldmCore);
         String s ="test";
-        s=ldmAgent.powerOffVM(2);
-        assertTrue(s==null);
+        ldmAgent.powerOnVM(2);
+        s = ldmAgent.powerOffVM(2);
+        assertTrue(s.equals("success"));
     }
 }

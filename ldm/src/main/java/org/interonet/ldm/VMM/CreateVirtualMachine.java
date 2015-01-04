@@ -19,7 +19,7 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
     @Override
     public String vmclone(int ID) {
         String command = "virt-clone -o vmsource -n vmm" + ID + "  -f /home/400/vmuser/vm" + ID + ".img";
-        String result = "";
+        String vmCloneResult = "";
         Session session = null;
         ChannelExec openChannel = null;
         try {
@@ -38,10 +38,10 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String buf = null;
             while ((buf = reader.readLine()) != null) {
-                result += new String(buf.getBytes("gbk"), "UTF-8") + "    \r\n";
+                vmCloneResult = new String(buf.getBytes("gbk"), "UTF-8") ;
             }
         } catch (IOException e) {
-            result += e.getMessage();
+            vmCloneResult += e.getMessage();
         } catch (JSchException e) {
             e.printStackTrace();
         } finally {
@@ -52,11 +52,12 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
                 session.disconnect();
             }
         }
-        return result;
+        return vmCloneResult;
     }
 
     @Override
-    public void vmstart(Connect connect, int ID) {
+    public String  vmstart(Connect connect, int ID) {
+        String vmStartResult = "failure";
         SAXReader reader = new SAXReader();
         Document docu = null;
         try {
@@ -77,11 +78,13 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
             Domain domain = null;
             domain = connect.domainCreateXML(xmlDesc, 0);
             domain.resume();
+            vmStartResult = "success";
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (LibvirtException e) {
             e.printStackTrace();
         }
+        return  vmStartResult;
     }
 
 

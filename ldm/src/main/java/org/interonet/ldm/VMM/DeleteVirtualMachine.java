@@ -15,18 +15,22 @@ import java.io.InputStreamReader;
 
 public class DeleteVirtualMachine implements IDeleteVirtualMachine {
     @Override
-    public void vmdestroy(Connect connect, int ID)  {
+    public String  vmdestroy(Connect connect, int ID)  {
+        String vmDestroyResult = "failure";
         try {
         Domain domain = connect.domainLookupByName("vm" + ID);
             domain.destroy();
+            vmDestroyResult = "success";
         } catch (LibvirtException e) {
             e.printStackTrace();
-        }    }
+        }
+        return vmDestroyResult;
+    }
 
     @Override
     public String vmdelete(int ID)  {
         String command = "virsh undefine vmm" + ID + ";rm -f /home/400/vmuser/vm" + ID + ".img";
-        String result = "";
+        String vmDeleteResult = "";
         Session session = null;
         ChannelExec openChannel = null;
         try {
@@ -46,10 +50,10 @@ public class DeleteVirtualMachine implements IDeleteVirtualMachine {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String buf = null;
             while ((buf = reader.readLine()) != null) {
-                result += new String(buf.getBytes("gbk"), "UTF-8") + "    \r\n";
+                vmDeleteResult += new String(buf.getBytes("gbk"), "UTF-8") ;
             }
         } catch (IOException e) {
-            result += e.getMessage();
+            vmDeleteResult += e.getMessage();
         }
         catch (JSchException e) {
             e.printStackTrace();
@@ -61,7 +65,7 @@ public class DeleteVirtualMachine implements IDeleteVirtualMachine {
                 session.disconnect();
             }
         }
-        return result;
+        return vmDeleteResult;
     }
 
 

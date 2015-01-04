@@ -19,7 +19,7 @@ public class LDMCore {
         iCreateVirtualMachine = new CreateVirtualMachine();
         iDeleteVirtualMachine = new DeleteVirtualMachine();
         iBridgeAndVlan = new BridgeAndVlan();
-        iBridgeAndVlan.bridgeAndvlan();  //创建网桥和Vlan
+        //iBridgeAndVlan.bridgeAndvlan();  //创建网桥和Vlan
         try {
             connect = new Connect("qemu+tcp://400@202.117.15.94/system", false);
         } catch (LibvirtException e) {
@@ -31,13 +31,26 @@ public class LDMCore {
         return null;
     }
 
-    public void powerOnVM(Integer vmID) {
-        iCreateVirtualMachine.vmclone(vmID);
-        iCreateVirtualMachine.vmstart(connect, vmID);
+    public String powerOnVM(Integer vmID) {
+        String powerOnVMResult = "failure";
+        String vmCloneTest = iCreateVirtualMachine.vmclone(vmID);
+        String vmStartTest = iCreateVirtualMachine.vmstart(connect, vmID);
+        String vmtestOn = "Clone 'vmm"+vmID+"' created successfully.";
+        if(vmCloneTest.equals(vmtestOn) && vmStartTest.equals("success"))
+
+            powerOnVMResult="success";
+
+        return powerOnVMResult;
     }
 
-    public void powerOffVM(Integer vmID) {
-        iDeleteVirtualMachine.vmdestroy(connect, vmID);
-        iDeleteVirtualMachine.vmdelete(vmID);
+    public String powerOffVM(Integer vmID) {
+        String powerOffVMResult = "failure";
+        String vmDestroyTest = iDeleteVirtualMachine.vmdestroy(connect, vmID);
+        String vmDeleteTest = iDeleteVirtualMachine.vmdelete(vmID);
+        String vmtestOff="Domain vmm"+vmID+" has been undefined";
+        if(vmDestroyTest.equals("success") && vmDeleteTest.equals(vmtestOff))
+            powerOffVMResult = "success";
+        return powerOffVMResult;
+
     }
 }
