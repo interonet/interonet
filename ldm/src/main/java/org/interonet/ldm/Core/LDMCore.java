@@ -19,7 +19,7 @@ public class LDMCore {
         iCreateVirtualMachine = new CreateVirtualMachine();
         iDeleteVirtualMachine = new DeleteVirtualMachine();
         iBridgeAndVlan = new BridgeAndVlan();
-        //iBridgeAndVlan.bridgeAndvlan();  //创建网桥和Vlan
+        iBridgeAndVlan.bridgeAndvlan();  //创建网桥和Vlan
         try {
             connect = new Connect("qemu+tcp://400@202.117.15.94/system", false);
         } catch (LibvirtException e) {
