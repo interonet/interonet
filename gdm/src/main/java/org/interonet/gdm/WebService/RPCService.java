@@ -21,12 +21,7 @@ public class RPCService implements IRPCService {
 
     @Override
     public String authenticateUser(String username, String password) {
-        AuthToken authToken = gdmagent.authenticateUser(username, password);
-        if (authToken != null) {
-            return AuthTokenManager.toPlainText(authToken);
-        } else {
-            return "wrong username or password";
-        }
+        return gdmagent.authenticateUser(username, password);
     }
 
     @Override
@@ -41,25 +36,20 @@ public class RPCService implements IRPCService {
 
     @Override
     public String orderSlice(String authToken, String order) {
-        try {
-            OrderParser orderParser = new OrderParser(order);
-            int switchesNum = orderParser.getSwitchesNum();
-            int vmsNum = orderParser.getvmsNum();
-            String beginT = orderParser.getBeginTime();
-            String endT = orderParser.getEndTime();
-            Map<String, String> topology = orderParser.getTopology();
-            Map<String, String> swConf = orderParser.getSwitchConfig();
-            String ctrlIP = orderParser.getControllerIP();
-            int ctrlPort = orderParser.getControllerPort();
+        OrderParser orderParser = new OrderParser(order);
+        int switchesNum = orderParser.getSwitchesNum();
+        int vmsNum = orderParser.getvmsNum();
+        String beginT = orderParser.getBeginTime();
+        String endT = orderParser.getEndTime();
+        Map<String, String> topology = orderParser.getTopology();
+        Map<String, String> swConf = orderParser.getSwitchConfig();
+        String ctrlIP = orderParser.getControllerIP();
+        int ctrlPort = orderParser.getControllerPort();
 
-            AuthToken authTk = authTokenManager.toAuthToken(authToken);
+        AuthToken authTk = authTokenManager.toAuthToken(authToken);
 
-            Boolean status = gdmagent.orderSlice(authTk, switchesNum, vmsNum, beginT, endT, topology, swConf, ctrlIP, ctrlPort);
-            return status ? "Success" : "Failed";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        Boolean status = gdmagent.orderSlice(authTk, switchesNum, vmsNum, beginT, endT, topology, swConf, ctrlIP, ctrlPort);
+        return status ? "Success" : "Failed";
     }
 
     @Override
@@ -88,10 +78,15 @@ public class RPCService implements IRPCService {
 //    }
 
     public class OrderParser {
+        //TODO check the parameter.
         Map<String, Map<String, String>> parser;
 
-        public OrderParser(String order) throws IOException {
-            parser = new ObjectMapper().readValue(order, Map.class);
+        public OrderParser(String order) {
+            try {
+                parser = new ObjectMapper().readValue(order, Map.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         public int getSwitchesNum() {

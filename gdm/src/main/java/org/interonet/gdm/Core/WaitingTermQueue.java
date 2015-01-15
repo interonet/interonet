@@ -14,7 +14,7 @@ public class WaitingTermQueue {
         this.userOrderNum = new HashMap<String, Integer>();
     }
 
-    public String getOrderIDListByUsername(String username) {
+    synchronized public String getOrderIDListByUsername(String username) {
         StringBuilder orderIDList = new StringBuilder("orderIDList: ");
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.username.equals(username)) {
@@ -25,7 +25,7 @@ public class WaitingTermQueue {
         return orderIDList.toString();
     }
 
-    public String getOrderInfoByID(String sliceID) {
+    synchronized public String getOrderInfoByID(String sliceID) {
         StringBuilder sliceInfo = new StringBuilder();
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.sliceID.equals(sliceID)) {
@@ -42,7 +42,7 @@ public class WaitingTermQueue {
         return null;
     }
 
-    public void newOrder(WTOrder wtOrder) {
+    synchronized public void newOrder(WTOrder wtOrder) {
         if (userOrderNum.get(wtOrder.username) == null)
             userOrderNum.put(wtOrder.username, 0);
         Integer userOdNum = userOrderNum.get(wtOrder.username);
@@ -57,7 +57,7 @@ public class WaitingTermQueue {
     }
 
 
-    public void deleteOrderByID(String sliceID) {
+    synchronized public void deleteOrderByID(String sliceID) {
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.sliceID.equals(sliceID)) {
                 wtQueue.remove(wtOrder);

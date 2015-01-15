@@ -1,6 +1,7 @@
 package org.interonet.gdm.Core;
 
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
+import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
 import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 
 import java.util.Map;
@@ -13,8 +14,9 @@ public class GDMAgent implements IGDMAgent {
     }
 
     @Override
-    public AuthToken authenticateUser(String username, String password) {
-        return gdmCore.authenticateUser(username, password);
+    public String authenticateUser(String username, String password) {
+        AuthToken authToken =  gdmCore.authenticateUser(username, password);
+        return AuthTokenManager.toPlainText(authToken);
     }
 
     @Override

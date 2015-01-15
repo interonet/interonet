@@ -20,7 +20,7 @@ public class WaitingStartQueue {
         return wsQueue;
     }
 
-    public boolean newOrder(String username,
+    synchronized public boolean newOrder(String username,
                             List<Integer> switchIDs,
                             List<Integer> vmIDs,
                             String beginTime,
@@ -40,7 +40,7 @@ public class WaitingStartQueue {
         return wsQueue.add(wsOrder);
     }
 
-    public String getOrderIDListByUsername(String username) {
+    synchronized public String getOrderIDListByUsername(String username) {
         StringBuilder orderIDList = new StringBuilder();
         for (WSOrder wsOrder : wsQueue) {
             if (wsOrder.username.equals(username)) {
@@ -51,7 +51,7 @@ public class WaitingStartQueue {
         return orderIDList.toString();
     }
 
-    public boolean deleteOrderByID(String orderID) {
+    synchronized public boolean deleteOrderByID(String orderID) {
         for (WSOrder wsOrder : wsQueue) {
             if (wsOrder.orderID.equals(orderID)) {
                 wsQueue.remove(wsOrder);
@@ -61,7 +61,7 @@ public class WaitingStartQueue {
         return false;
     }
 
-    public String getOrderInfoByID(String orderID) {
+    synchronized public String getOrderInfoByID(String orderID) {
         StringBuilder orderInfo = new StringBuilder();
         for (WSOrder wsOrder : wsQueue) {
             if (wsOrder.orderID.equals(orderID)) {

@@ -15,7 +15,7 @@ public class SwitchTimeTable {
         }
     }
 
-    public List<Integer> checkSWAvailability(int switchesNum, String beginTime, String endTime) {
+    synchronized public List<Integer> checkSWAvailability(int switchesNum, String beginTime, String endTime) {
         Duration orderDur = new Duration(beginTime, endTime);
         List<Integer> availableSwitches = new ArrayList<Integer>();
 
@@ -46,15 +46,12 @@ public class SwitchTimeTable {
                     availableSwitches.add(switchID);
                     break;
                 }
-
             }
-
-
         }
         return (availableSwitches.size() >= switchesNum) ? availableSwitches.subList(0, switchesNum) : null;
     }
 
-    public boolean setOccupied(List<Integer> switchIDs, String beginTime, String endTime) {
+    synchronized public boolean setOccupied(List<Integer> switchIDs, String beginTime, String endTime) {
         for (Integer switchID : switchIDs) {
             Duration orderDur = new Duration(beginTime, endTime);
             List<Duration> switchTimeLine = switchTimeTable.get(switchID);

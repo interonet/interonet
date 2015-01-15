@@ -14,7 +14,7 @@ public class VMTimeTable {
         }
     }
 
-    public List<Integer> checkVMAvailability(int vmsNum, String beginTime, String endTime) {
+    synchronized public List<Integer> checkVMAvailability(int vmsNum, String beginTime, String endTime) {
         Duration orderDur = new Duration(beginTime, endTime);
         List<Integer> availableVMs = new ArrayList<Integer>();
 
@@ -54,7 +54,7 @@ public class VMTimeTable {
         return (availableVMs.size() >= vmsNum) ? availableVMs.subList(0, vmsNum) : null;
     }
 
-    public boolean setOccupied(List<Integer> vmIDs, String beginTime, String endTime) {
+    synchronized public boolean setOccupied(List<Integer> vmIDs, String beginTime, String endTime) {
         for (Integer vmID : vmIDs) {
             Duration orderDur = new Duration(beginTime, endTime);
             List<Duration> switchTimeLine = vmTimeTable.get(vmID);
