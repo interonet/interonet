@@ -6,7 +6,7 @@ import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 import java.util.Map;
 
 public interface IGDMAgent {
-    AuthToken authenticateUser(String username, String password);
+    String authenticateUser(String username, String password);
 
     String getSwitchesUsageStatus(AuthToken authToken);
 
