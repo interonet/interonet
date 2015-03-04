@@ -1,0 +1,10 @@
+setenv ipaddr 192.168.1.9
+#setenv serverip 192.168.1.2
+#setenv ethaddr 00:0a:35:00:01:ff
+
+setenv bootargs 'console=ttyPS0,115200 ip=192.168.1.9:192.168.1.2:192.168.1.1:255.255.255.0::eth0:off root=/dev/nfs devtmpfs.mount=0 nfsroot=192.168.1.2:/export/root/zed rw earlyprintk'
+
+tftpboot 0x3000000 192.168.1.2:uImage
+tftpboot 0x2A00000 192.168.1.2:devicetree.dtb
+
+bootm 0x3000000 - 0x2A00000
