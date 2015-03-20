@@ -1,9 +1,11 @@
 package org.interonet.gdm.Core;
 
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.interonet.gdm.AuthenticationCenter.*;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -106,10 +108,35 @@ public class GDMCore {
     public String deleteOrderByID(AuthToken authToken, String orderID) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
-
-        //TODO delete the info in VMTable && SwitchTable.
+        
+        List<WSOrder> queue = wsQueue.wsQueue;
+        String beginT = null;
+        String endT = null;
+        for (WSOrder wsOrder : queue){
+            if (wsOrder.orderID.equals(orderID)){
+                beginT = wsOrder.beginTime;
+                endT = wsOrder.endTime;
+            }
+        }
+        for (Map.Entry<Integer, List<Duration>> entry : vmTimeTable.vmTimeTable.entrySet()){
+            List<Duration> found = new ArrayList<Duration>();
+            for ( Duration d : entry.getValue()){
+                if( d.start.equals(beginT)  && d.end.equals(endT)){
+                    found.add(d);
+                }
+            }
+            entry.getValue().removeAll(found);
+        }
+        for (Map.Entry<Integer, List<Duration>> entry : switchTimeTable.switchTimeTable.entrySet()){
+            List<Duration> found = new ArrayList<Duration>();
+            for ( Duration d : entry.getValue()){
+                if( d.start.equals(beginT) && d.end.equals(endT)){
+                    found.add(d);
+                }
+            }
+            entry.getValue().removeAll(found);
+        }
         boolean wsQueueStatus = wsQueue.deleteOrderByID(orderID);
-
         if (!wsQueueStatus)
             return "Failed.";
         else
