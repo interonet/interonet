@@ -63,7 +63,8 @@ public class GDMAgent implements IGDMAgent {
         return gdmCore.getAuthTokenManager();
     }
 
-//    public String stopRunningSliceByID(AuthToken authToken, String orderID) {
-//        return gdmCore.stopRunningSliceByID(authToken, orderID);
-//    }
+    @Override
+    public String stopRunningSliceByID(AuthToken authToken, String orderID) {
+        return gdmCore.stopRunningSliceByID(authToken, orderID);
+    }
 }

@@ -57,12 +57,13 @@ public class WaitingTermQueue {
     }
 
 
-    synchronized public void deleteOrderByID(String sliceID) {
+    synchronized public boolean deleteOrderByID(String sliceID) {
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.sliceID.equals(sliceID)) {
                 wtQueue.remove(wtOrder);
-                break;
+                return true;
             }
         }
+        return false;
     }
 }

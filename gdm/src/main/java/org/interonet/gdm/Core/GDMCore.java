@@ -162,14 +162,12 @@ public class GDMCore {
         return authTokenManager;
     }
 
-/*
     public String stopRunningSliceByID(AuthToken authToken, String orderID) {
         if (authTokenManager.auth(authToken) == false)
             return "Authentication failed.";
 
-        String status = wtQueue.deleteOrderByID(orderID);
-        return status;
+        boolean status = wtQueue.deleteOrderByID(orderID);
+        return status == true ? "Success" : "Failed";
     }
-*/
 
 }

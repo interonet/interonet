@@ -26,4 +26,6 @@ public interface IGDMAgent {
     String getRunningSlice(AuthToken authToken);
 
     IAuthTokenManager getAuthTokenManager();
+
+    String stopRunningSliceByID(AuthToken authToken, String orderID);
 }
