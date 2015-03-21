@@ -108,29 +108,29 @@ public class GDMCore {
     public String deleteOrderByID(AuthToken authToken, String orderID) {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
-        
+
         List<WSOrder> queue = wsQueue.wsQueue;
         String beginT = null;
         String endT = null;
-        for (WSOrder wsOrder : queue){
-            if (wsOrder.orderID.equals(orderID)){
+        for (WSOrder wsOrder : queue) {
+            if (wsOrder.orderID.equals(orderID)) {
                 beginT = wsOrder.beginTime;
                 endT = wsOrder.endTime;
             }
         }
-        for (Map.Entry<Integer, List<Duration>> entry : vmTimeTable.vmTimeTable.entrySet()){
+        for (Map.Entry<Integer, List<Duration>> entry : vmTimeTable.vmTimeTable.entrySet()) {
             List<Duration> found = new ArrayList<Duration>();
-            for ( Duration d : entry.getValue()){
-                if( d.start.equals(beginT)  && d.end.equals(endT)){
+            for (Duration d : entry.getValue()) {
+                if (d.start.equals(beginT) && d.end.equals(endT)) {
                     found.add(d);
                 }
             }
             entry.getValue().removeAll(found);
         }
-        for (Map.Entry<Integer, List<Duration>> entry : switchTimeTable.switchTimeTable.entrySet()){
+        for (Map.Entry<Integer, List<Duration>> entry : switchTimeTable.switchTimeTable.entrySet()) {
             List<Duration> found = new ArrayList<Duration>();
-            for ( Duration d : entry.getValue()){
-                if( d.start.equals(beginT) && d.end.equals(endT)){
+            for (Duration d : entry.getValue()) {
+                if (d.start.equals(beginT) && d.end.equals(endT)) {
                     found.add(d);
                 }
             }
