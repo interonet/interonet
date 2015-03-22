@@ -40,7 +40,6 @@ public class WTQueueManager implements Runnable {
             List<SWSWTunnel> swswTunnels = wtOrder.swswTunnel;
             List<SWVMTunnel> swvmTunnels = wtOrder.swvmTunnel;
 
-            System.out.println("*************************************Stopping a Slice***********************************");
             for (SWSWTunnel swswT : swswTunnels) {
                 int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.SwitchID, swswT.SwitchIDPortNum);
                 int athrSwitchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.PeerSwitchID, swswT.PeerSwitchIDPortNum);
@@ -66,7 +65,6 @@ public class WTQueueManager implements Runnable {
             }
 
             waitingTermQueue.deleteOrderByID(wtOrder.sliceID);
-            System.out.println("*************************************Stopping a Slice***********************************\n\n\n");
         }
 
     }

@@ -46,7 +46,6 @@ public class WSQueueManager implements Runnable {
             List<SWSWTunnel> swswTunnels = getswswTunnel(wsOrder.topology, userSW2domSW, userVM2domVM);
             List<SWVMTunnel> swvmTunnels = getswvmTunnel(wsOrder.topology, userSW2domSW, userVM2domVM);
 
-            System.out.println("*************************************Starting a Slice***********************************");
             for (SWSWTunnel swswT : swswTunnels) {
                 int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.SwitchID, swswT.SwitchIDPortNum);
                 int athrSwitchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.PeerSwitchID, swswT.PeerSwitchIDPortNum);
@@ -70,7 +69,6 @@ public class WSQueueManager implements Runnable {
             for (Integer vmID : vmIDs) {
                 operationCenter.powerOnVM(vmID);
             }
-            System.out.println("*************************************Starting a Slice***********************************\n\n");
 
             WTOrder wtOrder = new WTOrder(
                     wsOrder.orderID,
@@ -153,7 +151,6 @@ public class WSQueueManager implements Runnable {
                 startSlice(list);
             }
             Thread.sleep(30000);
-            System.out.println("**************");
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
