@@ -61,7 +61,8 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
         SAXReader reader = new SAXReader();
         Document docu = null;
         try {
-            docu = (Document) reader.read(new File("/home/houlifei/vmm.xml"));
+            String INTERONET_HOME = System.getenv().get("INTERONET_HOME");
+            docu = (Document) reader.read(new File(INTERONET_HOME+"/vmm.xml"));
 
             Element name = docu.getRootElement().element("name");
             name.setText("vm" + ID);
