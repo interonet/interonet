@@ -62,7 +62,7 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
         Document docu = null;
         try {
             String INTERONET_HOME = System.getenv().get("INTERONET_HOME");
-            docu = (Document) reader.read(new File(INTERONET_HOME+"/vmm.xml"));
+            docu = (Document) reader.read(new File(INTERONET_HOME+"/conf/vmm.xml"));
 
             Element name = docu.getRootElement().element("name");
             name.setText("vm" + ID);
