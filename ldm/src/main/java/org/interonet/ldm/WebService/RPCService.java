@@ -13,8 +13,8 @@ public class RPCService {
         return ldmAgent.createTunnelSW2SW(switchPortPeer, peerSwitchPortPeer);
     }
 
-    public String createTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT) {
-        return ldmAgent.createTunnelSW2VM(switchPortPeeronTT, peerVMPortPeeronTT);
+    public String createTunnelSW2VM(int switchPortPeeronTT, int vmID) {
+        return ldmAgent.createTunnelSW2VM(switchPortPeeronTT, vmID);
     }
 
     public String addSWitchConf(Integer switchID, String controllerIP, int controllerPort) {
@@ -33,8 +33,8 @@ public class RPCService {
         return ldmAgent.deleteTunnelSW2SW(switchPortPeeronTT, athrSwitchPortPeeronTT);
     }
 
-    public String deleteTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT) {
-        return ldmAgent.deleteTunnelSW2VM(switchPortPeeronTT, peerVMPortPeeronTT);
+    public String deleteTunnelSW2VM(int switchPortPeeronTT, int vmID) {
+        return ldmAgent.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
     }
 
     public String deleteSWitchConf(Integer switchID) {

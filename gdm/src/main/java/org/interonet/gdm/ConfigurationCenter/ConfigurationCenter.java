@@ -13,18 +13,23 @@ public class ConfigurationCenter implements IConfigurationCenter {
         topologyTransformer.put("s0:1", 2);
         topologyTransformer.put("s0:2", 3);
         topologyTransformer.put("s0:3", 4);
+
         topologyTransformer.put("s1:0", 5);
         topologyTransformer.put("s1:1", 6);
         topologyTransformer.put("s1:2", 7);
         topologyTransformer.put("s1:3", 8);
+
         topologyTransformer.put("s2:0", 9);
         topologyTransformer.put("s2:1", 10);
         topologyTransformer.put("s2:2", 11);
         topologyTransformer.put("s2:3", 12);
+
         topologyTransformer.put("s3:0", 13);
         topologyTransformer.put("s3:1", 14);
         topologyTransformer.put("s3:2", 15);
         topologyTransformer.put("s3:3", 16);
+
+        topologyTransformer.put("h0:0", 48);
     }
 
     @Override

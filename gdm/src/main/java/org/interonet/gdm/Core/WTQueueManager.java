@@ -48,8 +48,8 @@ public class WTQueueManager implements Runnable {
 
             for (SWVMTunnel swvmTunnel : swvmTunnels) {
                 int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.SwitchID, swvmTunnel.SwitchPort);
-                int peerVMPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.VMID, swvmTunnel.VMPort);
-                operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, peerVMPortPeeronTT);
+                int vmID = swvmTunnel.VMID;
+                operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
             }
 
             for (Integer switchID : switchesIDs) {
