@@ -1,5 +1,7 @@
 package org.interonet.ldm.Core;
 
+import java.io.IOException;
+
 public class LDMAgent {
     private LDMCore ldmCore;
 
@@ -15,8 +17,8 @@ public class LDMAgent {
         return null;
     }
 
-    public String addSWitchConf(Integer switchID, String controllerIP, int controllerPort) {
-        return null;
+    public void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException {
+        ldmCore.addSwitchConf(switchID, controllerIP, controllerPort);
     }
 
     public String powerOnSwitch(Integer switchID) {

@@ -18,7 +18,7 @@ public class OperationCenter implements IOperationCenter {
         localDomains = new HashMap<String, String>();
         localDomains.put("XJTU", "192.168.1.2");
         try {
-            client = new JsonRpcHttpClient(new URL("http://127.0.0.1:8080/"));
+            client = new JsonRpcHttpClient(new URL("http://127.0.0.1:8081/"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -39,7 +39,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws Throwable {
-//        client.invoke("addSWitchConf", new Object[]{controllerIP, controllerPort}, String.class);
+        client.invoke("addSWitchConf", new Object[]{switchID, controllerIP, controllerPort}, String.class);
         operationCenterLogger.info("LDM --> addSWitchConf(switchID=" + switchID + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
     }
 
