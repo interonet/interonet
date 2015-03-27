@@ -9,7 +9,7 @@ public class BridgeAndVlan implements IBridgeAndVlan {
             command = command + "brctl addbr br" + i + ";ifconfig br" + i + " up;";
         }
         Channel channel = new Channel("root","xjtu420","202.117.15.94", 22);
-        String result = channel.setChannel(command);
+        String result = channel.setChannel(command,true);
         return result;
 
     }
@@ -21,7 +21,7 @@ public class BridgeAndVlan implements IBridgeAndVlan {
             command = command + "vconfig add eth1 1" + i + ";ifconfig eth1.1" + i + " up;";
         }
         Channel channel = new Channel("root","xjtu420","202.117.15.94", 22);
-        String result = channel.setChannel(command);
+        String result = channel.setChannel(command,true);
         return result;
     }
 
@@ -32,7 +32,7 @@ public class BridgeAndVlan implements IBridgeAndVlan {
             command = command + "brctl addif br" + i + " eth1.1" + i + ";";
         }
         Channel channel = new Channel("root","xjtu420","202.117.15.94", 22);
-        String result = channel.setChannel(command);
+        String result = channel.setChannel(command,true);
         return result;
     }
 

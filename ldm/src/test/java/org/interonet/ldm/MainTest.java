@@ -23,10 +23,13 @@ public class MainTest
         LDMCore ldmCore = new LDMCore();
         ldmCore.start();
         LDMAgent ldmAgent = new LDMAgent(ldmCore);
-        String s = "test";
-        ldmAgent.powerOnVM(2);
-        s = ldmAgent.powerOffVM(2);
-        assertTrue(s.equals("success"));
+        String s1 = "test";
+        String s2 = "test";
+        s1 = ldmAgent.powerOnVM(2);
+        s2 = ldmAgent.powerOffVM(2);
+        System.out.println(s1);
+        System.out.println(s2);
+        assertTrue(s2.equals("success"));
 
 
 
