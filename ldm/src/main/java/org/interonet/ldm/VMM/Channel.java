@@ -22,7 +22,7 @@ public class Channel {
         this.IP = IP;
         this.port = port;
     }
-    public String setChannel(String command)
+    public String setChannel(String command,boolean judge)
     {
         String result = "";
         Session session = null;
@@ -42,8 +42,15 @@ public class Channel {
             openChannel.setErrStream(System.err);
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String buf = null;
-            while ((buf = reader.readLine()) != null) {
-                result += new String(buf.getBytes("gbk"), "UTF-8") + "    \r\n";
+            if(judge==true) {
+                while ((buf = reader.readLine()) != null) {
+                    result = new String(buf.getBytes("gbk"), "UTF-8");
+                }
+            }
+            else{
+                while ((buf = reader.readLine()) != null) {
+                    result += new String(buf.getBytes("gbk"), "UTF-8");
+                }
             }
         } catch (IOException e) {
             result += e.getMessage();
@@ -59,6 +66,7 @@ public class Channel {
         }
         return result;
     }
+
 
 
 }

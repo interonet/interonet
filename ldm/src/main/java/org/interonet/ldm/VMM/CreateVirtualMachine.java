@@ -17,7 +17,7 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
     public String vmclone(int ID) {
         String command = "virt-clone -o vmsource -n vmm" + ID + "  -f /home/400/vmuser/vm" + ID + ".img";
         Channel channel = new Channel("root","xjtu420","202.117.15.94", 22);
-        String result = channel.setChannel(command);
+        String result = channel.setChannel(command,true);
         return result;
     }
 
