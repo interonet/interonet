@@ -11,7 +11,7 @@ public interface IGDMAgent {
 
     String getSwitchesUsageStatus(AuthToken authToken) throws IOException;
 
-    String getVmsUsageStatus(AuthToken authToken);
+    String getVmsUsageStatus(AuthToken authToken) throws IOException;
 
     Boolean orderSlice(AuthToken authToken, int swichesNum, int vmsNum, String beginTime, String endTime,
                        Map<String, String> topology,

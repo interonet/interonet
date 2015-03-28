@@ -38,7 +38,13 @@ public class RPCService implements IRPCService {
 
     @Override
     public String getVMsUsageStatus(String authToken) {
-        return gdmagent.getVmsUsageStatus(authTokenManager.toAuthToken(authToken));
+        try {
+            return gdmagent.getVmsUsageStatus(authTokenManager.toAuthToken(authToken));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Logger.getAnonymousLogger().severe(e.getMessage());
+            return "Failed";
+        }
     }
 
     @Override

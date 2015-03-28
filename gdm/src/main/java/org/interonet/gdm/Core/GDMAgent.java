@@ -28,7 +28,7 @@ public class GDMAgent implements IGDMAgent {
     }
 
     @Override
-    public String getVmsUsageStatus(AuthToken authToken) {
+    public String getVmsUsageStatus(AuthToken authToken) throws IOException {
         return gdmCore.getVmsUsageStatus(authToken);
     }
 

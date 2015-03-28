@@ -83,7 +83,7 @@ public class GDMCore {
         return switchTimeTable.getTimeTable();
     }
 
-    public String getVmsUsageStatus(AuthToken authToken) {
+    public String getVmsUsageStatus(AuthToken authToken) throws IOException {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
         return vmTimeTable.getTimeTable();
