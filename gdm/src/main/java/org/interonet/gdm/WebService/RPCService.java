@@ -94,7 +94,13 @@ public class RPCService implements IRPCService {
 
     @Override
     public String getRunningSlices(String authToken) {
-        return gdmagent.getRunningSlice(authTokenManager.toAuthToken(authToken));
+        try {
+            return gdmagent.getRunningSlice(authTokenManager.toAuthToken(authToken));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Logger.getAnonymousLogger().severe(e.getMessage());
+            return "Failed";
+        }
     }
 
 //    @Override

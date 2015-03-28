@@ -144,7 +144,7 @@ public class GDMCore {
             return "Successful";
     }
 
-    public String getRunningSliceIDsList(AuthToken authToken) {
+    public String getRunningSliceIDsList(AuthToken authToken) throws IOException {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
         String username = authTokenManager.getUsernameByToken(authToken);

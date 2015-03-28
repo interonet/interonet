@@ -1,5 +1,9 @@
 package org.interonet.gdm.Core;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,15 +18,23 @@ public class WaitingTermQueue {
         this.userOrderNum = new HashMap<String, Integer>();
     }
 
-    synchronized public String getOrderIDListByUsername(String username) {
-        StringBuilder orderIDList = new StringBuilder("orderIDList: ");
+    synchronized public String getOrderIDListByUsername(String username) throws IOException {
+//        StringBuilder orderIDList = new StringBuilder("orderIDList: ");
+//        for (WTOrder wtOrder : wtQueue) {
+//            if (wtOrder.username.equals(username)) {
+//                orderIDList.append(wtOrder.sliceID);
+//                orderIDList.append("\n");
+//            }
+//        }
+//        return orderIDList.toString();
+
+        List<String> orderIDList = new ArrayList<>();
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.username.equals(username)) {
-                orderIDList.append(wtOrder.sliceID);
-                orderIDList.append("\n");
+                orderIDList.add(wtOrder.sliceID);
             }
         }
-        return orderIDList.toString();
+        return new ObjectMapper().writeValueAsString(orderIDList);
     }
 
     synchronized public String getOrderInfoByID(String sliceID) {

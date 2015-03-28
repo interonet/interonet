@@ -17,7 +17,7 @@ public interface IRPCService {
 
     public String deleteOrderByID(String authtoken, String orderID);
 
-    public String getRunningSlices(String authtoken);
+    public String getRunningSlices(String authtoken) throws IOException;
 
 //    public String stopRunningSliceByID(String authtoken, String sliceID);
 }

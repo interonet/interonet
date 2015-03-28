@@ -24,7 +24,7 @@ public interface IGDMAgent {
 
     String deleteOrderByID(AuthToken authToken, String orderID);
 
-    String getRunningSlice(AuthToken authToken);
+    String getRunningSlice(AuthToken authToken) throws IOException;
 
     IAuthTokenManager getAuthTokenManager();
 
