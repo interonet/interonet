@@ -89,14 +89,14 @@ public class GDMCore {
         return vmTimeTable.getTimeTable();
     }
 
-    public String getOrdersIDList(AuthToken authToken) {
+    public String getOrdersIDList(AuthToken authToken) throws IOException {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
         String username = authTokenManager.getUsernameByToken(authToken);
         return wsQueue.getOrderIDListByUsername(username);
     }
 
-    public String getOrderInfoByID(AuthToken authToken, String orderID) {
+    public String getOrderInfoByID(AuthToken authToken, String orderID) throws IOException {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
 

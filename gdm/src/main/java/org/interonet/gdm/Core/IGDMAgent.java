@@ -18,9 +18,9 @@ public interface IGDMAgent {
                        Map<String, String> switchConf,
                        String controllerIP, int controllerPort);
 
-    String getOrdersList(AuthToken authToken);
+    String getOrdersList(AuthToken authToken) throws IOException;
 
-    String getOrderInfoByID(AuthToken authToken, String orderID);
+    String getOrderInfoByID(AuthToken authToken, String orderID) throws IOException;
 
     String deleteOrderByID(AuthToken authToken, String orderID);
 

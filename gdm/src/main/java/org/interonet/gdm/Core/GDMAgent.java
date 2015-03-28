@@ -42,12 +42,12 @@ public class GDMAgent implements IGDMAgent {
     }
 
     @Override
-    public String getOrdersList(AuthToken authToken) {
+    public String getOrdersList(AuthToken authToken) throws IOException {
         return gdmCore.getOrdersIDList(authToken);
     }
 
     @Override
-    public String getOrderInfoByID(AuthToken authToken, String orderID) {
+    public String getOrderInfoByID(AuthToken authToken, String orderID) throws IOException {
         return gdmCore.getOrderInfoByID(authToken, orderID);
     }
 

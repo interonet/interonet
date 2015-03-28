@@ -67,12 +67,24 @@ public class RPCService implements IRPCService {
 
     @Override
     public String getOrdersList(String authToken) {
-        return gdmagent.getOrdersList(authTokenManager.toAuthToken(authToken));
+        try {
+            return gdmagent.getOrdersList(authTokenManager.toAuthToken(authToken));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Logger.getAnonymousLogger().severe(e.getMessage());
+            return "Failed";
+        }
     }
 
     @Override
     public String getOrderInfoByID(String authToken, String orderID) {
-        return gdmagent.getOrderInfoByID(authTokenManager.toAuthToken(authToken), orderID);
+        try {
+            return gdmagent.getOrderInfoByID(authTokenManager.toAuthToken(authToken), orderID);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Logger.getAnonymousLogger().severe(e.getMessage());
+            return "Failed";
+        }
     }
 
     @Override
