@@ -5,6 +5,7 @@ import org.interonet.gdm.AuthenticationCenter.*;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class GDMCore {
         return authTokenManager.generate(username, password);
     }
 
-    public String getSwitchesUsageStatus(AuthToken authToken) {
+    public String getSwitchesUsageStatus(AuthToken authToken) throws IOException {
         if (!authTokenManager.auth(authToken))
             return "Authentication failed.";
         return switchTimeTable.getTimeTable();

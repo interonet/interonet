@@ -8,6 +8,7 @@ import org.interonet.gdm.Core.IGDMAgent;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class RPCService implements IRPCService {
     private IGDMAgent gdmagent;
@@ -26,7 +27,13 @@ public class RPCService implements IRPCService {
 
     @Override
     public String getSwitchesUsageStatus(String authToken) {
-        return gdmagent.getSwitchesUsageStatus(authTokenManager.toAuthToken(authToken));
+        try {
+            return gdmagent.getSwitchesUsageStatus(authTokenManager.toAuthToken(authToken));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Logger.getAnonymousLogger().severe(e.getMessage());
+            return "Failed";
+        }
     }
 
     @Override

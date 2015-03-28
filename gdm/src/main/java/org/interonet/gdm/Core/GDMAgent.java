@@ -4,6 +4,7 @@ import org.interonet.gdm.AuthenticationCenter.AuthToken;
 import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
 import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class GDMAgent implements IGDMAgent {
@@ -22,7 +23,7 @@ public class GDMAgent implements IGDMAgent {
     }
 
     @Override
-    public String getSwitchesUsageStatus(AuthToken authToken) {
+    public String getSwitchesUsageStatus(AuthToken authToken) throws IOException {
         return gdmCore.getSwitchesUsageStatus(authToken);
     }
 

@@ -1,9 +1,11 @@
 package org.interonet.gdm.WebService;
 
+import java.io.IOException;
+
 public interface IRPCService {
     public String authenticateUser(String username, String password);
 
-    public String getSwitchesUsageStatus(String authToken);
+    public String getSwitchesUsageStatus(String authToken) throws IOException;
 
     public String getVMsUsageStatus(String authToken);
 

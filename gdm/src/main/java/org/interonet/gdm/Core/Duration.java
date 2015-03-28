@@ -29,4 +29,9 @@ public class Duration {
     public int endtoMinsFromZero() {
         return Integer.parseInt(end.split(":")[0]) * 60 + Integer.parseInt(end.split(":")[1]);
     }
+
+    @Override
+    public String toString() {
+        return "Duration{" + "start='" + start + '\'' +", end='" + end + '\'' +'}';
+    }
 }

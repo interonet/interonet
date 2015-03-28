@@ -1,13 +1,22 @@
 package org.interonet.gdm.Core;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class SwitchTimeTable {
 
     private static final int TOTALSWITCHESNUMBER = 4;
     Map<Integer, List<Duration>> switchTimeTable;
 
+    Logger switchTimeTableLogger;
+
     public SwitchTimeTable() {
+        switchTimeTableLogger = Logger.getLogger("switchTimeTableLogger");
+
         switchTimeTable = new HashMap<Integer, List<Duration>>();
         for (int i = 0; i < TOTALSWITCHESNUMBER; i++) {
             List<Duration> swTimeLine = new LinkedList<Duration>();
@@ -85,9 +94,16 @@ public class SwitchTimeTable {
     }
 
 
-    public String getTimeTable() {
-        StringBuffer timeTable = new StringBuffer();
+    public String getTimeTable() throws IOException {
+        switchTimeTableLogger.info(this.toString());
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(switchTimeTable);
+    }
 
+    @Override
+    public String toString() {
+        StringBuffer timeTable = new StringBuffer();
+        timeTable.append("\n****************************************************\n");
         for (Map.Entry<Integer, List<Duration>> entry : switchTimeTable.entrySet()) {
             int switchID = entry.getKey();
             StringBuffer swTimeLineStr = new StringBuffer();
@@ -97,6 +113,7 @@ public class SwitchTimeTable {
                 swTimeLineStr.append("(" + switchTimeLine.get(i).start + "--->" + switchTimeLine.get(i).end + ")");
             timeTable.append(swTimeLineStr + "\n");
         }
+        timeTable.append("****************************************************\n");
         return timeTable.toString();
     }
 }
