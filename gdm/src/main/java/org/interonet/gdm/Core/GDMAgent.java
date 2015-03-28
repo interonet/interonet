@@ -15,8 +15,9 @@ public class GDMAgent implements IGDMAgent {
 
     @Override
     public String authenticateUser(String username, String password) {
-        AuthToken authToken =  gdmCore.authenticateUser(username, password);
-        return AuthTokenManager.toPlainText(authToken);
+        AuthToken authToken = gdmCore.authenticateUser(username, password);
+        String authTokenPlainT = AuthTokenManager.toPlainText(authToken);
+        return authTokenPlainT != null ? authTokenPlainT : "Failed";
     }
 
     @Override
