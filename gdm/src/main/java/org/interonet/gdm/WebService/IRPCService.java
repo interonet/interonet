@@ -1,11 +1,9 @@
 package org.interonet.gdm.WebService;
 
-import java.io.IOException;
-
 public interface IRPCService {
     public String authenticateUser(String username, String password);
 
-    public String getSwitchesUsageStatus(String authToken) throws IOException;
+    public String getSwitchesUsageStatus(String authToken);
 
     public String getVMsUsageStatus(String authToken);
 
@@ -17,7 +15,7 @@ public interface IRPCService {
 
     public String deleteOrderByID(String authtoken, String orderID);
 
-    public String getRunningSlices(String authtoken) throws IOException;
+    public String getRunningSlices(String authtoken);
 
 //    public String stopRunningSliceByID(String authtoken, String sliceID);
 }
