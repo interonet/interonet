@@ -17,7 +17,7 @@ public class LDMAgent {
         return null;
     }
 
-    public void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException {
+    public void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
         ldmCore.addSwitchConf(switchID, controllerIP, controllerPort);
     }
 
@@ -41,6 +41,10 @@ public class LDMAgent {
 
     public String deleteSWitchConf(Integer switchID) {
         return null;
+    }
+
+    public void resetSwitchConf(Integer switchID) throws IOException, InterruptedException {
+        ldmCore.resetSwitchConf(switchID);
     }
 
     public String powerOffSwitch(Integer switchID) {
