@@ -32,7 +32,7 @@ public class SwitchManager implements ISwitchManager {
         nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
         Process process2Chmod = Runtime.getRuntime().exec("chmod -R 777 " + switchID.toString() + "/");
         process2Chmod.waitFor();
-        Logger.getAnonymousLogger().info("chmod -R 777 " + switchID.toString() + "/");
+        Logger.getAnonymousLogger().info("chmod -R 777 " + "/export/" + switchID.toString() + "/");
     }
 
     @Override
