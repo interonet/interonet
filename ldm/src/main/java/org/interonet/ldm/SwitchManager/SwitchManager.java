@@ -30,6 +30,9 @@ public class SwitchManager implements ISwitchManager {
         process2Copy.waitFor();
         Logger.getAnonymousLogger().info("cp -r /export/backup /export/" + switchID.toString());
         nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
+        Process process2Chmod = Runtime.getRuntime().exec("chmod -R 777 " + switchID.toString() + "/");
+        process2Chmod.waitFor();
+        Logger.getAnonymousLogger().info("chmod -R 777 " + switchID.toString() + "/");
     }
 
     @Override
