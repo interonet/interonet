@@ -8,7 +8,6 @@ import org.interonet.ldm.VMM.*;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 
-import javax.security.auth.login.Configuration;
 import java.io.IOException;
 
 public class LDMCore {
@@ -26,6 +25,10 @@ public class LDMCore {
 
     public void start() {
         ldmAgent = new LDMAgent(this);
+        iCreateVirtualMachine = new CreateVirtualMachine();
+        iDeleteVirtualMachine = new DeleteVirtualMachine();
+        iBridgeAndVlan = new BridgeAndVlan();
+        iBridgeAndVlan.bridgeAndvlan();  //创建网桥和Vlan
 
         // VMM initiation.
         try {
