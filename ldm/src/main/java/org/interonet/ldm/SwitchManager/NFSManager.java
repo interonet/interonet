@@ -53,7 +53,8 @@ public class NFSManager {
     }
 
     private String to12HexDigits(Integer switchId) {
-        String swIdhex = Integer.toHexString(switchId);
+        Integer switchIdMagic = switchId + 1;
+        String swIdhex = Integer.toHexString(switchIdMagic);
         int swIdhexLen = swIdhex.length();
 
         StringBuffer Hex12Digits = new StringBuffer();

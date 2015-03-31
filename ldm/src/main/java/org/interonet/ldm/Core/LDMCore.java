@@ -71,11 +71,15 @@ public class LDMCore {
 
     }
 
-    public void addSwitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException{
+    public void addSwitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
         switchManager.changeConnectionPropertyFromNFS(switchID, controllerIP, controllerPort);
     }
 
     public IConfigurationCenter getConfigurationCenter() {
         return configurationCenter;
+    }
+
+    public void resetSwitchConf(Integer switchID) throws IOException, InterruptedException {
+        switchManager.resetSwitchConf(switchID);
     }
 }

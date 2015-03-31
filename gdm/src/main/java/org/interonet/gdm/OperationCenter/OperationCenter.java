@@ -69,7 +69,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void deleteSWitchConf(Integer switchID) throws Throwable {
-//        client.invoke("deleteSWitchConf", new Object[]{switchID}, String.class);
+        client.invoke("deleteSWitchConf", new Object[]{switchID}, String.class);
         operationCenterLogger.info("LDM --> deleteSWitchConf(switchID=" + switchID + ")");
     }
 

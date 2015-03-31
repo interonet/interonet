@@ -2,7 +2,6 @@ package org.interonet.ldm.WebService;
 
 import org.interonet.ldm.Core.LDMAgent;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 
 public class RPCService {
@@ -29,7 +28,7 @@ public class RPCService {
         try {
             ldmAgent.addSWitchConf(switchID, controllerIP, controllerPort);
             return "Success";
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "Failed";
         }
@@ -57,7 +56,13 @@ public class RPCService {
 
     public String deleteSWitchConf(Integer switchID) {
         ldmRPCServiceLogger.info("");
-        return ldmAgent.deleteSWitchConf(switchID);
+        try{
+            ldmAgent.resetSwitchConf(switchID);
+            return "Success";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "Failed";
+        }
     }
 
     public String powerOffSwitch(Integer switchID) {
