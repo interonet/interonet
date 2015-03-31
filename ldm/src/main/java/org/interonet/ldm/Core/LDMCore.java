@@ -28,7 +28,7 @@ public class LDMCore {
         iCreateVirtualMachine = new CreateVirtualMachine();
         iDeleteVirtualMachine = new DeleteVirtualMachine();
         iBridgeAndVlan = new BridgeAndVlan();
-        iBridgeAndVlan.bridgeAndvlan();  //创建网桥和Vlan
+        iBridgeAndVlan.bridgeAndvlan();
 
         // VMM initiation.
         try {
