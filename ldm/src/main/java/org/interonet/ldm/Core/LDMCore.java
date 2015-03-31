@@ -28,6 +28,11 @@ public class LDMCore {
         ldmAgent = new LDMAgent(this);
 
         // VMM initiation.
+        ldmAgent = new LDMAgent(this);
+        iCreateVirtualMachine = new CreateVirtualMachine();
+        iDeleteVirtualMachine = new DeleteVirtualMachine();
+        iBridgeAndVlan = new BridgeAndVlan();
+        iBridgeAndVlan.bridgeAndvlan();
         try {
             connect = new Connect("qemu+tcp://400@202.117.15.94/system", false);
         } catch (LibvirtException e) {
