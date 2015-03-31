@@ -28,6 +28,8 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
         Document docu = null;
         try {
             String INTERONET_HOME = System.getenv().get("INTERONET_HOME");
+            System.out.println(INTERONET_HOME);
+            System.out.println(INTERONET_HOME+"/conf/vmm.xml");
             docu = (Document) reader.read(new File(INTERONET_HOME+"/conf/vmm.xml"));
 
             Element name = docu.getRootElement().element("name");
@@ -42,6 +44,7 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
             Attribute bridge = interfaces.attribute("bridge");
             bridge.setText("br" + ID);
             String xmlDesc = docu.asXML();
+            System.out.println(xmlDesc);
             Domain domain = null;
             domain = connect.domainCreateXML(xmlDesc, 0);
             domain.resume();
