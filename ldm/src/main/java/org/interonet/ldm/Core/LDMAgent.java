@@ -44,9 +44,6 @@ public class LDMAgent {
         ldmCore.resetSwitchConf(switchID);
     }
 
-    public String powerOffSwitch(Integer switchID) {
-        return null;
-    }
 
     public String powerOffVM(Integer vmID) {
         String OffResult = "failure";
