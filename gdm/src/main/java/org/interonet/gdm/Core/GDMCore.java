@@ -2,9 +2,12 @@ package org.interonet.gdm.Core;
 
 import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.interonet.gdm.AuthenticationCenter.*;
+import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
+import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
 
+import javax.security.auth.login.Configuration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,17 +24,21 @@ public class GDMCore {
     private IAuthTokenManager authTokenManager;
     private SwitchTimeTable switchTimeTable;
     private VMTimeTable vmTimeTable;
+    private IConfigurationCenter configurationCenter;
+    private IUserManager userManager;
 
     public GDMCore() {
     }
 
     public void start() {
+        configurationCenter = new ConfigurationCenter();
+        userManager = new UserManager(this);
         wsQueue = new WaitingStartQueue();
         wtQueue = new WaitingTermQueue();
-        operationCenter = new OperationCenter();
+        operationCenter = new OperationCenter(this);
         gdmAgent = new GDMAgent(this);
-        wsQueueOperator = new WSQueueManager(wsQueue, wtQueue, operationCenter);
-        wtQueueOperator = new WTQueueManager(wsQueue, wtQueue, operationCenter);
+        wsQueueOperator = new WSQueueManager(this, wsQueue, wtQueue, operationCenter);
+        wtQueueOperator = new WTQueueManager(this, wsQueue, wtQueue, operationCenter);
         Thread wsQueueOperatorThread = new Thread(wsQueueOperator);
         wsQueueOperatorThread.start();
         Thread wtQueueOperatorThread = new Thread(wtQueueOperator);
@@ -44,6 +51,10 @@ public class GDMCore {
 
     public IGDMAgent getAgent() {
         return gdmAgent;
+    }
+
+    public IConfigurationCenter getConfigurationCenter() {
+        return configurationCenter;
     }
 
     public Boolean orderSlice(AuthToken authToken,
@@ -72,7 +83,6 @@ public class GDMCore {
     }
 
     public AuthToken authenticateUser(String username, String password) {
-        IUserManager userManager = new UserManager();
         if (!(userManager.authUser(username, password))) return null;
         return authTokenManager.generate(username, password);
     }

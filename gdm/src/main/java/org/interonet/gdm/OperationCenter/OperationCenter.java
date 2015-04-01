@@ -1,24 +1,25 @@
 package org.interonet.gdm.OperationCenter;
 
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
+import org.interonet.gdm.Core.GDMCore;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class OperationCenter implements IOperationCenter {
-    Map<String, String> localDomains;
     JsonRpcHttpClient client;
     Logger operationCenterLogger = Logger.getLogger("operationCenterLogger");
+    GDMCore core;
 
-    //TODO test after ldm agent be completed.
-    public OperationCenter() {
-        localDomains = new HashMap<String, String>();
-        localDomains.put("XJTU", "192.168.1.2");
+    public OperationCenter(GDMCore core) {
+        this.core = core;
         try {
-            client = new JsonRpcHttpClient(new URL("http://127.0.0.1:8081/"));
+            client = new JsonRpcHttpClient(new URL(core.getConfigurationCenter().getConf("LDMConnectionURL")));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -38,7 +39,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws Throwable {
-        client.invoke("addSWitchConf", new Object[]{switchID, controllerIP, controllerPort}, String.class);
+//        client.invoke("addSWitchConf", new Object[]{switchID, controllerIP, controllerPort}, String.class);
         operationCenterLogger.info("LDM --> addSWitchConf(switchID=" + switchID + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
     }
 
@@ -50,7 +51,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void powerOnVM(Integer vmID) throws Throwable {
-        client.invoke("powerOnVM", new Object[]{vmID + 1}, String.class);
+//        client.invoke("powerOnVM", new Object[]{vmID + 1}, String.class);
         operationCenterLogger.info("LDM --> powerOnVM(vmID=" + vmID + ")");
     }
 
@@ -68,7 +69,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void deleteSWitchConf(Integer switchID) throws Throwable {
-        client.invoke("deleteSWitchConf", new Object[]{switchID}, String.class);
+//        client.invoke("deleteSWitchConf", new Object[]{switchID}, String.class);
         operationCenterLogger.info("LDM --> deleteSWitchConf(switchID=" + switchID + ")");
     }
 
@@ -81,7 +82,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void powerOffVM(Integer vmID) throws Throwable {
-        client.invoke("powerOffVM", new Object[]{vmID + 1}, String.class);
+//        client.invoke("powerOffVM", new Object[]{vmID + 1}, String.class);
         operationCenterLogger.info("LDM --> powerOffVM(vmID=" + vmID + ")");
     }
 }

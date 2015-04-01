@@ -12,12 +12,14 @@ public class WSQueueManager implements Runnable {
     WaitingTermQueue waitingTermQueue;
     IOperationCenter operationCenter;
     IConfigurationCenter configurationCenter;
+    GDMCore core;
 
-    public WSQueueManager(WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, IOperationCenter operationCenter) {
+    public WSQueueManager(GDMCore core, WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, IOperationCenter operationCenter) {
+        this.core = core;
         this.waitingStartQueue = wsQueue;
         this.waitingTermQueue = wtQueue;
         this.operationCenter = operationCenter;
-        configurationCenter = new ConfigurationCenter();
+        configurationCenter = core.getConfigurationCenter();
     }
 
     public List<WSOrder> checkOrders() {

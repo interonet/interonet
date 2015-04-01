@@ -1,0 +1,5 @@
+{
+  "LDMConnectionURL":"http://127.0.0.1:8081/",
+  "TTPortMapDBTTPortMapDB":"/home/samuel/github/interonet/db/TTPortMap.json",
+  "userDB":"/home/samuel/github/interonet/db/userDB.json"
+}

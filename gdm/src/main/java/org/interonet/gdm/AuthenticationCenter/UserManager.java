@@ -1,5 +1,7 @@
 package org.interonet.gdm.AuthenticationCenter;
 
+import org.interonet.gdm.Core.GDMCore;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -7,9 +9,9 @@ public class UserManager implements IUserManager {
     UserDBManager userDBManager;
     Collection<User> users;
 
-    public UserManager() {
+    public UserManager(GDMCore core) {
         users = new HashSet<User>();
-        userDBManager = new UserDBManager();
+        userDBManager = new UserDBManager(core);
         userDBManager.init(users);
     }
 
