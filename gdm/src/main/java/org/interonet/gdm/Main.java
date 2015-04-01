@@ -8,6 +8,10 @@ import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
+        if (System.getenv().get("INTERONET_HOME") == null){
+            System.out.println("INTERONET_HOME Environment Variable Check Error.");
+            System.exit(1);
+        }
         Logger gdmMainLogger = Logger.getLogger("GDMMainLogger");
         gdmMainLogger.info("Starting InterONet GDM System");
         GDMCore gdmCore = new GDMCore();
