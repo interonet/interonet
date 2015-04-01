@@ -2,12 +2,12 @@ package org.interonet.ldm.Core;
 
 import org.interonet.ldm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.ldm.ConfigurationCenter.IConfigurationCenter;
+import org.interonet.ldm.PowerManager.PowerManager;
 import org.interonet.ldm.SwitchManager.ISwitchManager;
 import org.interonet.ldm.SwitchManager.SwitchManager;
 import org.interonet.ldm.VMM.*;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
-import org.org.interonet.ldm.PowerManager;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class LDMCore {
     @SuppressWarnings("FieldCanBeLocal")
     private IBridgeAndVlan iBridgeAndVlan;
 
-    private PowerManager SwitchControl;
+    private PowerManager powerManager;
     private ISwitchManager switchManager;
     private IConfigurationCenter configurationCenter;
 
@@ -38,6 +38,9 @@ public class LDMCore {
         } catch (LibvirtException e) {
             e.printStackTrace();
         }
+
+        // PowerManager
+        powerManager = new PowerManager();
 
         // ConfigurationCenter initiation.
         configurationCenter = new ConfigurationCenter(this);
@@ -80,8 +83,8 @@ public class LDMCore {
 				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
     	int ID = switchID ;
     	byte openWayy =(byte)ID;
-    	SwitchControl.CreateSendCommand(buff , openWayy , true);
-    	int sendStatement = SwitchControl.senBufWithSocket("10.0.0.2" , 3000 , buff , 8);
+    	powerManager.CreateSendCommand(buff, openWayy, true);
+    	int sendStatement = powerManager.senBufWithSocket("10.0.0.2" , 3000 , buff , 8);
         if( sendStatement == 0 ) powerOnSwitchResult ="success" ;
     	return powerOnSwitchResult;
     }
@@ -93,8 +96,8 @@ public class LDMCore {
 				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
     	int ID = switchID ;
     	byte closeWayy =(byte)ID;
-    	SwitchControl.CreateSendCommand(buff , closeWayy , false);
-    	int sendStatement = SwitchControl.senBufWithSocket("10.0.0.2" , 3000 , buff , 8);
+    	powerManager.CreateSendCommand(buff, closeWayy, false);
+    	int sendStatement = powerManager.senBufWithSocket("10.0.0.2" , 3000 , buff , 8);
         if( sendStatement == 0 ) powerOffSwitchResult ="success" ;
     	return powerOffSwitchResult;
     }
