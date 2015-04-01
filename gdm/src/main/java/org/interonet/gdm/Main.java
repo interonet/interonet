@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
+
         Logger gdmMainLogger = Logger.getLogger("GDMMainLogger");
         gdmMainLogger.info("Starting InterONet GDM System");
         GDMCore gdmCore = new GDMCore();

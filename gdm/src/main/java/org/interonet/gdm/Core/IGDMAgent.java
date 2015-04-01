@@ -3,27 +3,24 @@ package org.interonet.gdm.Core;
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
 import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 
-import java.util.Map;
+import java.io.IOException;
 
 public interface IGDMAgent {
     String authenticateUser(String username, String password);
 
-    String getSwitchesUsageStatus(AuthToken authToken);
+    String getSwitchesUsageStatus(AuthToken authToken) throws IOException;
 
-    String getVmsUsageStatus(AuthToken authToken);
+    String getVmsUsageStatus(AuthToken authToken) throws IOException;
 
-    Boolean orderSlice(AuthToken authToken, int swichesNum, int vmsNum, String beginTime, String endTime,
-                       Map<String, String> topology,
-                       Map<String, String> switchConf,
-                       String controllerIP, int controllerPort);
+    Boolean orderSlice(AuthToken authToken, String order) throws Exception;
 
-    String getOrdersList(AuthToken authToken);
+    String getOrdersList(AuthToken authToken) throws IOException;
 
-    String getOrderInfoByID(AuthToken authToken, String orderID);
+    String getOrderInfoByID(AuthToken authToken, String orderID) throws IOException;
 
-    String deleteOrderByID(AuthToken authToken, String orderID);
+    Boolean deleteOrderByID(AuthToken authToken, String orderID);
 
-    String getRunningSlice(AuthToken authToken);
+    String getRunningSlice(AuthToken authToken) throws IOException;
 
     IAuthTokenManager getAuthTokenManager();
 

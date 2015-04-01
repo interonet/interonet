@@ -15,7 +15,7 @@ public class RPCServer {
 
     public void start() {
         try {
-            rpcServer = new Server(8080);
+            rpcServer = new Server(8081);
             ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
             context.setContextPath("/");
             rpcServer.setHandler(context);

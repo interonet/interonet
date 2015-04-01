@@ -1,23 +1,31 @@
 package org.interonet.gdm.Core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class SwitchTimeTable {
 
     private static final int TOTALSWITCHESNUMBER = 4;
     Map<Integer, List<Duration>> switchTimeTable;
 
+    Logger switchTimeTableLogger;
+
     public SwitchTimeTable() {
-        switchTimeTable = new HashMap<Integer, List<Duration>>();
+        switchTimeTableLogger = Logger.getLogger("switchTimeTableLogger");
+
+        switchTimeTable = new HashMap<>();
         for (int i = 0; i < TOTALSWITCHESNUMBER; i++) {
-            List<Duration> swTimeLine = new LinkedList<Duration>();
+            List<Duration> swTimeLine = new LinkedList<>();
             switchTimeTable.put(i, swTimeLine);
         }
     }
 
     synchronized public List<Integer> checkSWAvailability(int switchesNum, String beginTime, String endTime) {
         Duration orderDur = new Duration(beginTime, endTime);
-        List<Integer> availableSwitches = new ArrayList<Integer>();
+        List<Integer> availableSwitches = new ArrayList<>();
 
         for (Map.Entry<Integer, List<Duration>> entry : switchTimeTable.entrySet()) {
             int switchID = entry.getKey();
@@ -85,18 +93,26 @@ public class SwitchTimeTable {
     }
 
 
-    public String getTimeTable() {
-        StringBuffer timeTable = new StringBuffer();
+    public String getTimeTable() throws IOException {
+        switchTimeTableLogger.info(this.toString());
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(switchTimeTable);
+    }
 
+    @Override
+    public String toString() {
+        StringBuilder timeTable = new StringBuilder();
+        timeTable.append("\n****************************************************\n");
         for (Map.Entry<Integer, List<Duration>> entry : switchTimeTable.entrySet()) {
             int switchID = entry.getKey();
-            StringBuffer swTimeLineStr = new StringBuffer();
+            StringBuilder swTimeLineStr = new StringBuilder();
             List<Duration> switchTimeLine = entry.getValue();
-            swTimeLineStr.append("SW#:" + switchID + " || ");
-            for (int i = 0; i < switchTimeLine.size(); i++)
-                swTimeLineStr.append("(" + switchTimeLine.get(i).start + "--->" + switchTimeLine.get(i).end + ")");
-            timeTable.append(swTimeLineStr + "\n");
+            swTimeLineStr.append("SW#:").append(switchID).append(" || ");
+            for (Duration aSwitchTimeLine : switchTimeLine)
+                swTimeLineStr.append("(").append(aSwitchTimeLine.start).append("--->").append(aSwitchTimeLine.end).append(")");
+            timeTable.append(swTimeLineStr).append("\n");
         }
+        timeTable.append("****************************************************\n");
         return timeTable.toString();
     }
 }

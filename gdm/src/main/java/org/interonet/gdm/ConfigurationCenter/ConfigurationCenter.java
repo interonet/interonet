@@ -1,42 +1,73 @@
 package org.interonet.gdm.ConfigurationCenter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.interonet.gdm.Core.GDMCore;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class ConfigurationCenter implements IConfigurationCenter {
-    // configuration center. saving the mapping info from topology transformer port to the peer port, eg, switch port, or, vm port.
-    public Map<String, Integer> topologyTransformer;
+    public Map<String, Integer> TTPortMap = new HashMap<>();
+    public Map<String, String> globalConfiguration = new HashMap<>();
+    private GDMCore core;
 
     public ConfigurationCenter() {
-        topologyTransformer = new HashMap<String, Integer>();
-        topologyTransformer.put("s0:0", 1);
-        topologyTransformer.put("s0:1", 2);
-        topologyTransformer.put("s0:2", 3);
-        topologyTransformer.put("s0:3", 4);
-        topologyTransformer.put("s1:0", 5);
-        topologyTransformer.put("s1:1", 6);
-        topologyTransformer.put("s1:2", 7);
-        topologyTransformer.put("s1:3", 8);
-        topologyTransformer.put("s2:0", 9);
-        topologyTransformer.put("s2:1", 10);
-        topologyTransformer.put("s2:2", 11);
-        topologyTransformer.put("s2:3", 12);
-        topologyTransformer.put("s3:0", 13);
-        topologyTransformer.put("s3:1", 14);
-        topologyTransformer.put("s3:2", 15);
-        topologyTransformer.put("s3:3", 16);
+        if (System.getenv().get("INTERONET_HOME") == null){
+            System.out.println("INTERONET_HOME Environment Variable Check Error.");
+            System.exit(1);
+        }
+        initGlobalConf();
+        initTopologyTransformerPortMap();
+    }
+
+    private void initGlobalConf(){
+        Logger.getLogger("ConfigurationLogger").info("reading conf file from" + System.getenv().get("INTERONET_HOME") + "/conf/conf.json");
+        File confFile = new File(System.getenv().get("INTERONET_HOME") + "/conf/conf.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Map<String, String> map = objectMapper.readValue(confFile, Map.class);
+            for(Map.Entry<String,String> entry : map.entrySet()){
+                globalConfiguration.put(entry.getKey(), entry.getValue());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initTopologyTransformerPortMap() {
+        Logger.getLogger("ConfigurationLogger").info("reading TTProtMap file from" + System.getenv().get("INTERONET_HOME") + "/db/TTPortMap.json");
+        File confFile = new File(globalConfiguration.get("TTPortMapDBTTPortMapDB"));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Map<String, Integer> map = objectMapper.readValue(confFile, Map.class);
+            for(Map.Entry<String,Integer> entry : map.entrySet()){
+                TTPortMap.put(entry.getKey(), entry.getValue());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public int getTopologyTransformerPortFromPeerPort(int switchID, int switchIDPortNum) {
+    public int getTopologyTransformerPortFromPeerPort(int switchID, int switchIDPortNum) throws Exception {
         String key;
         int value = 0;
-        for (Map.Entry<String, Integer> entry : topologyTransformer.entrySet()) {
+        for (Map.Entry<String, Integer> entry : TTPortMap.entrySet()) {
             key = entry.getKey();
             value = entry.getValue();
-            if (Integer.parseInt(key.split(":")[0].substring(1, 2)) == switchID && Integer.parseInt(key.split(":")[1]) == switchIDPortNum)
-                break;
+            if (Integer.parseInt(key.split(":")[0].substring(1, 2)) == switchID && Integer.parseInt(key.split(":")[1]) == switchIDPortNum) {
+                return value;
+            }
         }
-        return value;
+        throw new Exception("can not find this port on TT");
+    }
+
+    @Override
+    public String getConf(String key) {
+        return globalConfiguration.get(key);
     }
 }

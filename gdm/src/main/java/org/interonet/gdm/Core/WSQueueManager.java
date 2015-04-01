@@ -1,6 +1,5 @@
 package org.interonet.gdm.Core;
 
-import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 
@@ -12,12 +11,14 @@ public class WSQueueManager implements Runnable {
     WaitingTermQueue waitingTermQueue;
     IOperationCenter operationCenter;
     IConfigurationCenter configurationCenter;
+    GDMCore core;
 
-    public WSQueueManager(WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, IOperationCenter operationCenter) {
+    public WSQueueManager(GDMCore core, WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, IOperationCenter operationCenter) {
+        this.core = core;
         this.waitingStartQueue = wsQueue;
         this.waitingTermQueue = wtQueue;
         this.operationCenter = operationCenter;
-        configurationCenter = new ConfigurationCenter();
+        configurationCenter = core.getConfigurationCenter();
     }
 
     public List<WSOrder> checkOrders() {
@@ -54,8 +55,8 @@ public class WSQueueManager implements Runnable {
 
             for (SWVMTunnel swvmTunnel : swvmTunnels) {
                 int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.SwitchID, swvmTunnel.SwitchPort);
-                int peerVMPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.VMID, swvmTunnel.VMPort);
-                operationCenter.createTunnelSW2VM(switchPortPeeronTT, peerVMPortPeeronTT);
+                int vmID = swvmTunnel.VMID;
+                operationCenter.createTunnelSW2VM(switchPortPeeronTT, vmID);
             }
 
             for (Integer switchID : switchesIDs) {
@@ -132,11 +133,12 @@ public class WSQueueManager implements Runnable {
             Integer domIDint = userID.substring(0, 1).equals("s") ? userSW2domSW.get(userID) : userVM2domVM.get(userID);
             Integer domPeerIDint = userPeerID.substring(0, 1).equals("s") ? userSW2domSW.get(userPeerID) : userVM2domVM.get(userPeerID);
 
-            int userSwitchPort = Integer.parseInt(key.split(":")[1]); //0
-            int userPeerSwitchPort = Integer.parseInt(value.split(":")[1]); //1
+            //FIXME check the h and s.
+            int userPeerVMPort = Integer.parseInt(key.split(":")[1]); //0
+            int userSwitchPort = Integer.parseInt(value.split(":")[1]); //1
 
 
-            SWVMTunnel tunnel = new SWVMTunnel(domIDint, userSwitchPort, domPeerIDint, userPeerSwitchPort);
+            SWVMTunnel tunnel = new SWVMTunnel(domIDint, userSwitchPort, domPeerIDint, userPeerVMPort);
             swvmTunnels.add(tunnel);
         }
         return swvmTunnels;

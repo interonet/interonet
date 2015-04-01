@@ -1,10 +1,12 @@
 package org.interonet.gdm.Core;
 
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.interonet.gdm.AuthenticationCenter.*;
+import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
+import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,17 +22,21 @@ public class GDMCore {
     private IAuthTokenManager authTokenManager;
     private SwitchTimeTable switchTimeTable;
     private VMTimeTable vmTimeTable;
+    private IConfigurationCenter configurationCenter;
+    private IUserManager userManager;
 
     public GDMCore() {
     }
 
     public void start() {
+        configurationCenter = new ConfigurationCenter();
+        userManager = new UserManager(this);
         wsQueue = new WaitingStartQueue();
         wtQueue = new WaitingTermQueue();
-        operationCenter = new OperationCenter();
+        operationCenter = new OperationCenter(this);
         gdmAgent = new GDMAgent(this);
-        wsQueueOperator = new WSQueueManager(wsQueue, wtQueue, operationCenter);
-        wtQueueOperator = new WTQueueManager(wsQueue, wtQueue, operationCenter);
+        wsQueueOperator = new WSQueueManager(this, wsQueue, wtQueue, operationCenter);
+        wtQueueOperator = new WTQueueManager(this, wsQueue, wtQueue, operationCenter);
         Thread wsQueueOperatorThread = new Thread(wsQueueOperator);
         wsQueueOperatorThread.start();
         Thread wtQueueOperatorThread = new Thread(wtQueueOperator);
@@ -45,59 +51,61 @@ public class GDMCore {
         return gdmAgent;
     }
 
-    public Boolean orderSlice(AuthToken authToken,
-                              int switchesNum,
-                              int vmsNum,
-                              String beginTime,
-                              String endTime,
-                              Map<String, String> topology,
-                              Map<String, String> switchConf,
-                              String controllerIP,
-                              int controllerPort) {
+    public IConfigurationCenter getConfigurationCenter() {
+        return configurationCenter;
+    }
+
+    public Boolean orderSlice(AuthToken authToken, String order) throws Exception {
         if (!authTokenManager.auth(authToken))
             return false;
 
+        OrderParser orderParser = new OrderParser(order);
+        int switchesNum = orderParser.getSwitchesNum();
+        int vmsNum = orderParser.getvmsNum();
+        String beginT = orderParser.getBeginTime();
+        String endT = orderParser.getEndTime();
+        Map<String, String> topology = orderParser.getTopology();
+        Map<String, String> swConf = orderParser.getSwitchConfig();
+        String ctrlIP = orderParser.getControllerIP();
+        int ctrlPort = orderParser.getControllerPort();
+
         String username = authTokenManager.getUsernameByToken(authToken);
-        List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginTime, endTime);
-        List<Integer> vmIDs = vmTimeTable.checkVMAvailability(vmsNum, beginTime, endTime);
+        List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginT, endT);
+        List<Integer> vmIDs = vmTimeTable.checkVMAvailability(vmsNum, beginT, endT);
 
         if (username == null || switchIDs == null || vmIDs == null)
             return false;
 
-        boolean swStatus = switchTimeTable.setOccupied(switchIDs, beginTime, endTime);
-        boolean vmStatus = vmTimeTable.setOccupied(vmIDs, beginTime, endTime);
-        return !(!swStatus || !vmStatus) && wsQueue.newOrder(username, switchIDs, vmIDs, beginTime, endTime, topology, switchConf, controllerIP, controllerPort);
+        boolean swStatus = switchTimeTable.setOccupied(switchIDs, beginT, endT);
+        boolean vmStatus = vmTimeTable.setOccupied(vmIDs, beginT, endT);
+        return !(!swStatus || !vmStatus) && wsQueue.newOrder(username, switchIDs, vmIDs, beginT, endT, topology, swConf, ctrlIP, ctrlPort);
 
     }
 
-    public AuthToken authenticateUser(String username, String password) {
-        IUserManager userManager = new UserManager();
+    public String authenticateUser(String username, String password) {
         if (!(userManager.authUser(username, password))) return null;
-        return authTokenManager.generate(username, password);
+        AuthToken authToken = authTokenManager.generate(username, password);
+        return AuthTokenManager.toPlainText(authToken);
     }
 
-    public String getSwitchesUsageStatus(AuthToken authToken) {
-        if (!authTokenManager.auth(authToken))
-            return "Authentication failed.";
+    public String getSwitchesUsageStatus(AuthToken authToken) throws IOException {
+        if (!authTokenManager.auth(authToken)) return null;
         return switchTimeTable.getTimeTable();
     }
 
-    public String getVmsUsageStatus(AuthToken authToken) {
-        if (!authTokenManager.auth(authToken))
-            return "Authentication failed.";
+    public String getVmsUsageStatus(AuthToken authToken) throws IOException {
+        if (!authTokenManager.auth(authToken)) return null;
         return vmTimeTable.getTimeTable();
     }
 
-    public String getOrdersIDList(AuthToken authToken) {
-        if (!authTokenManager.auth(authToken))
-            return "Authentication failed.";
+    public String getOrdersIDList(AuthToken authToken) throws IOException {
+        if (!authTokenManager.auth(authToken)) return null;
         String username = authTokenManager.getUsernameByToken(authToken);
         return wsQueue.getOrderIDListByUsername(username);
     }
 
-    public String getOrderInfoByID(AuthToken authToken, String orderID) {
-        if (!authTokenManager.auth(authToken))
-            return "Authentication failed.";
+    public String getOrderInfoByID(AuthToken authToken, String orderID) throws IOException {
+        if (!authTokenManager.auth(authToken)) return null;
 
         String orderInfo = wsQueue.getOrderInfoByID(orderID);
 
@@ -105,9 +113,8 @@ public class GDMCore {
 
     }
 
-    public String deleteOrderByID(AuthToken authToken, String orderID) {
-        if (!authTokenManager.auth(authToken))
-            return "Authentication failed.";
+    public Boolean deleteOrderByID(AuthToken authToken, String orderID) {
+        if (!authTokenManager.auth(authToken)) return null;
 
         List<WSOrder> queue = wsQueue.wsQueue;
         String beginT = null;
@@ -119,7 +126,7 @@ public class GDMCore {
             }
         }
         for (Map.Entry<Integer, List<Duration>> entry : vmTimeTable.vmTimeTable.entrySet()) {
-            List<Duration> found = new ArrayList<Duration>();
+            List<Duration> found = new ArrayList<>();
             for (Duration d : entry.getValue()) {
                 if (d.start.equals(beginT) && d.end.equals(endT)) {
                     found.add(d);
@@ -128,7 +135,7 @@ public class GDMCore {
             entry.getValue().removeAll(found);
         }
         for (Map.Entry<Integer, List<Duration>> entry : switchTimeTable.switchTimeTable.entrySet()) {
-            List<Duration> found = new ArrayList<Duration>();
+            List<Duration> found = new ArrayList<>();
             for (Duration d : entry.getValue()) {
                 if (d.start.equals(beginT) && d.end.equals(endT)) {
                     found.add(d);
@@ -137,23 +144,18 @@ public class GDMCore {
             entry.getValue().removeAll(found);
         }
         boolean wsQueueStatus = wsQueue.deleteOrderByID(orderID);
-        if (!wsQueueStatus)
-            return "Failed.";
-        else
-            return "Successful";
+        return !wsQueueStatus;
     }
 
-    public String getRunningSliceIDsList(AuthToken authToken) {
-        if (!authTokenManager.auth(authToken))
-            return "Authentication failed.";
+    public String getRunningSliceIDsList(AuthToken authToken) throws IOException {
+        if (!authTokenManager.auth(authToken)) return null;
         String username = authTokenManager.getUsernameByToken(authToken);
         return wtQueue.getOrderIDListByUsername(username);
 
     }
 
     public String getRuningSliceInfoByID(AuthToken authToken, String SliceID) {
-        if (!authTokenManager.auth(authToken))
-            return "Authentication failed.";
+        if (!authTokenManager.auth(authToken)) return null;
 
         return wtQueue.getOrderInfoByID(SliceID);
     }
@@ -163,11 +165,10 @@ public class GDMCore {
     }
 
     public String stopRunningSliceByID(AuthToken authToken, String orderID) {
-        if (authTokenManager.auth(authToken) == false)
-            return "Authentication failed.";
+        if (!authTokenManager.auth(authToken)) return null;
 
         boolean status = wtQueue.deleteOrderByID(orderID);
-        return status == true ? "Success" : "Failed";
+        return status ? "Success" : "Failed";
     }
 
 }

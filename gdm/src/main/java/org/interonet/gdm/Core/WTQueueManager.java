@@ -1,6 +1,5 @@
 package org.interonet.gdm.Core;
 
-import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 
@@ -14,16 +13,18 @@ public class WTQueueManager implements Runnable {
     WaitingTermQueue waitingTermQueue;
     IOperationCenter operationCenter;
     IConfigurationCenter configurationCenter;
+    GDMCore core;
 
-    public WTQueueManager(WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, IOperationCenter operationCenter) {
+    public WTQueueManager(GDMCore core, WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, IOperationCenter operationCenter) {
+        this.core = core;
         this.waitingStartQueue = wsQueue;
         this.waitingTermQueue = wtQueue;
         this.operationCenter = operationCenter;
-        configurationCenter = new ConfigurationCenter();
+        configurationCenter = core.getConfigurationCenter();
     }
 
     synchronized private List<WTOrder> checkOrders() {
-        List<WTOrder> list = new ArrayList<WTOrder>();
+        List<WTOrder> list = new ArrayList<>();
         DayTime currentTime = new DayTime(new SimpleDateFormat("HH:mm").format(new Date()));
 
         for (WTOrder wtOrder : waitingTermQueue.getQueue()) {
@@ -48,8 +49,8 @@ public class WTQueueManager implements Runnable {
 
             for (SWVMTunnel swvmTunnel : swvmTunnels) {
                 int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.SwitchID, swvmTunnel.SwitchPort);
-                int peerVMPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.VMID, swvmTunnel.VMPort);
-                operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, peerVMPortPeeronTT);
+                int vmID = swvmTunnel.VMID;
+                operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
             }
 
             for (Integer switchID : switchesIDs) {

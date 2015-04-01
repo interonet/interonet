@@ -1,9 +1,15 @@
 package org.interonet.ldm.Core;
 
+import org.interonet.ldm.ConfigurationCenter.ConfigurationCenter;
+import org.interonet.ldm.ConfigurationCenter.IConfigurationCenter;
+import org.interonet.ldm.SwitchManager.ISwitchManager;
+import org.interonet.ldm.SwitchManager.SwitchManager;
 import org.interonet.ldm.VMM.*;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 import org.org.interonet.ldm.PowerManager;
+
+import java.io.IOException;
 
 public class LDMCore {
     @SuppressWarnings("FieldCanBeLocal")
@@ -13,23 +19,35 @@ public class LDMCore {
     private IDeleteVirtualMachine iDeleteVirtualMachine;
     @SuppressWarnings("FieldCanBeLocal")
     private IBridgeAndVlan iBridgeAndVlan;
+
     private PowerManager SwitchControl;
+    private ISwitchManager switchManager;
+    private IConfigurationCenter configurationCenter;
 
     public void start() {
         ldmAgent = new LDMAgent(this);
         iCreateVirtualMachine = new CreateVirtualMachine();
         iDeleteVirtualMachine = new DeleteVirtualMachine();
         iBridgeAndVlan = new BridgeAndVlan();
-        iBridgeAndVlan.bridgeAndvlan();  //创建网桥和Vlan
+//        iBridgeAndVlan.bridgeAndvlan();
+
+        // VMM initiation.
+
         try {
             connect = new Connect("qemu+tcp://400@202.117.15.94/system", false);
         } catch (LibvirtException e) {
             e.printStackTrace();
         }
+
+        // ConfigurationCenter initiation.
+        configurationCenter = new ConfigurationCenter(this);
+
+        // SwitchManager initiation.
+        switchManager = new SwitchManager(this);
     }
 
     public LDMAgent getAgent() {
-        return null;
+        return ldmAgent;
     }
 
     public String powerOnVM(Integer vmID) {
@@ -37,11 +55,12 @@ public class LDMCore {
         String vmCloneTest = iCreateVirtualMachine.vmclone(vmID);
         String vmStartTest = iCreateVirtualMachine.vmstart(connect, vmID);
         String vmtestOn = "Clone 'vmm"+vmID+"' created successfully.";
-        if(vmCloneTest.equals(vmtestOn) && vmStartTest.equals("success"))
+       if(vmCloneTest.equals(vmtestOn) && vmStartTest.equals("success"))
 
             powerOnVMResult="success";
 
-        return powerOnVMResult;
+       return powerOnVMResult;
+       // return vmStartTest;
     }
 
     public String powerOffVM(Integer vmID) {
@@ -78,5 +97,17 @@ public class LDMCore {
     	int sendStatement = SwitchControl.senBufWithSocket("10.0.0.2" , 3000 , buff , 8);
         if( sendStatement == 0 ) powerOffSwitchResult ="success" ;
     	return powerOffSwitchResult;
+    }
+
+    public void addSwitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
+        switchManager.changeConnectionPropertyFromNFS(switchID, controllerIP, controllerPort);
+    }
+
+    public IConfigurationCenter getConfigurationCenter() {
+        return configurationCenter;
+    }
+
+    public void resetSwitchConf(Integer switchID) throws IOException, InterruptedException {
+        switchManager.resetSwitchConf(switchID);
     }
 }
