@@ -19,10 +19,6 @@ public class LDMAgent {
         return null;
     }
 
-    public String powerOnSwitch(Integer switchID) {
-        return null;
-    }
-
     public String powerOnVM(Integer vmID) {
         String OnResult = "failure";
         OnResult = ldmCore.powerOnVM(vmID);
@@ -41,13 +37,24 @@ public class LDMAgent {
         return null;
     }
 
-    public String powerOffSwitch(Integer switchID) {
-        return null;
-    }
 
     public String powerOffVM(Integer vmID) {
         String OffResult = "failure";
         OffResult = ldmCore.powerOffVM(vmID);
+        return OffResult;
+    }
+    
+    public String powerOnSwitch(Integer switchID)
+    {
+    	String OffResult = "failure";
+        OffResult = ldmCore.powerOnSwitch(switchID);
+        return OffResult;
+    }
+    
+    public String powerOffSwitch(Integer switchID)
+    {
+    	String OffResult = "failure";
+        OffResult = ldmCore.powerOffSwitch(switchID);
         return OffResult;
     }
 }
