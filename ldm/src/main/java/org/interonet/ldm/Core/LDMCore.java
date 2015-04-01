@@ -50,16 +50,16 @@ public class LDMCore {
     }
 
     public String powerOnVM(Integer vmID) {
-        //String powerOnVMResult = "failure";
-        //String vmCloneTest = iCreateVirtualMachine.vmclone(vmID);
-       String vmStartTest = iCreateVirtualMachine.vmstart(connect, vmID);
-       // String vmtestOn = "Clone 'vmm"+vmID+"' created successfully.";
-       // if(vmCloneTest.equals(vmtestOn) && vmStartTest.equals("success"))
+        String powerOnVMResult = "failure";
+        String vmCloneTest = iCreateVirtualMachine.vmclone(vmID);
+        String vmStartTest = iCreateVirtualMachine.vmstart(connect, vmID);
+        String vmtestOn = "Clone 'vmm"+vmID+"' created successfully.";
+       if(vmCloneTest.equals(vmtestOn) && vmStartTest.equals("success"))
 
-        //    powerOnVMResult="success";
+            powerOnVMResult="success";
 
-       // return powerOnVMResult;
-        return vmStartTest;
+       return powerOnVMResult;
+       // return vmStartTest;
     }
 
     public String powerOffVM(Integer vmID) {

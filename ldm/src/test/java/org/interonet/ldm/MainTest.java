@@ -3,8 +3,6 @@ package org.interonet.ldm;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.interonet.ldm.Core.LDMAgent;
-import org.interonet.ldm.Core.LDMCore;
 
 public class MainTest
     extends TestCase
@@ -20,17 +18,17 @@ public class MainTest
     }
 
     public void testApp() {
-        LDMCore ldmCore = new LDMCore();
-        ldmCore.start();
-        LDMAgent ldmAgent = new LDMAgent(ldmCore);
-        String s1 = "test";
-        //String s2 = "test";
-        s1 = ldmAgent.powerOnVM(1);
-       // s2 = ldmAgent.powerOffVM(2);
-        System.out.println(s1);
-       // System.out.println(s2);
-        //assertTrue(s2.equals("success"));
-        assert (true);
+//        LDMCore ldmCore = new LDMCore();
+//        ldmCore.start();
+//        LDMAgent ldmAgent = new LDMAgent(ldmCore);
+//        String s1 = "test";
+//        //String s2 = "test";
+//        s1 = ldmAgent.powerOnVM(1);
+//       // s2 = ldmAgent.powerOffVM(2);
+//        System.out.println(s1);
+//       // System.out.println(s2);
+//        //assertTrue(s2.equals("success"));
+//        assert (true);
 
 
 
