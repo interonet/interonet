@@ -112,8 +112,6 @@ public class PowerManager {
 				try {
 					Thread.sleep(100);
 				} catch (Exception e) {
-					String recvMessageClient = "等待状态:" + e.toString() + ":"
-							+ e.getMessage() + "\n";// 消息换行
 					e.printStackTrace();
 					break;
 				}
@@ -150,21 +148,19 @@ public class PowerManager {
 				}
 				int ret = 0;
 				try {
-					// 连接服务器
 					InetAddress x = java.net.InetAddress.getByName(sIP);
 					String ipaddress = x.getHostAddress();
 					mSocketClient = new Socket(ipaddress, sPort); // portnum
 					state = 1;
-					// 取得输入、输出流
 					mBufferedReaderClient = new BufferedInputStream(
 							new DataInputStream(mSocketClient.getInputStream()));
 					mPrintStreamClient = new PrintStream(
 							mSocketClient.getOutputStream(), true);
 					state = 2;
 					if (ways > 16)
-						mPrintStreamClient.write(buf, 0, 16);// 发送方向给服务器
+						mPrintStreamClient.write(buf, 0, 16);
 					else
-						mPrintStreamClient.write(buf, 0, 8);// 发送方向给服务器
+						mPrintStreamClient.write(buf, 0, 8);
 					mPrintStreamClient.flush();
 					state = 3;
 					if (ways > 16)
@@ -182,8 +178,8 @@ public class PowerManager {
 					Socketstate = 1;
 					return;
 				} catch (Exception e) {
-					recvMessageClient = "连接IP异常:" + e.toString() + ":"
-							+ e.getMessage() + "\n";// 消息换行
+//					recvMessageClient = "Connection Error:" + e.toString() + ":"
+//							+ e.getMessage() + "\n";
 					e.printStackTrace();
 					try {
 						mSocketClient.close();
