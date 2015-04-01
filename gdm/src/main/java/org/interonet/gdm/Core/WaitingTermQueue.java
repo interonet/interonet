@@ -1,6 +1,5 @@
 package org.interonet.gdm.Core;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

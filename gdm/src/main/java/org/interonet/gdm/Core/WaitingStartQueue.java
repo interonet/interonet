@@ -1,7 +1,6 @@
 package org.interonet.gdm.Core;
 
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -18,8 +17,8 @@ public class WaitingStartQueue {
     private Logger waitingStartQueueLogger;
 
     public WaitingStartQueue() {
-        this.wsQueue = new ArrayList<WSOrder>();
-        this.userOrderNum = new HashMap<String, Integer>();
+        this.wsQueue = new ArrayList<>();
+        this.userOrderNum = new HashMap<>();
         waitingStartQueueLogger = Logger.getLogger("waitingStartQueueLogger");
     }
 
@@ -48,7 +47,7 @@ public class WaitingStartQueue {
     }
 
     synchronized public String getOrderIDListByUsername(String username) throws IOException {
-        List<String> orderIDList = new ArrayList<String>();
+        List<String> orderIDList = new ArrayList<>();
         for (WSOrder wsOrder : wsQueue) {
             if (wsOrder.username.equals(username)) {
                 orderIDList.add(wsOrder.orderID);

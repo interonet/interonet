@@ -10,7 +10,7 @@ public class UserManager implements IUserManager {
     Collection<User> users;
 
     public UserManager(GDMCore core) {
-        users = new HashSet<User>();
+        users = new HashSet<>();
         userDBManager = new UserDBManager(core);
         userDBManager.init(users);
     }

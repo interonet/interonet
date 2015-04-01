@@ -1,11 +1,9 @@
 package org.interonet.gdm.Core;
 
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
-import org.interonet.gdm.AuthenticationCenter.AuthTokenManager;
 import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class GDMAgent implements IGDMAgent {
     GDMCore gdmCore;
@@ -16,10 +14,7 @@ public class GDMAgent implements IGDMAgent {
 
     @Override
     public String authenticateUser(String username, String password) {
-        AuthToken authToken = gdmCore.authenticateUser(username, password);
-        if (authToken == null)
-            return "Failed";
-        return AuthTokenManager.toPlainText(authToken);
+        return gdmCore.authenticateUser(username, password);
     }
 
     @Override
@@ -34,11 +29,8 @@ public class GDMAgent implements IGDMAgent {
 
 
     @Override
-    public Boolean orderSlice(AuthToken authToken, int swichesNum, int vmsNum, String beginTime, String endTime,
-                              Map<String, String> topology,
-                              Map<String, String> switchConf,
-                              String controllerIP, int controllerPort) {
-        return gdmCore.orderSlice(authToken, swichesNum, vmsNum, beginTime, endTime, topology, switchConf, controllerIP, controllerPort);
+    public Boolean orderSlice(AuthToken authToken, String order) throws Exception {
+        return gdmCore.orderSlice(authToken, order);
     }
 
     @Override
@@ -52,7 +44,7 @@ public class GDMAgent implements IGDMAgent {
     }
 
     @Override
-    public String deleteOrderByID(AuthToken authToken, String orderID) {
+    public Boolean deleteOrderByID(AuthToken authToken, String orderID) {
         return gdmCore.deleteOrderByID(authToken, orderID);
     }
 

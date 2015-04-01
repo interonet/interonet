@@ -33,7 +33,6 @@ public class UserDBManager {
                 user.setAccountBalance(Integer.parseInt(map.get("accountBalance")));
                 users.add(user);
             }
-            return;
         } catch (IOException e) {
             e.printStackTrace();
         }
