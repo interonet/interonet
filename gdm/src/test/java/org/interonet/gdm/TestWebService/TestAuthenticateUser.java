@@ -6,10 +6,10 @@ import org.interonet.gdm.MainTest;
 
 import java.net.URL;
 
-public class TestWebService extends TestCase {
+public class TestAuthenticateUser extends TestCase {
     JsonRpcHttpClient client;
 
-    public TestWebService() throws Exception {
+    public TestAuthenticateUser() throws Exception {
         client = new JsonRpcHttpClient(new URL("http://202.117.15.79:8080/"));
         MainTest main = new MainTest();
         main.testStart();
@@ -34,8 +34,5 @@ public class TestWebService extends TestCase {
         assertTrue(token.equals("Failed"));
     }
 
-    public void testOrderSlice() throws Exception {
-
-    }
 
 }

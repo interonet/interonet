@@ -117,7 +117,7 @@ public class WSQueueManager implements Runnable {
         return swswTunnels;
     }
 
-    private List<SWVMTunnel> getswvmTunnel(Map<String, String> topology, Map<String, Integer> userSW2domSW, Map<String, Integer> userVM2domVM) {
+    private List<SWVMTunnel> getswvmTunnel(Map<String, String> topology, Map<String, Integer> userSW2domSW, Map<String, Integer> userVM2domVM) throws Exception {
         List<SWVMTunnel> swvmTunnels = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : topology.entrySet()) {
@@ -137,7 +137,8 @@ public class WSQueueManager implements Runnable {
             int userPeerVMPort = Integer.parseInt(key.split(":")[1]); //0
             int userSwitchPort = Integer.parseInt(value.split(":")[1]); //1
 
-
+            if (domIDint == null || domPeerIDint == null)
+                throw new Exception("Exception");
             SWVMTunnel tunnel = new SWVMTunnel(domIDint, userSwitchPort, domPeerIDint, userPeerVMPort);
             swvmTunnels.add(tunnel);
         }
