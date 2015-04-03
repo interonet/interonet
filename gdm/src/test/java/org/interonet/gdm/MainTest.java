@@ -1,21 +1,23 @@
 package org.interonet.gdm;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import java.io.IOException;
+import org.interonet.gdm.Core.GDMCore;
+import org.interonet.gdm.Core.IGDMAgent;
+import org.interonet.gdm.WebService.RPCServer;
 
 public class MainTest extends TestCase {
-    public MainTest(String testName) {
-        super(testName);
-    }
-
-    public static Test suite() {
-        return new TestSuite(MainTest.class);
-    }
-
-    public void testApp() throws IOException {
-        assertTrue(true);
+    public void testStart() throws Exception {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GDMCore gdmCore = new GDMCore();
+                gdmCore.start();
+                IGDMAgent gdmAgent = gdmCore.getAgent();
+                RPCServer gdmRPCServer = new RPCServer(gdmAgent);
+                gdmRPCServer.start();
+                System.out.println("**************************DONE****************************");
+            }
+        });
+        thread.start();
     }
 }
