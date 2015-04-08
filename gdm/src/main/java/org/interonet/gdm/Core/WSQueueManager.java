@@ -33,6 +33,10 @@ public class WSQueueManager implements Runnable {
     }
 
     public void startSlice(List<WSOrder> wsOrderList) throws Throwable {
+        // Threads Pool to start up switch and VM.
+        Collection<Thread> threadsStartVM = new HashSet<>();
+        Collection<Thread> threadsAddConf = new HashSet<>();
+
         for (WSOrder wsOrder : wsOrderList) {
             List<Integer> switchesIDs = wsOrder.switchIDs;
             List<Integer> vmIDs = wsOrder.vmIDs;
@@ -59,16 +63,44 @@ public class WSQueueManager implements Runnable {
                 operationCenter.createTunnelSW2VM(switchPortPeeronTT, vmID);
             }
 
+            // addSWitchConf
             for (Integer switchID : switchesIDs) {
-                operationCenter.addSWitchConf(switchID, wsOrder.controllerIP, wsOrder.controllerPort);
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            operationCenter.addSWitchConf(switchID, wsOrder.controllerIP, wsOrder.controllerPort);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+                t.start();
+                threadsAddConf.add(t);
+            }
+
+            for (Thread thread : threadsAddConf) {
+                thread.join();
             }
 
             for (Integer switchID : switchesIDs) {
                 operationCenter.powerOnSwitch(switchID);
             }
 
+            // Start up one VM.
             for (Integer vmID : vmIDs) {
-                operationCenter.powerOnVM(vmID);
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            operationCenter.powerOnVM(vmID);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                });
+                t.start();
+                threadsStartVM.add(t);
             }
 
             WTOrder wtOrder = new WTOrder(
@@ -87,6 +119,11 @@ public class WSQueueManager implements Runnable {
 
             waitingStartQueue.deleteOrderByID(wsOrder.orderID);
             waitingTermQueue.newOrder(wtOrder);
+
+            //Wait for all the thread to complete.
+            for(Thread t : threadsStartVM){
+                t.join();
+            }
         }
     }
 
@@ -153,10 +190,9 @@ public class WSQueueManager implements Runnable {
             if (list.size() != 0) {
                 startSlice(list);
             }
-            Thread.sleep(30000);
+            Thread.sleep(3000);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
     }
-
 }
