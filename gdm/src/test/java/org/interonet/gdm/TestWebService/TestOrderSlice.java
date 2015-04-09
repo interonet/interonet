@@ -2,18 +2,18 @@ package org.interonet.gdm.TestWebService;
 
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import junit.framework.TestCase;
-import org.interonet.gdm.MainTest;
+import org.interonet.gdm.Core.GDMCore;
+import org.interonet.gdm.Core.IGDMAgent;
+import org.interonet.gdm.WebService.RPCServer;
 
 import java.net.URL;
 
 public class TestOrderSlice extends TestCase{
     JsonRpcHttpClient client;
 
+
     public TestOrderSlice() throws Exception {
         client = new JsonRpcHttpClient(new URL("http://202.117.15.79:8080/"));
-        MainTest main = new MainTest();
-        main.testStart();
-        Thread.sleep(2000);
     }
 
     public void testOrderSlice0() throws Exception, Throwable {
@@ -60,8 +60,8 @@ public class TestOrderSlice extends TestCase{
                 + "      \"vmsNum\": \"4\""
                 + "  },"
                 + "  \"time\": {"
-                + "      \"begin\": \"12:00\","
-                + "      \"end\" : \"21:00\""
+                + "      \"begin\": \"22:00\","
+                + "      \"end\" : \"23:00\""
                 + "  },"
                 + "  \"topology\": {"
                 + "      \"s0:1\": \"s1:0\","
