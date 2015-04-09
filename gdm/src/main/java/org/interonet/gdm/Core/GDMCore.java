@@ -144,7 +144,7 @@ public class GDMCore {
             entry.getValue().removeAll(found);
         }
         boolean wsQueueStatus = wsQueue.deleteOrderByID(orderID);
-        return !wsQueueStatus;
+        return wsQueueStatus;
     }
 
     public String getRunningSliceIDsList(AuthToken authToken) throws IOException {
