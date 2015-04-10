@@ -33,11 +33,11 @@ public class WSQueueManager implements Runnable {
     }
 
     public void startSlice(List<WSOrder> wsOrderList) throws Throwable {
-        // Threads Pool to start up switch and VM.
-        Collection<Thread> threadsStartVM = new HashSet<>();
-        Collection<Thread> threadsAddConf = new HashSet<>();
-
         for (WSOrder wsOrder : wsOrderList) {
+            // Threads Pool to start up switch and VM.
+            Collection<Thread> threadsStartVM = new HashSet<>();
+            Collection<Thread> threadsAddConf = new HashSet<>();
+
             List<Integer> switchesIDs = wsOrder.switchIDs;
             List<Integer> vmIDs = wsOrder.vmIDs;
             Map<String, Integer> userSW2domSW = new HashMap<>();
