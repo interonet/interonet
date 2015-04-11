@@ -42,7 +42,7 @@ public class NFSManager {
         pw.println("echo \"@++< Initial Done\"");
         pw.println("");
 
-        pw.println("route add default gw " + controllerIP);
+        pw.println("route add default gw " + "10.0.0.254");
         pw.println("cd /root/ofsoftswitch13hwt");
         pw.println("./udatapath/ofdatapath --datapath-id=" + to12HexDigits(switchID) + " --interfaces=eth1,eth2,eth3,eth4 ptcp:6632 --no-slicing &");
         pw.println("sleep 5");

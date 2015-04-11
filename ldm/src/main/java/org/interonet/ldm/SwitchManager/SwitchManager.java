@@ -27,12 +27,12 @@ public class SwitchManager implements ISwitchManager {
         // nfsRootPath equals like /export/0
         //TODO move to nfsManager
         Process process2Copy = Runtime.getRuntime().exec("cp -r /export/backup /export/" + switchID.toString());
+        process2Copy.waitFor();
         Logger.getAnonymousLogger().info("cp -r /export/backup /export/" + switchID.toString());
         Process process2Chmod = Runtime.getRuntime().exec("chmod -R 777 /export/" + switchID.toString() + "/");
         Logger.getAnonymousLogger().info("chmod -R 777 " + "/export/" + switchID.toString() + "/");
-        nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
-        process2Copy.waitFor();
         process2Chmod.waitFor();
+        nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
     }
 
     @Override
