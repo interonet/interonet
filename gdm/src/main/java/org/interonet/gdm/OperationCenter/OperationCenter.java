@@ -40,6 +40,11 @@ public class OperationCenter implements IOperationCenter {
     }
 
     @Override
+    public void addSWitchConf(String type, Integer domSW, String controllerIP, int controllerPort) {
+        operationCenterLogger.info("LDM --> addSWitchConf(type=" + type + ",domSW=" + domSW + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
+    }
+
+    @Override
     public void powerOnSwitch(Integer switchID) throws Throwable {
         client.invoke("powerOnSwitch", new Object[]{switchID + 1}, String.class);
         operationCenterLogger.info("LDM --> powerOnSwitch(switchID=" + switchID + ")");
