@@ -19,6 +19,7 @@ public class RPCServer {
             //rpcServer = new Server(new InetSocketAddress("202.117.15.79",8080));
 
             ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            context.setMaxFormContentSize(100000000);
             context.setContextPath("/");
             rpcServer.setHandler(context);
 
