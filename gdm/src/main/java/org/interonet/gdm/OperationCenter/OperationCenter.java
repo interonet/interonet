@@ -3,12 +3,8 @@ package org.interonet.gdm.OperationCenter;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import org.interonet.gdm.Core.GDMCore;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 public class OperationCenter implements IOperationCenter {
@@ -45,7 +41,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void powerOnSwitch(Integer switchID) throws Throwable {
-//        client.invoke("powerOnSwitch", new Object[]{switchID}, String.class);
+        client.invoke("powerOnSwitch", new Object[]{switchID + 1}, String.class);
         operationCenterLogger.info("LDM --> powerOnSwitch(switchID=" + switchID + ")");
     }
 
@@ -75,7 +71,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void powerOffSwitch(Integer switchID) throws Throwable {
-//        client.invoke("powerOffSwitch", new Object[]{switchID}, String.class);
+        client.invoke("powerOffSwitch", new Object[]{switchID + 1}, String.class);
         operationCenterLogger.info("LDM --> powerOffSwitch(switchID=" + switchID);
 
     }
