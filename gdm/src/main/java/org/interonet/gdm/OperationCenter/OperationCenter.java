@@ -29,7 +29,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void createTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Throwable {
-        client.invoke("createTunnelSW2VM", new Object[]{switchPortPeeronTT, vmID}, String.class);
+        client.invoke("createTunnelSW2VM", new Object[]{switchPortPeeronTT, vmID + 11}, String.class);
         operationCenterLogger.info("LDM --> createTunnelSW2VM(switchPortPeeronTT=" + switchPortPeeronTT + ",VMID=" + vmID + ")");
     }
 
@@ -59,7 +59,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void deleteTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Throwable {
-        client.invoke("deleteTunnelSW2VM", new Object[]{switchPortPeeronTT, vmID}, String.class);
+        client.invoke("deleteTunnelSW2VM", new Object[]{switchPortPeeronTT, vmID + 11}, String.class);
         operationCenterLogger.info("LDM --> deleteTunnelSW2VM(switchPortPeeronTT=" + switchPortPeeronTT + ",vmID=" + vmID + ")");
     }
 
