@@ -5,6 +5,7 @@ import org.interonet.ldm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.ldm.PowerManager.PowerManager;
 import org.interonet.ldm.SwitchManager.ISwitchManager;
 import org.interonet.ldm.SwitchManager.SwitchManager;
+import org.interonet.ldm.TopologyTransformer.TopologyTransformer;
 import org.interonet.ldm.VMM.*;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
@@ -23,6 +24,8 @@ public class LDMCore {
     private PowerManager powerManager;
     private ISwitchManager switchManager;
     private IConfigurationCenter configurationCenter;
+
+    private TopologyTransformer topologyTransformer;
 
     public void start() {
         ldmAgent = new LDMAgent(this);
@@ -47,6 +50,13 @@ public class LDMCore {
 
         // SwitchManager initiation.
         switchManager = new SwitchManager(this);
+
+        //TopologyTransformer initiation.
+        try{
+            topologyTransformer= new TopologyTransformer();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public LDMAgent getAgent() {
@@ -112,5 +122,20 @@ public class LDMCore {
 
     public void resetSwitchConf(Integer switchID) throws IOException, InterruptedException {
         switchManager.resetSwitchConf(switchID);
+    }
+
+    public void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) throws Exception{
+        topologyTransformer.createTunnelSW2SW(switchPortPeer,peerSwitchPortPeer);
+    }
+
+    public void createTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Exception{
+        topologyTransformer.createTunnelSW2VM(switchPortPeeronTT,vmID);
+    }
+    public void deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) throws  Exception{
+        topologyTransformer.deleteTunnelSW2SW(switchPortPeeronTT,athrSwitchPortPeeronTT);
+    }
+
+    public void deleteTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Exception{
+        topologyTransformer.deleteTunnelSW2VM(switchPortPeeronTT,vmID);
     }
 }

@@ -9,12 +9,12 @@ public class LDMAgent {
         this.ldmCore = ldmCore;
     }
 
-    public String createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) {
-        return null;
+    public void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer)throws Exception{
+        ldmCore.createTunnelSW2SW(switchPortPeer,peerSwitchPortPeer);
     }
 
-    public String createTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT) {
-        return null;
+    public void createTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Exception{
+        ldmCore.createTunnelSW2VM(switchPortPeeronTT,vmID);
     }
 
     public void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
@@ -27,12 +27,12 @@ public class LDMAgent {
         return OnResult;
     }
 
-    public String deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) {
-        return null;
+    public void deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) throws Exception{
+        ldmCore.deleteTunnelSW2SW(switchPortPeeronTT,athrSwitchPortPeeronTT);
     }
 
-    public String deleteTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT) {
-        return null;
+    public void deleteTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT)throws Exception{
+        ldmCore.deleteTunnelSW2VM(switchPortPeeronTT,peerVMPortPeeronTT);
     }
 
     public String deleteSWitchConf(Integer switchID) {
