@@ -1,10 +1,14 @@
 package org.interonet.gdm.Core;
 
+import org.apache.commons.io.FileUtils;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 
+import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class WSQueueManager implements Runnable {
     WaitingStartQueue waitingStartQueue;
@@ -63,16 +67,39 @@ public class WSQueueManager implements Runnable {
                 operationCenter.createTunnelSW2VM(switchPortPeeronTT, vmID);
             }
 
-            // addSWitchConf
-            for (Integer switchID : switchesIDs) {
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            operationCenter.addSWitchConf(switchID, wsOrder.controllerIP, wsOrder.controllerPort);
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
+            for (Map.Entry<String, Integer> entry : userSW2domSW.entrySet()) {
+                Thread t = new Thread(()->{
+                    try {
+                        String userSW = entry.getKey();//s0
+                        String userSWConf = wsOrder.switchConf.get(userSW);
+                        Integer domSW = entry.getValue();//s5
+                        if (userSWConf == null || userSW == null) {
+                            Logger.getAnonymousLogger().severe("Error to map");
+                            throw new Exception("Error to map");
                         }
+                        switch (userSWConf) {
+                            case "OF1.0":
+                                operationCenter.addSWitchConf("OF1.0", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                                break;
+                            case "OF1.3":
+                                operationCenter.addSWitchConf("OF1.3", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                                break;
+                            default:
+                                //URL to download.
+                                String urlRegex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+                                if (!userSWConf.matches(urlRegex)) {
+                                    Logger.getAnonymousLogger().severe("Wrong URL");
+                                    throw new Exception("Wrong URL");
+                                }
+                                String fileName = System.currentTimeMillis() + ".tar.xz";
+                                String filePath = "/var/www/html/SwitchConfStore/" + fileName;
+                                FileUtils.copyURLToFile(new URL(userSWConf), new File(filePath));
+                                String urlFilePath = "http://202.117.15.79/SwitchConfStore/" + fileName;
+                                operationCenter.addSWitchConf(urlFilePath, domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                                break;
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
                     }
                 });
                 t.start();

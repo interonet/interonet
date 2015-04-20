@@ -25,7 +25,6 @@ public class LDMCore {
     public void start() {
         ldmAgent = new LDMAgent(this);
 
-
         // PowerManager
         powerManager = new PowerManager();
 
@@ -52,8 +51,6 @@ public class LDMCore {
 
     public String powerOnVM(Integer vmID) {
         return vMManager.powerOnVM(vmID);
-
-
     }
 
     public String powerOffVM(Integer vmID) {
@@ -89,6 +86,10 @@ public class LDMCore {
 
     public void addSwitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
         switchManager.changeConnectionPropertyFromNFS(switchID, controllerIP, controllerPort);
+    }
+
+    public void addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
+        switchManager.changeConnectionPropertyFromNFS(type, switchID, controllerIP, controllerPort);
     }
 
     public IConfigurationCenter getConfigurationCenter() {

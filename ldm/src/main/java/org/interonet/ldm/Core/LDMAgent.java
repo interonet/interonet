@@ -21,10 +21,15 @@ public class LDMAgent {
         ldmCore.addSwitchConf(switchID, controllerIP, controllerPort);
     }
 
+    public void addSWitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
+        ldmCore.addSwitchConf(type, switchID, controllerIP, controllerPort);
+    }
+
     public String powerOnVM(Integer vmID) {
-        String OnResult = "failure";
-        OnResult = ldmCore.powerOnVM(vmID);
-        return OnResult;
+        return  ldmCore.powerOnVM(vmID);
+//        String OnResult = "failure";
+//        OnResult = ldmCore.powerOnVM(vmID);
+//        return OnResult;
     }
 
     public void deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) throws Exception{
@@ -46,9 +51,10 @@ public class LDMAgent {
 
 
     public String powerOffVM(Integer vmID) {
-        String OffResult = "failure";
-        OffResult = ldmCore.powerOffVM(vmID);
-        return OffResult;
+        return ldmCore.powerOffVM(vmID);
+//        String OffResult = "failure";
+//        OffResult = ldmCore.powerOffVM(vmID);
+//        return OffResult;
     }
     
     public String powerOnSwitch(Integer switchID)
@@ -64,4 +70,6 @@ public class LDMAgent {
         OffResult = ldmCore.powerOffSwitch(switchID);
         return OffResult;
     }
+
+
 }

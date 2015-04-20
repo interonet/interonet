@@ -6,4 +6,6 @@ public interface ISwitchManager {
     void changeConnectionPropertyFromNFS(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException;
 
     void resetSwitchConf(Integer switchID) throws InterruptedException, IOException;
+
+    void changeConnectionPropertyFromNFS(String type, Integer switchID, String controllerIP, int controllerPort) throws InterruptedException, IOException;
 }

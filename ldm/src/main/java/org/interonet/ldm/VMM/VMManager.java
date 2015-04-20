@@ -3,9 +3,6 @@ package org.interonet.ldm.VMM;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 
-/**
- * Created by houlifei on 15-4-18.
- */
 public class VMManager implements IVMManager{
 
     private ICreateVirtualMachine iCreateVirtualMachine;
@@ -24,7 +21,7 @@ public class VMManager implements IVMManager{
         catch (LibvirtException e) {
             e.printStackTrace();
         }
-      //  iBridgeAndVlan.bridgeAndvlan();
+      // iBridgeAndVlan.bridgeAndvlan();
     }
 
 

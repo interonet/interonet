@@ -10,6 +10,8 @@ public interface IOperationCenter {
 
     void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws Throwable;
 
+    void addSWitchConf(String s, Integer domSW, String controllerIP, int controllerPort) throws Throwable;
+
     void powerOnSwitch(Integer switchID) throws Throwable;
 
     void powerOnVM(Integer vmID) throws Throwable;
@@ -23,4 +25,6 @@ public interface IOperationCenter {
     void powerOffSwitch(Integer switchID) throws Throwable;
 
     void powerOffVM(Integer vmID) throws Throwable;
+
+
 }

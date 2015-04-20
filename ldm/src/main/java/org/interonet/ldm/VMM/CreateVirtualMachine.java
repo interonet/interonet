@@ -25,10 +25,12 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
 
     @Override
     public String  vmstart(Connect connect, int ID) {
+
         String vmStartResult = "failure";
         SAXReader reader = new SAXReader();
         Document docu = null;
         try {
+
             String INTERONET_HOME = System.getenv().get("INTERONET_HOME");
             System.out.println(INTERONET_HOME);
             System.out.println(INTERONET_HOME+"/conf/vmm.xml");
@@ -41,7 +43,7 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
             file.setText("/home/400/vmuser/vm" + ID + ".img");
             Element graphics = docu.getRootElement().element("devices").element("graphics");
             Attribute vncPort = graphics.attribute("port");
-            vncPort.setText("590" + ID);
+            vncPort.setText("690" + ID);
             Element interfaces = docu.getRootElement().element("devices").element("interface").element("source");
             Attribute bridge = interfaces.attribute("bridge");
             bridge.setText("br" + ID);
