@@ -77,24 +77,28 @@ public class WSQueueManager implements Runnable {
                             Logger.getAnonymousLogger().severe("Error to map");
                             throw new Exception("Error to map");
                         }
-                        if (userSWConf.equals("OF1.0")){
-                            operationCenter.addSWitchConf("OF1.0", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
-                        } else if (userSWConf.equals("OF1.3")){
-                            operationCenter.addSWitchConf("OF1.3", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
-                        } else {
-                            //URL to download.
-                            String urlRegex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-                            if (!userSWConf.matches(urlRegex)){
-                                Logger.getAnonymousLogger().severe("Wrong URL");
-                                throw new Exception("Wrong URL");
-                            }
-                            String fileName = System.currentTimeMillis() + ".tar.xz";
-                            String filePath = "/var/www/html/SwitchConfStore/" + fileName;
-                            FileUtils.copyURLToFile(new URL(userSWConf), new File(filePath));
-                            String urlFilePath = "http://202.117.15.79/SwitchConfStore/" + fileName;
-                            operationCenter.addSWitchConf(urlFilePath, domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                        switch (userSWConf) {
+                            case "OF1.0":
+                                operationCenter.addSWitchConf("OF1.0", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                                break;
+                            case "OF1.3":
+                                operationCenter.addSWitchConf("OF1.3", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                                break;
+                            default:
+                                //URL to download.
+                                String urlRegex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+                                if (!userSWConf.matches(urlRegex)) {
+                                    Logger.getAnonymousLogger().severe("Wrong URL");
+                                    throw new Exception("Wrong URL");
+                                }
+                                String fileName = System.currentTimeMillis() + ".tar.xz";
+                                String filePath = "/var/www/html/SwitchConfStore/" + fileName;
+                                FileUtils.copyURLToFile(new URL(userSWConf), new File(filePath));
+                                String urlFilePath = "http://202.117.15.79/SwitchConfStore/" + fileName;
+                                operationCenter.addSWitchConf(urlFilePath, domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                                break;
                         }
-                    } catch (Exception e) {
+                    } catch (Throwable e) {
                         e.printStackTrace();
                     }
                 });

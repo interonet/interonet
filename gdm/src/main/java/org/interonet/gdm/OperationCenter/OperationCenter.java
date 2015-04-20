@@ -40,7 +40,8 @@ public class OperationCenter implements IOperationCenter {
     }
 
     @Override
-    public void addSWitchConf(String type, Integer domSW, String controllerIP, int controllerPort) {
+    public void addSWitchConf(String type, Integer domSW, String controllerIP, int controllerPort) throws Throwable {
+        client.invoke("addSWitchConf", new Object[]{type, domSW, controllerIP, controllerPort}, String.class);
         operationCenterLogger.info("LDM --> addSWitchConf(type=" + type + ",domSW=" + domSW + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
     }
 
@@ -70,7 +71,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void deleteSWitchConf(Integer switchID) throws Throwable {
-//        client.invoke("deleteSWitchConf", new Object[]{switchID}, String.class);
+        client.invoke("deleteSWitchConf", new Object[]{switchID}, String.class);
         operationCenterLogger.info("LDM --> deleteSWitchConf(switchID=" + switchID + ")");
     }
 

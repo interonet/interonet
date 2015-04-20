@@ -34,6 +34,17 @@ public class RPCService {
         }
     }
 
+    public String addSWitchConf(String type, Integer switchID, String controllerIP, int controllerPort) {
+        ldmRPCServiceLogger.info(type + " " + switchID + " " + controllerIP + " " + controllerPort);
+        try {
+            ldmAgent.addSWitchConf(type, switchID, controllerIP, controllerPort);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
+    }
+
     public String powerOnSwitch(Integer switchID) {
         ldmRPCServiceLogger.info("");
         return ldmAgent.powerOnSwitch(switchID);

@@ -21,6 +21,10 @@ public class LDMAgent {
         ldmCore.addSwitchConf(switchID, controllerIP, controllerPort);
     }
 
+    public void addSWitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
+        ldmCore.addSwitchConf(type, switchID, controllerIP, controllerPort);
+    }
+
     public String powerOnVM(Integer vmID) {
         String OnResult = "failure";
         OnResult = ldmCore.powerOnVM(vmID);
@@ -64,4 +68,6 @@ public class LDMAgent {
         OffResult = ldmCore.powerOffSwitch(switchID);
         return OffResult;
     }
+
+
 }

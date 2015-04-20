@@ -106,6 +106,10 @@ public class LDMCore {
         switchManager.changeConnectionPropertyFromNFS(switchID, controllerIP, controllerPort);
     }
 
+    public void addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
+        switchManager.changeConnectionPropertyFromNFS(type, switchID, controllerIP, controllerPort);
+    }
+
     public IConfigurationCenter getConfigurationCenter() {
         return configurationCenter;
     }
@@ -113,4 +117,6 @@ public class LDMCore {
     public void resetSwitchConf(Integer switchID) throws IOException, InterruptedException {
         switchManager.resetSwitchConf(switchID);
     }
+
+
 }
