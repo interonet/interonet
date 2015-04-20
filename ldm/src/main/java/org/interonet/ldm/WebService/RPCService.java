@@ -15,12 +15,24 @@ public class RPCService {
 
     public String createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) {
         ldmRPCServiceLogger.info("");
-        return ldmAgent.createTunnelSW2SW(switchPortPeer, peerSwitchPortPeer);
+        try {
+            ldmAgent.createTunnelSW2SW(switchPortPeer, peerSwitchPortPeer);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
     }
 
     public String createTunnelSW2VM(int switchPortPeeronTT, int vmID) {
         ldmRPCServiceLogger.info("");
-        return ldmAgent.createTunnelSW2VM(switchPortPeeronTT, vmID);
+        try {
+            ldmAgent.createTunnelSW2VM(switchPortPeeronTT, vmID);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
     }
 
     public String addSWitchConf(Integer switchID, String controllerIP, int controllerPort) {
@@ -46,12 +58,24 @@ public class RPCService {
 
     public String deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) {
         ldmRPCServiceLogger.info("");
-        return ldmAgent.deleteTunnelSW2SW(switchPortPeeronTT, athrSwitchPortPeeronTT);
+        try {
+            ldmAgent.deleteTunnelSW2SW(switchPortPeeronTT, athrSwitchPortPeeronTT);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
     }
 
     public String deleteTunnelSW2VM(int switchPortPeeronTT, int vmID) {
         ldmRPCServiceLogger.info("");
-        return ldmAgent.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
+        try {
+            ldmAgent.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
     }
 
     public String deleteSWitchConf(Integer switchID) {

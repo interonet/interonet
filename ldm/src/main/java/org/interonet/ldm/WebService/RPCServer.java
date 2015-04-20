@@ -18,6 +18,7 @@ public class RPCServer {
             rpcServer = new Server(8081);
             ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
             context.setContextPath("/");
+            context.setMaxFormContentSize(100000000); //100MB
             rpcServer.setHandler(context);
             context.addServlet(new ServletHolder(new RPCServlet(ldmAgent)), "/*");
 
