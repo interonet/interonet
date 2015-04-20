@@ -22,9 +22,10 @@ public class LDMAgent {
     }
 
     public String powerOnVM(Integer vmID) {
-        String OnResult = "failure";
-        OnResult = ldmCore.powerOnVM(vmID);
-        return OnResult;
+        return  ldmCore.powerOnVM(vmID);
+//        String OnResult = "failure";
+//        OnResult = ldmCore.powerOnVM(vmID);
+//        return OnResult;
     }
 
     public String deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) {
@@ -46,9 +47,10 @@ public class LDMAgent {
 
 
     public String powerOffVM(Integer vmID) {
-        String OffResult = "failure";
-        OffResult = ldmCore.powerOffVM(vmID);
-        return OffResult;
+        return ldmCore.powerOffVM(vmID);
+//        String OffResult = "failure";
+//        OffResult = ldmCore.powerOffVM(vmID);
+//        return OffResult;
     }
     
     public String powerOnSwitch(Integer switchID)

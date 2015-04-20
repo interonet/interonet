@@ -24,7 +24,7 @@ public class VMManager implements IVMManager{
         catch (LibvirtException e) {
             e.printStackTrace();
         }
-      //  iBridgeAndVlan.bridgeAndvlan();
+      // iBridgeAndVlan.bridgeAndvlan();
     }
 
 
