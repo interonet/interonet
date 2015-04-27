@@ -185,26 +185,51 @@ public class WSQueueManager implements Runnable {
         List<SWVMTunnel> swvmTunnels = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : topology.entrySet()) {
+            // entry : h0:1---> s1:0
+            // entry : s0:1---> h1:0
+
             String key = entry.getKey();
             String value = entry.getValue();
 
             String userID = key.split(":")[0]; //"s0", "h0"
             String userPeerID = value.split(":")[0]; //"s0", "h0"
 
+            // Ignore Switch to Switch Link
             if (userID.substring(0, 1).equals("s") && userPeerID.substring(0, 1).equals("s"))
                 continue;
 
-            Integer domIDint = userID.substring(0, 1).equals("s") ? userSW2domSW.get(userID) : userVM2domVM.get(userID);
-            Integer domPeerIDint = userPeerID.substring(0, 1).equals("s") ? userSW2domSW.get(userPeerID) : userVM2domVM.get(userPeerID);
+            String userVmId;
+            String vmPort;
+            String userSwitchId;
+            String switchPort;
+            if (key.substring(0, 1).equals("h")) {
+                // key = "h0:1"
+                userVmId = key.split(":")[0];
+                vmPort = key.split(":")[1];
+                //value = "s1:0"
+                userSwitchId = value.split(":")[0];
+                switchPort = value.split(":")[1];
+            } else {
+                //key = "s0:1"
+                userSwitchId = key.split(":")[0];
+                switchPort = key.split(":")[1];
+                //value = "s1:0"
+                userVmId = value.split(":")[0];
+                vmPort = value.split(":")[1];
+            }
+            // Find the true Id.
+            try {
+                int domVmId = userVM2domVM.get(userVmId);
+                int domVmPort = Integer.parseInt(vmPort);
+                int domSwitchId = userSW2domSW.get(userSwitchId);
+                int domSwitchPort = Integer.parseInt(switchPort);
+                SWVMTunnel tunnel = new SWVMTunnel(domSwitchId, domSwitchPort, domVmId, domVmPort);
+                swvmTunnels.add(tunnel);
 
-            //FIXME check the h and s.
-            int userPeerVMPort = Integer.parseInt(key.split(":")[1]); //0
-            int userSwitchPort = Integer.parseInt(value.split(":")[1]); //1
-
-            if (domIDint == null || domPeerIDint == null)
-                throw new Exception("Exception");
-            SWVMTunnel tunnel = new SWVMTunnel(domIDint, userSwitchPort, domPeerIDint, userPeerVMPort);
-            swvmTunnels.add(tunnel);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                throw new Exception("can find the vmId");
+            }
         }
         return swvmTunnels;
     }

@@ -63,7 +63,8 @@ public class ConfigurationCenter implements IConfigurationCenter {
                 return value;
             }
         }
-        throw new Exception("can not find this port on TT");
+
+        throw new Exception("Can not find this port<SwitchID:" + switchID + " SwitchIDPortNum:" + switchIDPortNum + "> on TT");
     }
 
     @Override
