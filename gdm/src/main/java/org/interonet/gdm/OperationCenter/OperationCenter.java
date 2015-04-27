@@ -11,7 +11,7 @@ public class OperationCenter implements IOperationCenter {
     JsonRpcHttpClient client;
     Logger operationCenterLogger = Logger.getLogger("operationCenterLogger");
     GDMCore core;
-    boolean DEBUG = false;
+    boolean DEBUG = true;
 
     public OperationCenter(GDMCore core) {
         this.core = core;
@@ -50,8 +50,8 @@ public class OperationCenter implements IOperationCenter {
     @Override
     public void addSWitchConf(String type, Integer domSW, String controllerIP, int controllerPort) throws Throwable {
         operationCenterLogger.info("LDM --> addSWitchConf(type=" + type + ",domSW=" + domSW + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
+        client.invoke("addSWitchConf", new Object[]{type, domSW, controllerIP, controllerPort}, String.class);
         if (DEBUG == false) {
-            client.invoke("addSWitchConf", new Object[]{type, domSW, controllerIP, controllerPort}, String.class);
         }
     }
 

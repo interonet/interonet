@@ -37,11 +37,8 @@ public class LDMCore {
         // VMManager initiation
         vMManager = new VMManager();
 
-        try {
-            topologyTransformer = new TopologyTransformer();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // TT initiation.
+        topologyTransformer = new TopologyTransformer();
 
     }
 

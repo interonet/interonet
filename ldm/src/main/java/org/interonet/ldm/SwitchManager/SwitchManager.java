@@ -32,10 +32,10 @@ public class SwitchManager implements ISwitchManager {
         Process process2Copy = Runtime.getRuntime().exec("cp -r /export/backup /export/" + switchID.toString());
         process2Copy.waitFor();
         Logger.getAnonymousLogger().info("cp -r /export/backup /export/" + switchID.toString());
+        nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
         Process process2Chmod = Runtime.getRuntime().exec("chmod -R 777 /export/" + switchID.toString() + "/");
         Logger.getAnonymousLogger().info("chmod -R 777 " + "/export/" + switchID.toString() + "/");
         process2Chmod.waitFor();
-        nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
     }
 
     @Override
@@ -52,11 +52,10 @@ public class SwitchManager implements ISwitchManager {
                 process2Copy = Runtime.getRuntime().exec("cp -r /export/backup /export/" + switchID.toString());
                 process2Copy.waitFor();
                 Logger.getAnonymousLogger().info("cp -r /export/backup /export/" + switchID.toString());
-
+                nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
                 process2Chmod = Runtime.getRuntime().exec("chmod -R 777 /export/" + switchID.toString() + "/");
                 Logger.getAnonymousLogger().info("chmod -R 777 " + "/export/" + switchID.toString() + "/");
                 process2Chmod.waitFor();
-                nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
                 break;
             case "OF1.0":
                 //TODO
@@ -87,7 +86,6 @@ public class SwitchManager implements ISwitchManager {
     @Override
     public void resetSwitchConf(Integer switchID) throws InterruptedException, IOException {
         //TODO move to nfsManager
-        Logger.getAnonymousLogger().info("111111111111111111111");
         Process process2Remove = Runtime.getRuntime().exec("rm -rf /export/" + switchID.toString());
         process2Remove.waitFor();
         Logger.getAnonymousLogger().info("rm -rf /export/" + switchID.toString());

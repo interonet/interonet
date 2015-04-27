@@ -4,8 +4,12 @@ package org.interonet.ldm.TopologyTransformer;
 public class TopologyTransformer {
     private SnmpManager snmpManager;
 
-    public TopologyTransformer() throws Exception {
-        snmpManager = new SnmpManager();
+    public TopologyTransformer() {
+        try {
+            snmpManager = new SnmpManager();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) throws Exception {
