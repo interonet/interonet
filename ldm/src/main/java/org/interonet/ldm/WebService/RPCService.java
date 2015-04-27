@@ -59,7 +59,13 @@ public class RPCService {
 
     public String powerOnSwitch(Integer switchID) {
         ldmRPCServiceLogger.info("");
-        return ldmAgent.powerOnSwitch(switchID);
+        try {
+            ldmAgent.powerOnSwitch(switchID);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
     }
 
     public String powerOnVM(Integer vmID) {
@@ -102,7 +108,13 @@ public class RPCService {
 
     public String powerOffSwitch(Integer switchID) {
         ldmRPCServiceLogger.info("");
-        return ldmAgent.powerOffSwitch(switchID);
+        try {
+            ldmAgent.powerOffSwitch(switchID);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
     }
 
     public String powerOffVM(Integer vmID) {

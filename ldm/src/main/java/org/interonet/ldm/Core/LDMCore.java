@@ -59,29 +59,13 @@ public class LDMCore {
     }
 
 
-    public String powerOnSwitch(Integer switchID) {
-        String powerOnSwitchResult = "failure";
-        byte buff[] = {(byte) 0x55, (byte) 0x01, (byte) 0x12, (byte) 0x00,
-                (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
-        int ID = switchID;
-        byte openWayy = (byte) ID;
-        powerManager.CreateSendCommand(buff, openWayy, true);
-        int sendStatement = powerManager.senBufWithSocket("10.0.0.2", 3000, buff, 8);
-        if (sendStatement == 0) powerOnSwitchResult = "success";
-        return powerOnSwitchResult;
+    public void powerOnSwitch(Integer switchID) throws Exception {
+        powerManager.powerOnSwitchById(switchID);
     }
 
 
-    public String powerOffSwitch(Integer switchID) {
-        String powerOffSwitchResult = "failure";
-        byte buff[] = {(byte) 0x55, (byte) 0x01, (byte) 0x12, (byte) 0x00,
-                (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
-        int ID = switchID;
-        byte closeWayy = (byte) ID;
-        powerManager.CreateSendCommand(buff, closeWayy, false);
-        int sendStatement = powerManager.senBufWithSocket("10.0.0.2", 3000, buff, 8);
-        if (sendStatement == 0) powerOffSwitchResult = "success";
-        return powerOffSwitchResult;
+    public void powerOffSwitch(Integer switchID) throws Exception {
+        powerManager.powerOffSwitchById(switchID);
     }
 
     public void addSwitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {

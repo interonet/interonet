@@ -1,14 +1,10 @@
 package org.interonet.ldm.PowerManager;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class PowerManager {
 	
@@ -16,8 +12,6 @@ public class PowerManager {
 		public int sPort = 3000;
 		byte address = 0x01;
 		private Socket mSocketClient = null;
-		static BufferedReader mBufferedReaderServer = null;
-		static PrintWriter mPrintWriterServer = null;
 		static BufferedInputStream mBufferedReaderClient = null;
 		static PrintStream mPrintStreamClient = null;
 		int wayState[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -196,4 +190,31 @@ public class PowerManager {
 		};
 
 
+	public void powerOnSwitchById(Integer switchID) throws Exception {
+		// Initiate the Magic Number.
+		byte buff[] = {(byte) 0x55, (byte) 0x01, (byte) 0x12, (byte) 0x00,
+				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
+		int ID = switchID;
+		byte openWayy = (byte) ID;
+
+		CreateSendCommand(buff, openWayy, true);
+		int sendStatement = senBufWithSocket("10.0.0.2", 3000, buff, 8);
+
+		if (sendStatement != 0) {
+			throw new Exception("Failed to sendBufWithSocket when power on");
+		}
+	}
+
+	public void powerOffSwitchById(Integer switchID) throws Exception {
+		byte buff[] = {(byte) 0x55, (byte) 0x01, (byte) 0x12, (byte) 0x00,
+				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
+		int ID = switchID;
+		byte closeWayy = (byte) ID;
+		CreateSendCommand(buff, closeWayy, false);
+		int sendStatement = senBufWithSocket("10.0.0.2", 3000, buff, 8);
+
+		if (sendStatement != 0) {
+			throw new Exception("Failed to sendBufWithSocket when power off");
+		}
+	}
 }
