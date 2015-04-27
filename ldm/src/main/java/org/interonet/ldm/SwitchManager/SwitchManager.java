@@ -7,6 +7,8 @@ import org.interonet.ldm.Core.LDMCore;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -15,12 +17,37 @@ public class SwitchManager implements ISwitchManager {
     private BootImageManager bootImageManager;
     private FPGAManager fpgaManager;
     private IConfigurationCenter configurationCenter;
+    private Logger logger;
 
     public SwitchManager(LDMCore ldmCore) {
+        logger = Logger.getLogger(SwitchManager.class.getName());
         configurationCenter = ldmCore.getConfigurationCenter();
         nfsManager = new NFSManager();
         bootImageManager = new BootImageManager();
         fpgaManager = new FPGAManager();
+        initNFSDirectory();
+    }
+
+    private void initNFSDirectory() {
+        Collection<Process> processes = new HashSet<>();
+        Map<String, String> nfsMapping = configurationCenter.getSwitchId2NFSRootDirectoryMapping();
+        for (Map.Entry<String, String> entry : nfsMapping.entrySet()) {
+            try {
+                Process p = Runtime.getRuntime().exec("rm -rf " + entry.getValue());
+                logger.info("rm -rf " + entry.getValue());
+                processes.add(p);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        for (Process process : processes) {
+            try {
+                process.waitFor();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        logger.info("Initiate the NFS Directory Successfully.");
     }
 
     @Override
@@ -49,9 +76,9 @@ public class SwitchManager implements ISwitchManager {
                 String nfsRootPath = nfsMapping.get(switchID.toString());
                 // nfsRootPath equals like /export/0
                 //TODO move to nfsManager
-                process2Copy = Runtime.getRuntime().exec("cp -r /export/backup /export/" + switchID.toString());
+                process2Copy = Runtime.getRuntime().exec("cp -r /export/of13_fs /export/" + switchID.toString());
                 process2Copy.waitFor();
-                Logger.getAnonymousLogger().info("cp -r /export/backup /export/" + switchID.toString());
+                Logger.getAnonymousLogger().info("cp -r /export/of13_fs /export/" + switchID.toString());
                 nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
                 process2Chmod = Runtime.getRuntime().exec("chmod -R 777 /export/" + switchID.toString() + "/");
                 Logger.getAnonymousLogger().info("chmod -R 777 " + "/export/" + switchID.toString() + "/");
