@@ -1,4 +1,4 @@
-package org.interonet.gdm.Core;
+package org.interonet.gdm.Core.Utils;
 
 public class DayTime {
     public String dayTime;

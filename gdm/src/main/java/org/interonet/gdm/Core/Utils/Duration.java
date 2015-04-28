@@ -1,4 +1,4 @@
-package org.interonet.gdm.Core;
+package org.interonet.gdm.Core.Utils;
 
 public class Duration {
     public final String start;//"6:00","9:00"
