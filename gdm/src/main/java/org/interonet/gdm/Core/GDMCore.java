@@ -3,12 +3,16 @@ package org.interonet.gdm.Core;
 import org.interonet.gdm.AuthenticationCenter.*;
 import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
+import org.interonet.gdm.Core.Utils.DayTime;
 import org.interonet.gdm.Core.Utils.Duration;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +73,14 @@ public class GDMCore {
         Map<String, String> swConf = orderParser.getSwitchConfig();
         String ctrlIP = orderParser.getControllerIP();
         int ctrlPort = orderParser.getControllerPort();
+
+        Date date = new Date();
+        DayTime beginTime = new DayTime(beginT);
+        DayTime nowTime = new DayTime(new SimpleDateFormat("HH:mm").format(date));
+
+        if (beginTime.earlyThan(nowTime)){
+            return false;
+        }
 
         String username = authTokenManager.getUsernameByToken(authToken);
         List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginT, endT);
