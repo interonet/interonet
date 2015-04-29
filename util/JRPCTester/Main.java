@@ -37,6 +37,7 @@ public class Main {
                 System.out.println("5: getRunningSlices");
                 System.out.println("6: orderSlice");
                 System.out.println("7: deleteOrderByID");
+                System.out.println("8: getRunningSliceInfoByID");
                 System.out.println("0: exit");
                 System.out.println("*******************************");
                 int cmd = Integer.parseInt(br.readLine());
@@ -67,6 +68,7 @@ public class Main {
                         String beginTime = br.readLine();
                         System.out.println("Enter end time");
                         String endTime = br.readLine();
+/*
                         String order1 = "{"
                                 + "  \"num\": {"
                                 + "      \"switchesNum\": \"" + switchNum + "\","
@@ -82,14 +84,40 @@ public class Main {
                                 + "      \"h1:0\": \"s1:1\""
                                 + "  },"
                                 + "  \"switchConf\": {"
-                                + "      \"s0\": \"OF1.0\","
-                                + "      \"s1\" : \"custom\""
+                                + "      \"s0\": \"OF1.3\","
+                                + "      \"s1\" : \"OF1.3\""
                                 + "  },"
                                 + "  \"controllerConf\": {"
                                 + "      \"ip\": \"10.0.0.253\","
                                 + "      \"port\" : \"6633\""
                                 + "  }"
                                 + "}";
+*/
+
+
+                        String order1 = "{"
+                                + "  \"num\": {"
+                                + "      \"switchesNum\": \"" + "1" + "\","
+                                + "      \"vmsNum\": \"" + "2" + "\""
+                                + "  },"
+                                + "  \"time\": {"
+                                + "      \"begin\": \"" + beginTime + "\","
+                                + "      \"end\" : \"" + endTime + "\""
+                                + "  },"
+                                + "  \"topology\": {"
+                                + "      \"h0:0\": \"s0:0\","
+                                + "      \"h1:0\": \"s0:1\""
+                                + "  },"
+                                + "  \"switchConf\": {"
+                                + "      \"s0\": \"OF1.3\","
+                                + "      \"s1\" : \"OF1.3\""
+                                + "  },"
+                                + "  \"controllerConf\": {"
+                                + "      \"ip\": \"202.117.15.79\","
+                                + "      \"port\" : \"6633\""
+                                + "  }"
+                                + "}";
+
                         String orderingStatus1 = client.invoke("orderSlice", new Object[]{token, order1}, String.class);
                         System.out.println("OrderingStatus:\n" + orderingStatus1);
                         break;
@@ -98,6 +126,12 @@ public class Main {
                         String orderId = br.readLine();
                         String status = client.invoke("deleteOrderByID", new Object[]{token, orderId}, String.class);
                         System.out.println(status);
+                        break;
+                    case 8:
+                        System.out.println("Enter orderId");
+                        String orderId1 = br.readLine();
+                        String status1 = client.invoke("getRunningSliceInfoById", new Object[]{token, orderId1}, String.class);
+                        System.out.println(status1);
                         break;
                     case 0:
                         System.out.println("Bye");
