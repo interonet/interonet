@@ -25,4 +25,6 @@ public interface IGDMAgent {
     IAuthTokenManager getAuthTokenManager();
 
     String stopRunningSliceByID(AuthToken authToken, String orderID);
+
+    String getRunningSliceInfoById(AuthToken authToken, String sliceID) throws IOException;
 }

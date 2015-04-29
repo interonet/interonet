@@ -9,7 +9,6 @@ import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -156,8 +155,7 @@ public class GDMCore {
             }
             entry.getValue().removeAll(found);
         }
-        boolean wsQueueStatus = wsQueue.deleteOrderByID(orderID);
-        return wsQueueStatus;
+        return wsQueue.deleteOrderByID(orderID);
     }
 
     public String getRunningSliceIDsList(AuthToken authToken) throws IOException {
@@ -167,10 +165,10 @@ public class GDMCore {
 
     }
 
-    public String getRuningSliceInfoByID(AuthToken authToken, String SliceID) {
+    public String getRunningSliceInfoByID(AuthToken authToken, String sliceID) throws IOException {
         if (!authTokenManager.auth(authToken)) return null;
 
-        return wtQueue.getOrderInfoByID(SliceID);
+        return wtQueue.getRunningSliceInfoByID(sliceID);
     }
 
     public IAuthTokenManager getAuthTokenManager() {

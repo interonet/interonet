@@ -117,14 +117,11 @@ public class WSQueueManager implements Runnable {
 
             // Start up one VM.
             for (Integer vmID : vmIDs) {
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            operationCenter.powerOnVM(vmID);
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
+                Thread t = new Thread(() -> {
+                    try {
+                        operationCenter.powerOnVM(vmID);
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
                     }
                 });
                 t.start();
@@ -143,7 +140,10 @@ public class WSQueueManager implements Runnable {
                     wsOrder.controllerIP,
                     wsOrder.controllerPort,
                     swswTunnels,
-                    swvmTunnels);
+                    swvmTunnels,
+                    userSW2domSW,
+                    userVM2domVM
+            );
 
             waitingStartQueue.deleteOrderByID(wsOrder.orderID);
             waitingTermQueue.newOrder(wtOrder);

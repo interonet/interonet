@@ -16,6 +16,8 @@ public class WTOrder extends Order {
     int controllerPort;
     List<SWSWTunnel> swswTunnel;
     List<SWVMTunnel> swvmTunnel;
+    Map<String, Integer> userSW2domSW;
+    Map<String, Integer> userVM2domVM;
 
 
     public WTOrder(String sliceID,
@@ -29,7 +31,9 @@ public class WTOrder extends Order {
                    String controllerIP,
                    int controllerPort,
                    List<SWSWTunnel> swswTunnel,
-                   List<SWVMTunnel> swvmTunnel) {
+                   List<SWVMTunnel> swvmTunnel,
+                   Map<String, Integer> userSW2domSW,
+                   Map<String, Integer> userVM2domVM) {
         this.sliceID = sliceID;
         this.username = username;
         this.switchIDs = switchIDs;
@@ -42,6 +46,8 @@ public class WTOrder extends Order {
         this.controllerPort = controllerPort;
         this.swswTunnel = swswTunnel;
         this.swvmTunnel = swvmTunnel;
+        this.userSW2domSW = userSW2domSW;
+        this.userVM2domVM = userVM2domVM;
     }
 
 }

@@ -115,5 +115,15 @@ public class RPCService implements IRPCService {
 //        return gdmAgent.stopRunningSliceByID(authTokenManager.toAuthToken(authToken), orderID);
 //    }
 
-
+    @Override
+    public String getRunningSliceInfoById(String authToken, String sliceID) {
+        Logger.getAnonymousLogger().info("");
+        try {
+            return gdmAgent.getRunningSliceInfoById(authTokenManager.toAuthToken(authToken), sliceID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Logger.getAnonymousLogger().severe(e.getMessage());
+            return "Exception Occur";
+        }
+    }
 }
