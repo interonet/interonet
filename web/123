@@ -1,0 +1,234 @@
+ <div class="col3-4 last">
+                <div class="context">
+                    <form class="form-horizontal" method="post" action="CreateSliceThree.php"
+                          enctype="multipart/form-data">
+                        <div id="tab-one">
+                            <ul class="nav nav-tabs">
+                                <li role="presentation" class="active"><a href="#first" class="current">Xi‘an</a></li>
+                                <li role="presentation"><a href="#second">Nanjing</a></li>
+                                <li role="presentation"><a href="#third">Wuhan</a></li>
+                                <li role="presentation"><a href="#fourth">Extend</a></li>
+                            </ul>
+                            <div class="list-wrap">
+
+                                <div id="first">
+                                    <div id="Number" class="part Number">
+                                        <h2>
+                                            Number
+                                        </h2>
+
+                                        <div class="row">
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-1">
+                                                <label class="control-label" for="inputXianSwitch">Switch</label>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <select id="inputXianSwitch" name="XianSwitch" class="form-control">
+                                                    <option value="0">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <label class="control-label" for="inputXianVM">VM</label>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <select id="inputXianVM" name="XianVM" class="form-control">
+                                                    <option value="0">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div id="Time" class="part">
+                                        <h2>Time</h2>
+
+                                        <div class="row">
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-1">
+                                                <label class="control-label ">Start</label>
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <select id="inputStartHour" name="StartTimeHour"
+                                                        class="form-control input-sm">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="col-xs-less">hour</div>
+                                            <div class="col-xs-2">
+                                                <select id="inputStartMinute" name="StartTimeMinute"
+                                                        class="form-control input-sm">
+                                                    <option value="0">0</option>
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="20">20</option>
+                                                    <option value="25">25</option>
+                                                    <option value="30">30</option>
+                                                    <option value="35">35</option>
+                                                    <option value="40">40</option>
+                                                    <option value="45">45</option>
+                                                    <option value="50">50</option>
+                                                    <option value="55">55</option>
+
+                                                </select>
+
+                                            </div>
+                                            <div class="col-xs-less">min</div>
+
+
+                                        </div>
+                                        <br/>
+
+                                        <div class="row">
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-1">
+                                                <label class="control-label ">End</label>
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <select id="inputEndHour" name="EndTimeHour"
+                                                        class="form-control input-sm">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18">18</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20">20</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="col-xs-less">hour</div>
+                                            <div class="col-xs-2">
+                                                <select id="inputEndMinute" name="EndTimeMinute"
+                                                        class="form-control input-sm">
+                                                    <option value="0">0</option>
+                                                    <option value="5">5</option>
+                                                    <option value="10">10</option>
+                                                    <option value="15">15</option>
+                                                    <option value="20">20</option>
+                                                    <option value="25">25</option>
+                                                    <option value="30">30</option>
+                                                    <option value="35">35</option>
+                                                    <option value="40">40</option>
+                                                    <option value="45">45</option>
+                                                    <option value="50">50</option>
+                                                    <option value="55">55</option>
+
+                                                </select>
+
+                                            </div>
+                                            <div class="col-xs-less">min</div>
+
+
+                                        </div>
+
+                                    </div>
+                                    <div id="Configure" class="part">
+                                        <h2>Switch Configure</h2>
+
+
+                                    </div>
+                                    <div id="Controller" class="part">
+                                        <h2>Controller</h2>
+
+                                        <div class="row">
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-1">
+                                                <label class="control-label" for="inputIP">IP</label>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <input id="inputIP" name="IP" class="form-control"/>
+                                            </div>
+                                        </div>
+                                        <br/>
+
+                                        <div class="row">
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-1">
+                                                <label class="control-label" for="inputPort">Port</label>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <input id="inputPort" name="Port" class="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="Topology" class="part">
+                                        <h2>Topology</h2>
+                                        <div class="row">
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-2">
+                                                <button type="button" id="CreateTopology" class="btn btn-primary btn-lg " >Create Topology</button>
+                                            </div>
+                                            <div class="col-xs-1"></div>
+                                            <div class="col-xs-2">
+                                                <button type="button" id="CheckTopology" class="btn btn-primary  btn-lg" >Check Topology</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div id="second" class="hide"></div>
+                                <div id="third" class="hide"></div>
+                                <div id="fourth" class="hide"></div>
+                                </div>
+                            </div>
+
+
+                    </form>
+
+                </div>
+
+
+            </div>

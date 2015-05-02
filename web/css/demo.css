@@ -1,0 +1,111 @@
+.window {
+
+    border: 1px solid #346789;
+    box-shadow: 2px 2px 19px #e0e0e0;
+    -o-box-shadow: 2px 2px 19px #e0e0e0;
+    -webkit-box-shadow: 2px 2px 19px #e0e0e0;
+    -moz-box-shadow: 2px 2px 19px #e0e0e0;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+
+    position: absolute;
+    color: black;
+    padding: 0.5em;
+    width: 60px;
+    height:60px;
+    line-height: 40px;
+    -webkit-transition: -webkit-box-shadow 0.15s ease-in;
+    -moz-transition: -moz-box-shadow 0.15s ease-in;
+    -o-transition: -o-box-shadow 0.15s ease-in;
+    transition: box-shadow 0.15s ease-in;
+    background-repeat: no-repeat;
+    cursor: move;
+}
+.switch {
+    top:120px;
+    left: 0;
+    background-image: url("../images/s.jpg");
+}
+ .host {
+     top:350px;
+     left:0;
+     background-image: url("../images/h.jpg");
+ }
+.window:hover {
+    border:1px solid #123456;
+    box-shadow: 2px 2px 19px #444;
+    -o-box-shadow: 2px 2px 19px #444;
+    -webkit-box-shadow: 2px 2px 19px #444;
+    -moz-box-shadow: 2px 2px 19px #fff;
+    opacity:0.9;
+    filter:alpha(opacity=90);
+}
+
+.window a {
+    font-family:helvetica;
+}
+
+.flowchart-demo{
+opacity:0.8;
+filter:alpha(opacity=80);
+
+
+text-align:center;
+z-index:20;
+position:absolute;
+color:black;
+padding:0.5em;
+font-size:large;
+
+}
+
+.flowchart-demo .window:hover {
+	box-shadow: 2px 2px 19px #444;
+   -o-box-shadow: 2px 2px 19px #444;
+   -webkit-box-shadow: 2px 2px 19px #444;
+   -moz-box-shadow: 2px 2px 19px #444;
+    opacity:0.6;
+	filter:alpha(opacity=60);
+}
+
+.flowchart-demo .active {
+	border:1px dotted green;
+}
+.flowchart-demo .hover {
+	border:1px dotted red;
+}
+
+.flowchart-demo ._jsPlumb_connector { z-index:20; }
+.flowchart-demo ._jsPlumb_endpoint, .endpointTargetLabel, .endpointSourceLabel{ z-index:20;font-size: x-small }
+.flowchart-demo ._jsPlumb_endpoint
+{
+    cursor:pointer;
+}
+.flowchart-demo .aLabel {
+ 	background-color:white; 
+	padding:0.4em; 
+	font:12px sans-serif; 
+	color:#444;
+	z-index:21;
+	border:1px dotted gray;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	cursor: pointer;
+}
+.flowchart-demo .aLabel._jsPlumb_hover {
+	background-color:#5C96BC;
+	color:white;	
+	border:1px solid #000000;;
+}
+
+.window._jsPlumb_connected {
+    border:2px solid green;
+}
+
+.jsplumb-drag {
+    border:4px solid pink !important;
+}
+.window strong
+{
+    cursor: move;
+}
