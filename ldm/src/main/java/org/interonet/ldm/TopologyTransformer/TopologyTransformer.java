@@ -1,12 +1,27 @@
 package org.interonet.ldm.TopologyTransformer;
 
 
+import java.util.logging.Logger;
+
 public class TopologyTransformer {
     private SnmpManager snmpManager;
+    private Logger logger = Logger.getLogger(TopologyTransformer.class.getName());
 
     public TopologyTransformer() {
         try {
             snmpManager = new SnmpManager();
+            initVlanTag();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initVlanTag() {
+        try {
+            for (int i = 1; i <= 20; i++) {
+                snmpManager.changePortFromVlantoVlan(i, 1);
+            }
+            logger.info("Initiate all the 20 ports to VLAN 1");
         } catch (Exception e) {
             e.printStackTrace();
         }
