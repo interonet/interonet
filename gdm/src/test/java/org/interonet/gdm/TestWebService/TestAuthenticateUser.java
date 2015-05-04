@@ -9,7 +9,7 @@ public class TestAuthenticateUser extends TestCase {
     JsonRpcHttpClient client;
 
     public TestAuthenticateUser() throws Exception {
-        client = new JsonRpcHttpClient(new URL("http://202.117.15.79:8080/"));
+        client = new JsonRpcHttpClient(new URL("http://127.0.0.1:8080/"));
     }
 
     public void testAuthenticateUser() throws Throwable {
