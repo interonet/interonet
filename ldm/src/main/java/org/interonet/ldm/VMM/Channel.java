@@ -38,11 +38,12 @@ public class Channel {
             openChannel = (ChannelExec) session.openChannel("exec");
             openChannel.setCommand(command);
             openChannel.connect();
-            InputStream in = (InputStream) openChannel.getInputStream();
-            openChannel.setErrStream(System.err);
+            InputStream in = openChannel.getInputStream();
+            // Fuck this API.
+//            openChannel.setErrStream(System.err);
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            String buf = null;
-            if(judge==true) {
+            String buf;
+            if (judge) {
                 while ((buf = reader.readLine()) != null) {
                     result = new String(buf.getBytes("gbk"), "UTF-8");
                 }
