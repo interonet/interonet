@@ -1,5 +1,7 @@
 package org.interonet.ldm.Core;
 
+import java.io.IOException;
+
 public class LDMAgent {
     private LDMCore ldmCore;
 
@@ -7,45 +9,61 @@ public class LDMAgent {
         this.ldmCore = ldmCore;
     }
 
-    public String createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) {
-        return null;
+    public void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer)throws Exception{
+        ldmCore.createTunnelSW2SW(switchPortPeer,peerSwitchPortPeer);
     }
 
-    public String createTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT) {
-        return null;
+    public void createTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Exception{
+        ldmCore.createTunnelSW2VM(switchPortPeeronTT,vmID);
     }
 
-    public String addSWitchConf(Integer switchID, String controllerIP, int controllerPort) {
-        return null;
+    public void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
+        ldmCore.addSwitchConf(switchID, controllerIP, controllerPort);
     }
 
-    public String powerOnSwitch(Integer switchID) {
-        return null;
+    public void addSWitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
+        ldmCore.addSwitchConf(type, switchID, controllerIP, controllerPort);
     }
 
     public String powerOnVM(Integer vmID) {
-        ldmCore.powerOnVM(vmID);
-        return null;
+        return  ldmCore.powerOnVM(vmID);
+//        String OnResult = "failure";
+//        OnResult = ldmCore.powerOnVM(vmID);
+//        return OnResult;
     }
 
-    public String deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) {
-        return null;
+    public void deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) throws Exception{
+        ldmCore.deleteTunnelSW2SW(switchPortPeeronTT,athrSwitchPortPeeronTT);
     }
 
-    public String deleteTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT) {
-        return null;
+    public void deleteTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT)throws Exception{
+        ldmCore.deleteTunnelSW2VM(switchPortPeeronTT,peerVMPortPeeronTT);
     }
 
     public String deleteSWitchConf(Integer switchID) {
         return null;
     }
 
-    public String powerOffSwitch(Integer switchID) {
-        return null;
+
+    public void resetSwitchConf(Integer switchID) throws IOException, InterruptedException {
+        ldmCore.resetSwitchConf(switchID);
     }
 
+
     public String powerOffVM(Integer vmID) {
-        ldmCore.powerOnVM(vmID);
-        return null;
+        return ldmCore.powerOffVM(vmID);
+//        String OffResult = "failure";
+//        OffResult = ldmCore.powerOffVM(vmID);
+//        return OffResult;
     }
+
+    public void powerOnSwitch(Integer switchID) throws Exception {
+        ldmCore.powerOnSwitch(switchID);
+    }
+
+    public void powerOffSwitch(Integer switchID) throws Exception {
+        ldmCore.powerOffSwitch(switchID);
+    }
+
+
 }

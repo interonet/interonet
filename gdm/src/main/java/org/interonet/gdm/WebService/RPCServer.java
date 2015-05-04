@@ -3,23 +3,23 @@ package org.interonet.gdm.WebService;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.interonet.gdm.Core.GDMAgent;
+import org.interonet.gdm.Core.IGDMAgent;
 
-public class RPCServer implements IRPCServer {
-    private GDMAgent gdmAgent;
+public class RPCServer {
+    private IGDMAgent gdmAgent;
     private Server rpcServer;
 
-    public RPCServer(GDMAgent gdmAgent) {
+    public RPCServer(IGDMAgent gdmAgent) {
         this.gdmAgent = gdmAgent;
     }
 
-    @Override
     public void start() {
         try {
             rpcServer = new Server(8080);
             //rpcServer = new Server(new InetSocketAddress("202.117.15.79",8080));
 
             ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            context.setMaxFormContentSize(100000000);
             context.setContextPath("/");
             rpcServer.setHandler(context);
 
@@ -32,7 +32,6 @@ public class RPCServer implements IRPCServer {
 
     }
 
-    @Override
     public void stop() {
         try {
             rpcServer.stop();

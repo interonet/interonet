@@ -1,0 +1,18 @@
+{
+  "userSW2domSWMapping": {
+    "s0": 0
+  },
+  "EndTime": "14:20",
+  "ControllerPort": "6633",
+  "userVM2domVMMapping": {
+    "h0": 0,
+    "h1": 1
+  },
+  "BeginTime": "14:18",
+  "SliceID": "root1",
+  "Topology": {
+    "h0:0": "s0:0",
+    "h1:0": "s0:1"
+  },
+  "ControllerIP": "202.117.15.79"
+}

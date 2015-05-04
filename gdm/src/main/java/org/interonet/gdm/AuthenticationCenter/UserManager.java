@@ -1,24 +1,27 @@
 package org.interonet.gdm.AuthenticationCenter;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.interonet.gdm.Core.GDMCore;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 public class UserManager implements IUserManager {
-    Map<String, String> userDB;
+    UserDBManager userDBManager;
+    Collection<User> users;
 
-    public UserManager() {
-        userDB = new HashMap<String, String>();
-        userDB.put("admin", "admin");
-        userDB.put("root", "root");
-        userDB.put("test1", "test1");
-        userDB.put("test2", "test2");
-        userDB.put("test3", "test3");
+    public UserManager(GDMCore core) {
+        users = new HashSet<>();
+        userDBManager = new UserDBManager(core);
+        userDBManager.init(users);
     }
 
     @Override
     public Boolean authUser(String username, String password) {
-        if (!userDB.get(username).equals(password))
-            return false;
-        return true;
+        for (User user : users) {
+            if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

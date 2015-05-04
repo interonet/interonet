@@ -1,26 +1,32 @@
 package org.interonet.gdm.Core;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class WaitingStartQueue {
 
     public List<WSOrder> wsQueue;
     private Map<String, Integer> userOrderNum;
+    private Logger waitingStartQueueLogger;
 
     public WaitingStartQueue() {
-        this.wsQueue = new ArrayList<WSOrder>();
-        this.userOrderNum = new HashMap<String, Integer>();
+        this.wsQueue = new ArrayList<>();
+        this.userOrderNum = new HashMap<>();
+        waitingStartQueueLogger = Logger.getLogger("waitingStartQueueLogger");
     }
 
     public List<WSOrder> getQueue() {
         return wsQueue;
     }
 
-    public boolean newOrder(String username,
+    synchronized public boolean newOrder(String username,
                             List<Integer> switchIDs,
                             List<Integer> vmIDs,
                             String beginTime,
@@ -40,18 +46,18 @@ public class WaitingStartQueue {
         return wsQueue.add(wsOrder);
     }
 
-    public String getOrderIDListByUsername(String username) {
-        StringBuilder orderIDList = new StringBuilder();
+    synchronized public String getOrderIDListByUsername(String username) throws IOException {
+        List<String> orderIDList = new ArrayList<>();
         for (WSOrder wsOrder : wsQueue) {
             if (wsOrder.username.equals(username)) {
-                orderIDList.append(wsOrder.orderID);
-                orderIDList.append("\n");
+                orderIDList.add(wsOrder.orderID);
             }
         }
-        return orderIDList.toString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(orderIDList);
     }
 
-    public boolean deleteOrderByID(String orderID) {
+    synchronized public boolean deleteOrderByID(String orderID) {
         for (WSOrder wsOrder : wsQueue) {
             if (wsOrder.orderID.equals(orderID)) {
                 wsQueue.remove(wsOrder);
@@ -61,20 +67,21 @@ public class WaitingStartQueue {
         return false;
     }
 
-    public String getOrderInfoByID(String orderID) {
-        StringBuilder orderInfo = new StringBuilder();
+    synchronized public String getOrderInfoByID(String orderID) throws IOException {
+        Map<String, String> orderInfo = new HashMap<>();
         for (WSOrder wsOrder : wsQueue) {
             if (wsOrder.orderID.equals(orderID)) {
-                orderInfo.append("OrderID: ").append(wsOrder.orderID).append("\n");
-                orderInfo.append("Switch Number: ").append(wsOrder.switchIDs.size()).append("\n");
-                orderInfo.append("VM Number: ").append(wsOrder.vmIDs.size()).append("\n");
-                orderInfo.append("Begin Time: ").append(wsOrder.beginTime).append("\n");
-                orderInfo.append("End Time: ").append(wsOrder.endTime).append("\n");
-                orderInfo.append("Controller IP: ").append(wsOrder.controllerIP).append("\n");
-                orderInfo.append("Controller Port: ").append(wsOrder.controllerPort).append("\n");
-                return orderInfo.toString();
+                orderInfo.put("OrderID", wsOrder.orderID);
+                orderInfo.put("SwitchNumber", String.valueOf(wsOrder.switchIDs.size()));
+                orderInfo.put("VMNumber", String.valueOf(wsOrder.vmIDs.size()));
+                orderInfo.put("BeginTime", wsOrder.beginTime);
+                orderInfo.put("EndTime", wsOrder.endTime);
+                orderInfo.put("ControllerIP", wsOrder.controllerIP);
+                orderInfo.put("ControllerPort", String.valueOf(wsOrder.controllerPort));
+                break;
             }
         }
-        return null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(orderInfo);
     }
 }

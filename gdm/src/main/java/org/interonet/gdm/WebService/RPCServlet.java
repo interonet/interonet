@@ -1,7 +1,7 @@
 package org.interonet.gdm.WebService;
 
 import com.googlecode.jsonrpc4j.JsonRpcServer;
-import org.interonet.gdm.Core.GDMAgent;
+import org.interonet.gdm.Core.IGDMAgent;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
@@ -12,9 +12,9 @@ import java.io.IOException;
 public class RPCServlet extends HttpServlet {
     private RPCService rpcService;
     private JsonRpcServer jsonRpcServer;
-    private GDMAgent gdmAgent;
+    private IGDMAgent gdmAgent;
 
-    public RPCServlet(GDMAgent gdmAgent) {
+    public RPCServlet(IGDMAgent gdmAgent) {
         this.gdmAgent = gdmAgent;
     }
 

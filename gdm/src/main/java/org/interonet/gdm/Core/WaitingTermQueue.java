@@ -1,5 +1,8 @@
 package org.interonet.gdm.Core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,39 +13,49 @@ public class WaitingTermQueue {
     private Map<String, Integer> userOrderNum;
 
     public WaitingTermQueue() {
-        this.wtQueue = new ArrayList<WTOrder>();
-        this.userOrderNum = new HashMap<String, Integer>();
+        this.wtQueue = new ArrayList<>();
+        this.userOrderNum = new HashMap<>();
     }
 
-    public String getOrderIDListByUsername(String username) {
-        StringBuilder orderIDList = new StringBuilder("orderIDList: ");
+    synchronized public String getOrderIDListByUsername(String username) throws IOException {
+//        StringBuilder orderIDList = new StringBuilder("orderIDList: ");
+//        for (WTOrder wtOrder : wtQueue) {
+//            if (wtOrder.username.equals(username)) {
+//                orderIDList.append(wtOrder.sliceID);
+//                orderIDList.append("\n");
+//            }
+//        }
+//        return orderIDList.toString();
+
+        List<String> orderIDList = new ArrayList<>();
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.username.equals(username)) {
-                orderIDList.append(wtOrder.sliceID);
-                orderIDList.append("\n");
+                orderIDList.add(wtOrder.sliceID);
             }
         }
-        return orderIDList.toString();
+        return new ObjectMapper().writeValueAsString(orderIDList);
     }
 
-    public String getOrderInfoByID(String sliceID) {
-        StringBuilder sliceInfo = new StringBuilder();
+    synchronized public String getRunningSliceInfoByID(String sliceID) throws IOException {
+        Map<String, Object> sliceInfo = new HashMap<>();
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.sliceID.equals(sliceID)) {
-                sliceInfo.append("Slice ID: ").append(wtOrder.sliceID).append("\n");
-                sliceInfo.append("Switch Number: ").append(wtOrder.switchIDs.size()).append("\n");
-                sliceInfo.append("VM Number: ").append(wtOrder.vmIDs.size()).append("\n");
-                sliceInfo.append("Begin Time: ").append(wtOrder.beginTime).append("\n");
-                sliceInfo.append("End Time: ").append(wtOrder.endTime).append("\n");
-                sliceInfo.append("Controller IP: ").append(wtOrder.controllerIP).append("\n");
-                sliceInfo.append("Controller Port: ").append(wtOrder.controllerPort).append("\n");
+                sliceInfo.put("SliceID", wtOrder.sliceID);
+                sliceInfo.put("BeginTime", wtOrder.beginTime);
+                sliceInfo.put("EndTime", wtOrder.endTime);
+                sliceInfo.put("Topology", wtOrder.topology);
+                sliceInfo.put("ControllerIP", wtOrder.controllerIP);
+                sliceInfo.put("ControllerPort", String.valueOf(wtOrder.controllerPort));
+                sliceInfo.put("userSW2domSWMapping", wtOrder.userSW2domSW);
+                sliceInfo.put("userVM2domVMMapping", wtOrder.userVM2domVM);
+                break;
             }
-            return sliceInfo.toString();
         }
-        return null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(sliceInfo);
     }
 
-    public void newOrder(WTOrder wtOrder) {
+    synchronized public void newOrder(WTOrder wtOrder) {
         if (userOrderNum.get(wtOrder.username) == null)
             userOrderNum.put(wtOrder.username, 0);
         Integer userOdNum = userOrderNum.get(wtOrder.username);
@@ -57,12 +70,13 @@ public class WaitingTermQueue {
     }
 
 
-    public void deleteOrderByID(String sliceID) {
+    synchronized public boolean deleteOrderByID(String sliceID) {
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.sliceID.equals(sliceID)) {
                 wtQueue.remove(wtOrder);
-                break;
+                return true;
             }
         }
+        return false;
     }
 }

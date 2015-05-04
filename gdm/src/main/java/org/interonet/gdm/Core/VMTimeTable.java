@@ -1,12 +1,19 @@
 package org.interonet.gdm.Core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.interonet.gdm.Core.Utils.Duration;
+
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class VMTimeTable {
     private final int TOTALVMSNUMBER = 8;
     Map<Integer, List<Duration>> vmTimeTable;
+    private Logger vmTimeTableLogger;
 
     public VMTimeTable() {
+        vmTimeTableLogger = Logger.getLogger("vmTimeTableLogger");
         vmTimeTable = new HashMap<Integer, List<Duration>>();
         for (int i = 0; i < TOTALVMSNUMBER; i++) {
             List<Duration> vmTimeLine = new LinkedList<Duration>();
@@ -14,7 +21,7 @@ public class VMTimeTable {
         }
     }
 
-    public List<Integer> checkVMAvailability(int vmsNum, String beginTime, String endTime) {
+    synchronized public List<Integer> checkVMAvailability(int vmsNum, String beginTime, String endTime) {
         Duration orderDur = new Duration(beginTime, endTime);
         List<Integer> availableVMs = new ArrayList<Integer>();
 
@@ -54,7 +61,7 @@ public class VMTimeTable {
         return (availableVMs.size() >= vmsNum) ? availableVMs.subList(0, vmsNum) : null;
     }
 
-    public boolean setOccupied(List<Integer> vmIDs, String beginTime, String endTime) {
+    synchronized public boolean setOccupied(List<Integer> vmIDs, String beginTime, String endTime) {
         for (Integer vmID : vmIDs) {
             Duration orderDur = new Duration(beginTime, endTime);
             List<Duration> switchTimeLine = vmTimeTable.get(vmID);
@@ -88,9 +95,16 @@ public class VMTimeTable {
 
     }
 
-    public String getTimeTable() {
-        StringBuffer timeTable = new StringBuffer();
+    public String getTimeTable() throws IOException {
+        vmTimeTableLogger.info(this.toString());
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(vmTimeTable);
+    }
 
+    @Override
+    public String toString() {
+        StringBuffer timeTable = new StringBuffer();
+        timeTable.append("\n****************************************************\n");
         for (Map.Entry<Integer, List<Duration>> entry : vmTimeTable.entrySet()) {
             int switchID = entry.getKey();
             StringBuffer swTimeLineStr = new StringBuffer();
@@ -100,6 +114,7 @@ public class VMTimeTable {
                 swTimeLineStr.append("(" + duration.start + "--->" + duration.end + ")");
             timeTable.append(swTimeLineStr + "\n");
         }
+        timeTable.append("****************************************************\n");
         return timeTable.toString();
     }
 }

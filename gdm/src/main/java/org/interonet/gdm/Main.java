@@ -1,20 +1,22 @@
 package org.interonet.gdm;
 
-import org.interonet.gdm.Core.GDMAgent;
 import org.interonet.gdm.Core.GDMCore;
-import org.interonet.gdm.Core.IGDMCore;
-import org.interonet.gdm.WebService.IRPCServer;
+import org.interonet.gdm.Core.IGDMAgent;
 import org.interonet.gdm.WebService.RPCServer;
+
+import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Starting InterONet GDM System");
-        IGDMCore gdmCore = new GDMCore();
+
+        Logger gdmMainLogger = Logger.getLogger("GDMMainLogger");
+        gdmMainLogger.info("Starting InterONet GDM System");
+        GDMCore gdmCore = new GDMCore();
         gdmCore.start();
 
-        System.out.println("Starting InterONet GDM RPC Server");
-        GDMAgent gdmAgent = gdmCore.getAgent();
-        IRPCServer gdmRPCServer = new RPCServer(gdmAgent);
+        gdmMainLogger.info("Starting InterONet GDM RPC Server");
+        IGDMAgent gdmAgent = gdmCore.getAgent();
+        RPCServer gdmRPCServer = new RPCServer(gdmAgent);
         gdmRPCServer.start();
     }
 }

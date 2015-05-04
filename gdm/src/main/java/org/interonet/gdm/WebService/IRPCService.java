@@ -1,20 +1,23 @@
 package org.interonet.gdm.WebService;
 
 public interface IRPCService {
-    public String authenticateUser(String username, String password);
+    String authenticateUser(String username, String password);
 
-    public String getSwitchesUsageStatus(String authToken);
+    String getSwitchesUsageStatus(String authToken);
 
-    public String getVMsUsageStatus(String authToken);
+    String getVMsUsageStatus(String authToken);
 
-    public String orderSlice(String authtoken, String order);
+    String orderSlice(String authtoken, String order);
 
-    public String getOrdersList(String authtoken);
+    String getOrdersList(String authtoken);
 
-    public String getOrderInfoByID(String authtoken, String orderID);
+    String getOrderInfoByID(String authtoken, String orderID);
 
-    public String deleteOrderByID(String authtoken, String orderID);
+    String deleteOrderByID(String authtoken, String orderID);
 
-    public String getRunningSlices(String authtoken);
+    String getRunningSlices(String authtoken);
+
 //    public String stopRunningSliceByID(String authtoken, String sliceID);
+
+    String getRunningSliceInfoById(String authToken, String sliceID);
 }

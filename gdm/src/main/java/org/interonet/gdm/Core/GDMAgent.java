@@ -3,56 +3,68 @@ package org.interonet.gdm.Core;
 import org.interonet.gdm.AuthenticationCenter.AuthToken;
 import org.interonet.gdm.AuthenticationCenter.IAuthTokenManager;
 
-import java.util.Map;
+import java.io.IOException;
 
-public class GDMAgent {
-    IGDMCore gdmCore;
+public class GDMAgent implements IGDMAgent {
+    GDMCore gdmCore;
 
-    public GDMAgent(IGDMCore gdmCore) {
+    public GDMAgent(GDMCore gdmCore) {
         this.gdmCore = gdmCore;
     }
 
-    public AuthToken authenticateUser(String username, String password) {
+    @Override
+    public String authenticateUser(String username, String password) {
         return gdmCore.authenticateUser(username, password);
     }
 
-    public String getSwitchesUsageStatus(AuthToken authToken) {
+    @Override
+    public String getSwitchesUsageStatus(AuthToken authToken) throws IOException {
         return gdmCore.getSwitchesUsageStatus(authToken);
     }
 
-    public String getVmsUsageStatus(AuthToken authToken) {
+    @Override
+    public String getVmsUsageStatus(AuthToken authToken) throws IOException {
         return gdmCore.getVmsUsageStatus(authToken);
     }
 
 
-    public Boolean orderSlice(AuthToken authToken, int swichesNum, int vmsNum, String beginTime, String endTime,
-                              Map<String, String> topology,
-                              Map<String, String> switchConf,
-                              String controllerIP, int controllerPort) {
-        return gdmCore.orderSlice(authToken, swichesNum, vmsNum, beginTime, endTime, topology, switchConf, controllerIP, controllerPort);
+    @Override
+    public Boolean orderSlice(AuthToken authToken, String order) throws Exception {
+        return gdmCore.orderSlice(authToken, order);
     }
 
-    public String getOrdersList(AuthToken authToken) {
+    @Override
+    public String getOrdersList(AuthToken authToken) throws IOException {
         return gdmCore.getOrdersIDList(authToken);
     }
 
-    public String getOrderInfoByID(AuthToken authToken, String orderID) {
+    @Override
+    public String getOrderInfoByID(AuthToken authToken, String orderID) throws IOException {
         return gdmCore.getOrderInfoByID(authToken, orderID);
     }
 
-    public String deleteOrderByID(AuthToken authToken, String orderID) {
+    @Override
+    public Boolean deleteOrderByID(AuthToken authToken, String orderID) {
         return gdmCore.deleteOrderByID(authToken, orderID);
     }
 
-    public String getRunningSlice(AuthToken authToken) {
+    @Override
+    public String getRunningSlice(AuthToken authToken) throws IOException {
         return gdmCore.getRunningSliceIDsList(authToken);
     }
 
+    @Override
     public IAuthTokenManager getAuthTokenManager() {
         return gdmCore.getAuthTokenManager();
     }
 
-//    public String stopRunningSliceByID(AuthToken authToken, String orderID) {
-//        return gdmCore.stopRunningSliceByID(authToken, orderID);
-//    }
+    @Override
+    public String stopRunningSliceByID(AuthToken authToken, String orderID) {
+        return gdmCore.stopRunningSliceByID(authToken, orderID);
+    }
+
+    @Override
+    public String getRunningSliceInfoById(AuthToken authToken, String sliceID) throws IOException {
+        return gdmCore.getRunningSliceInfoByID(authToken, sliceID);
+    }
 }
