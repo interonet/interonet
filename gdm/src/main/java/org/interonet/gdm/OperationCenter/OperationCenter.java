@@ -11,7 +11,7 @@ public class OperationCenter implements IOperationCenter {
     JsonRpcHttpClient client;
     Logger operationCenterLogger = Logger.getLogger("operationCenterLogger");
     GDMCore core;
-    boolean DEBUG = true;
+    boolean DEBUG = false;
 
     public OperationCenter(GDMCore core) {
         this.core = core;

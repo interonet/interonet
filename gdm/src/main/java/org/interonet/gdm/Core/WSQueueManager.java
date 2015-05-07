@@ -75,7 +75,7 @@ public class WSQueueManager implements Runnable {
                         String userSWConf = wsOrder.switchConf.get(userSW);
                         Integer domSW = entry.getValue();//s5
                         if (userSWConf == null || userSW == null) {
-                            Logger.getAnonymousLogger().severe("Error to map");
+                            Logger.getAnonymousLogger().severe("Error to map:" + "userSWConf=" + userSWConf + ", userSW=" + userSW);
                             throw new Exception("Error to map");
                         }
                         switch (userSWConf) {

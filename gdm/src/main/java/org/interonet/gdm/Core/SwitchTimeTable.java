@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class SwitchTimeTable {
 
-    private static final int TOTALSWITCHESNUMBER = 4;
+    private static final int TOTALSWITCHESNUMBER = 2;
     Map<Integer, List<Duration>> switchTimeTable;
 
     Logger switchTimeTableLogger;
