@@ -5736,7 +5736,7 @@ button.close {
   position:fixed;
   display: none;
   z-index: 1050;
-  overflow: hidden;
+  overflow: auto;
     top: 0;
     right: 0;
     bottom: 0;
@@ -5748,7 +5748,7 @@ button.close {
     position:fixed;
     display: none ;
     z-index: 1050;
-    overflow: hidden;
+    overflow: auto;
 
 
 }
@@ -5775,7 +5775,7 @@ button.close {
 .modal-dialog {
   position: relative;
   width: 800px;
-    margin: 30px auto;
+    margin: auto auto;
 }
 .modal-dialog2 {
     position: relative;
@@ -5852,11 +5852,11 @@ position: relative;
 @media (min-width: 768px) {
   .modal-dialog {
     width: 800px;
-    margin: 50px auto;
+    margin: 40px auto;
   }
     .modal-dialog2 {
         width: 840px;
-        margin: 100px auto;
+        margin: 50px auto;
     }
   .modal-content {
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
