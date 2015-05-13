@@ -26,7 +26,7 @@ A Full-Stack-Programmable SDN Testbed leaded by XJTU.
 ## Contributor
 {
     "[Chengchen Hu](hucc@ieee.org)" => "Teacher",
-    "Shuoling Deng](mr.dengshuoling@gmail.com)" => "Team Leader",
+    "[Shuoling Deng](mr.dengshuoling@gmail.com)" => "Team Leader",
     "[Lifei Hou](632023637@qq.com)" => VM & Web Dev,
     "[Xuechao Du](xcdu@foxmail.com)" => "Topology Transformer Dev",
     "[Kaiqi Yang](1851206559@qq.com), [JiaMing Zhou](446164251@qq.com)" => "Power System"
