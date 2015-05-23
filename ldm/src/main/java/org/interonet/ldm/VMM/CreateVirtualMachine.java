@@ -17,7 +17,7 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
     private String ip = "192.168.2.3";
     @Override
     public String vmclone(int ID) {
-        String command = "virt-clone -o vmsource -n vmm" + ID + "  -f /home/400/vmuser/vm" + ID + ".img";
+        String command = "virt-clone -o vmserver -n vmm" + ID + "  -f /home/400/vmuser/vm" + ID + ".img";
         Channel channel = new Channel(user,password,ip, 22);
         String result = channel.setChannel(command,true);
         return result;
