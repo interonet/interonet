@@ -8,19 +8,22 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserDBManager {
     GDMCore core;
+    Logger logger;
     public UserDBManager(GDMCore core) {
         this.core = core;
+        logger = LoggerFactory.getLogger(UserDBManager.class);
     }
 
     public void init(Collection<User> users) {
 
         List<Map<String, String>> userDBParser;
         try {
-            Logger.getLogger("UserDBManagerLogger").info("reading userDB from" + core.getConfigurationCenter().getConf("userDB"));
+            logger.info("reading userDB from" + core.getConfigurationCenter().getConf("userDB"));
             File file = new File(core.getConfigurationCenter().getConf("userDB"));
             userDBParser = new ObjectMapper().readValue(file, List.class);
 

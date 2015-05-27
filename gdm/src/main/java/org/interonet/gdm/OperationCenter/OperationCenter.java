@@ -2,14 +2,15 @@ package org.interonet.gdm.OperationCenter;
 
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import org.interonet.gdm.Core.GDMCore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Logger;
 
 public class OperationCenter implements IOperationCenter {
     JsonRpcHttpClient client;
-    Logger operationCenterLogger = Logger.getLogger("operationCenterLogger");
+    Logger operationCenterLogger = LoggerFactory.getLogger(OperationCenter.class);
     GDMCore core;
     boolean DEBUG = false;
 

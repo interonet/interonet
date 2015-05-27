@@ -2,10 +2,11 @@ package org.interonet.gdm.Core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.Core.Utils.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class VMTimeTable {
     private final int TOTALVMSNUMBER = 8;
@@ -13,7 +14,7 @@ public class VMTimeTable {
     private Logger vmTimeTableLogger;
 
     public VMTimeTable() {
-        vmTimeTableLogger = Logger.getLogger("vmTimeTableLogger");
+        vmTimeTableLogger = LoggerFactory.getLogger(VMTimeTable.class);
         vmTimeTable = new HashMap<Integer, List<Duration>>();
         for (int i = 0; i < TOTALVMSNUMBER; i++) {
             List<Duration> vmTimeLine = new LinkedList<Duration>();

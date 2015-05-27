@@ -2,20 +2,21 @@ package org.interonet.gdm.Core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.Core.Utils.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class SwitchTimeTable {
 
-    private static final int TOTALSWITCHESNUMBER = 2;
+    private static final int TOTALSWITCHESNUMBER = 1;
     Map<Integer, List<Duration>> switchTimeTable;
 
     Logger switchTimeTableLogger;
 
     public SwitchTimeTable() {
-        switchTimeTableLogger = Logger.getLogger("switchTimeTableLogger");
+        switchTimeTableLogger = LoggerFactory.getLogger("switchTimeTableLogger");
 
         switchTimeTable = new HashMap<>();
         for (int i = 0; i < TOTALSWITCHESNUMBER; i++) {

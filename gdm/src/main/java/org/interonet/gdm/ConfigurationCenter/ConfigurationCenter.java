@@ -7,12 +7,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConfigurationCenter implements IConfigurationCenter {
     public Map<String, Integer> TTPortMap = new HashMap<>();
     public Map<String, String> globalConfiguration = new HashMap<>();
     private GDMCore core;
+    private Logger logger = LoggerFactory.getLogger(ConfigurationCenter.class);
 
     public ConfigurationCenter() {
         if (System.getenv().get("INTERONET_HOME") == null){
@@ -24,8 +26,8 @@ public class ConfigurationCenter implements IConfigurationCenter {
     }
 
     private void initGlobalConf(){
-        Logger.getLogger("ConfigurationLogger").info("reading conf file from" + System.getenv().get("INTERONET_HOME") + "/conf/conf.json");
-        File confFile = new File(System.getenv().get("INTERONET_HOME") + "/conf/conf.json");
+        logger.info("reading conf file from" + System.getenv().get("INTERONET_HOME") + "/gdm/conf/conf.json");
+        File confFile = new File(System.getenv().get("INTERONET_HOME") + "/gdm/conf/conf.json");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Map<String, String> map = objectMapper.readValue(confFile, Map.class);
@@ -38,7 +40,7 @@ public class ConfigurationCenter implements IConfigurationCenter {
     }
 
     private void initTopologyTransformerPortMap() {
-        Logger.getLogger("ConfigurationLogger").info("reading TTProtMap file from" + System.getenv().get("INTERONET_HOME") + "/db/TTPortMap.json");
+        logger.info("reading TTProtMap file from" + globalConfiguration.get("TTPortMapDBTTPortMapDB"));
         File confFile = new File(globalConfiguration.get("TTPortMapDBTTPortMapDB"));
 
         ObjectMapper objectMapper = new ObjectMapper();

@@ -2,13 +2,14 @@ package org.interonet.gdm.Core;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class WaitingStartQueue {
 
@@ -19,7 +20,7 @@ public class WaitingStartQueue {
     public WaitingStartQueue() {
         this.wsQueue = new ArrayList<>();
         this.userOrderNum = new HashMap<>();
-        waitingStartQueueLogger = Logger.getLogger("waitingStartQueueLogger");
+        waitingStartQueueLogger = LoggerFactory.getLogger(WaitingStartQueue.class);
     }
 
     public List<WSOrder> getQueue() {

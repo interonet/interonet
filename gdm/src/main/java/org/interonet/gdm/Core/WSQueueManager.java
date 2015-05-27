@@ -4,12 +4,13 @@ import org.apache.commons.io.FileUtils;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.gdm.Core.Utils.DayTime;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class WSQueueManager implements Runnable {
     WaitingStartQueue waitingStartQueue;
@@ -18,12 +19,16 @@ public class WSQueueManager implements Runnable {
     IConfigurationCenter configurationCenter;
     GDMCore core;
 
+    Logger logger;
+
     public WSQueueManager(GDMCore core, WaitingStartQueue wsQueue, WaitingTermQueue wtQueue, IOperationCenter operationCenter) {
         this.core = core;
         this.waitingStartQueue = wsQueue;
         this.waitingTermQueue = wtQueue;
         this.operationCenter = operationCenter;
         configurationCenter = core.getConfigurationCenter();
+        logger = LoggerFactory.getLogger(WSQueueManager.class);
+
     }
 
     public List<WSOrder> checkOrders() {
@@ -75,7 +80,7 @@ public class WSQueueManager implements Runnable {
                         String userSWConf = wsOrder.switchConf.get(userSW);
                         Integer domSW = entry.getValue();//s5
                         if (userSWConf == null || userSW == null) {
-                            Logger.getAnonymousLogger().severe("Error to map:" + "userSWConf=" + userSWConf + ", userSW=" + userSW);
+                            logger.error("Error to map:" + "userSWConf=" + userSWConf + ", userSW=" + userSW);
                             throw new Exception("Error to map");
                         }
                         switch (userSWConf) {
@@ -89,7 +94,7 @@ public class WSQueueManager implements Runnable {
                                 //URL to download.
                                 String urlRegex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
                                 if (!userSWConf.matches(urlRegex)) {
-                                    Logger.getAnonymousLogger().severe("Wrong URL");
+                                    logger.error("Wrong URL");
                                     throw new Exception("Wrong URL");
                                 }
                                 String fileName = System.currentTimeMillis() + ".tar.xz";
