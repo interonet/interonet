@@ -9,14 +9,19 @@ import java.io.IOException;
 import java.util.*;
 
 public class VMTimeTable {
-    private final int TOTALVMSNUMBER = 8;
+    private GDMCore core;
+
+    private int totalVmsNumber;
     Map<Integer, List<Duration>> vmTimeTable;
     private Logger vmTimeTableLogger;
 
-    public VMTimeTable() {
+    public VMTimeTable(GDMCore core) {
         vmTimeTableLogger = LoggerFactory.getLogger(VMTimeTable.class);
+        this.core = core;
+
+        totalVmsNumber = Integer.parseInt(core.getConfigurationCenter().getConf("VMsNumber"));
         vmTimeTable = new HashMap<Integer, List<Duration>>();
-        for (int i = 0; i < TOTALVMSNUMBER; i++) {
+        for (int i = 0; i < totalVmsNumber; i++) {
             List<Duration> vmTimeLine = new LinkedList<Duration>();
             vmTimeTable.put(i, vmTimeLine);
         }
@@ -25,7 +30,6 @@ public class VMTimeTable {
     synchronized public List<Integer> checkVMAvailability(int vmsNum, String beginTime, String endTime) {
         Duration orderDur = new Duration(beginTime, endTime);
         List<Integer> availableVMs = new ArrayList<Integer>();
-
 
         for (Map.Entry<Integer, List<Duration>> entry : vmTimeTable.entrySet()) {
             int vmID = entry.getKey();

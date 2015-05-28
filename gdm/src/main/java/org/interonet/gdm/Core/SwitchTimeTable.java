@@ -10,16 +10,19 @@ import java.util.*;
 
 public class SwitchTimeTable {
 
-    private static final int TOTALSWITCHESNUMBER = 1;
-    Map<Integer, List<Duration>> switchTimeTable;
+    private GDMCore core;
+    private int totalSwitchesNumber = 1;
+    public Map<Integer, List<Duration>> switchTimeTable;
 
-    Logger switchTimeTableLogger;
+    private Logger switchTimeTableLogger;
 
-    public SwitchTimeTable() {
-        switchTimeTableLogger = LoggerFactory.getLogger("switchTimeTableLogger");
+    public SwitchTimeTable(GDMCore core) {
+        switchTimeTableLogger = LoggerFactory.getLogger(SwitchTimeTable.class);
+        this.core = core;
 
+        totalSwitchesNumber = Integer.parseInt(core.getConfigurationCenter().getConf("SwitchesNumber"));
         switchTimeTable = new HashMap<>();
-        for (int i = 0; i < TOTALSWITCHESNUMBER; i++) {
+        for (int i = 0; i < totalSwitchesNumber; i++) {
             List<Duration> swTimeLine = new LinkedList<>();
             switchTimeTable.put(i, swTimeLine);
         }

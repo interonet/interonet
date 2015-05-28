@@ -1,5 +1,10 @@
 {
   "LDMConnectionURL":"http://10.0.0.1:8081/",
+  "LDMConnectionReadTimeoutMillis": "300000",
+
   "TTPortMapDBTTPortMapDB":"/home/samuel/github/interonet/gdm/db/TTPortMap.json",
-  "userDB":"/home/samuel/github/interonet/gdm/db/userDB.json"
+  "userDB":"/home/samuel/github/interonet/gdm/db/userDB.json",
+
+  "SwitchesNumber":"1",
+  "VMsNumber":"8"
 }

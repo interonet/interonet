@@ -46,8 +46,8 @@ public class GDMCore {
         Thread wtQueueOperatorThread = new Thread(wtQueueOperator);
         wtQueueOperatorThread.start();
         authTokenManager = new AuthTokenManager();
-        switchTimeTable = new SwitchTimeTable();
-        vmTimeTable = new VMTimeTable();
+        switchTimeTable = new SwitchTimeTable(this);
+        vmTimeTable = new VMTimeTable(this);
     }
 
 

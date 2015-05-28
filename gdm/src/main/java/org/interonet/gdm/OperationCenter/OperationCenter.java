@@ -18,7 +18,8 @@ public class OperationCenter implements IOperationCenter {
         this.core = core;
         try {
             client = new JsonRpcHttpClient(new URL(core.getConfigurationCenter().getConf("LDMConnectionURL")));
-            client.setReadTimeoutMillis(60 * 1000 * 5);
+            String readTimeout = core.getConfigurationCenter().getConf("LDMConnectionReadTimeoutMillis");
+            client.setReadTimeoutMillis(Integer.parseInt(readTimeout));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
