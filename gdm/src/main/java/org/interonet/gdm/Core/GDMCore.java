@@ -7,6 +7,8 @@ import org.interonet.gdm.Core.Utils.DayTime;
 import org.interonet.gdm.Core.Utils.Duration;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -28,6 +30,7 @@ public class GDMCore {
     private VMTimeTable vmTimeTable;
     private IConfigurationCenter configurationCenter;
     private IUserManager userManager;
+    private Logger gdmCoreLogger = LoggerFactory.getLogger(GDMCore.class);
 
     public GDMCore() {
     }
@@ -60,8 +63,11 @@ public class GDMCore {
     }
 
     public Boolean orderSlice(AuthToken authToken, String order) throws Exception {
-        if (!authTokenManager.auth(authToken))
+
+        if (!authTokenManager.auth(authToken)){
+            gdmCoreLogger.info("authentication error");
             return false;
+        }
 
         OrderParser orderParser = new OrderParser(order);
         int switchesNum = orderParser.getSwitchesNum();
@@ -72,25 +78,36 @@ public class GDMCore {
         Map<String, String> swConf = orderParser.getSwitchConfig();
         String ctrlIP = orderParser.getControllerIP();
         int ctrlPort = orderParser.getControllerPort();
+        Map<String, Map> customSwitchConf = orderParser.getCustomSwitchConf();
 
         Date date = new Date();
         DayTime beginTime = new DayTime(beginT);
         DayTime nowTime = new DayTime(new SimpleDateFormat("HH:mm").format(date));
 
-        if (beginTime.earlyThan(nowTime)){
-            return false;
-        }
+//        if (beginTime.earlyThan(nowTime)){
+//            gdmCoreLogger.info("begin time is early than now time, failed");
+//            gdmCoreLogger.info("beginTime = " + beginTime);
+//            gdmCoreLogger.info("nowTime = " + nowTime);
+//            return false;
+//        }
 
         String username = authTokenManager.getUsernameByToken(authToken);
         List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginT, endT);
         List<Integer> vmIDs = vmTimeTable.checkVMAvailability(vmsNum, beginT, endT);
 
-        if (username == null || switchIDs == null || vmIDs == null)
+        if(switchIDs == null){
+            gdmCoreLogger.info("switches is not enough now");
             return false;
+        }
+
+        if(vmIDs == null){
+            gdmCoreLogger.info("vms is not enough now");
+            return false;
+        }
 
         boolean swStatus = switchTimeTable.setOccupied(switchIDs, beginT, endT);
         boolean vmStatus = vmTimeTable.setOccupied(vmIDs, beginT, endT);
-        return !(!swStatus || !vmStatus) && wsQueue.newOrder(username, switchIDs, vmIDs, beginT, endT, topology, swConf, ctrlIP, ctrlPort);
+        return !(!swStatus || !vmStatus) && wsQueue.newOrder(username, switchIDs, vmIDs, beginT, endT, topology, swConf, ctrlIP, ctrlPort, customSwitchConf);
 
     }
 

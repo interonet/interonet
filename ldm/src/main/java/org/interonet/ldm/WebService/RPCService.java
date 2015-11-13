@@ -2,6 +2,7 @@ package org.interonet.ldm.WebService;
 
 import org.interonet.ldm.Core.LDMAgent;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class RPCService {
@@ -35,10 +36,10 @@ public class RPCService {
         }
     }
 
-    public String addSWitchConf(Integer switchID, String controllerIP, int controllerPort) {
-        ldmRPCServiceLogger.info(switchID + " " + controllerIP + " " + controllerPort);
+    public String addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) {
+        ldmRPCServiceLogger.info(type + " " + switchID + " " + controllerIP + " " + controllerPort);
         try {
-            ldmAgent.addSWitchConf(switchID, controllerIP, controllerPort);
+            ldmAgent.addSWitchConf(type, switchID, controllerIP, controllerPort);
             return "Success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,10 +47,9 @@ public class RPCService {
         }
     }
 
-    public String addSWitchConf(String type, Integer switchID, String controllerIP, int controllerPort) {
-        ldmRPCServiceLogger.info(type + " " + switchID + " " + controllerIP + " " + controllerPort);
+    public String addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchId, String controllerIP, int controllerPort) {
+        ldmRPCServiceLogger.info("customSwitchConfGDM = [" + customSwitchConfGDM + "], switchId = [" + switchId + "], controllerIP = [" + controllerIP + "], controllerPort = [" + controllerPort + "]");
         try {
-            ldmAgent.addSWitchConf(type, switchID, controllerIP, controllerPort);
             return "Success";
         } catch (Exception e) {
             e.printStackTrace();

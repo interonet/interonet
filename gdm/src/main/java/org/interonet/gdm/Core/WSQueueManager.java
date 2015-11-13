@@ -1,14 +1,11 @@
 package org.interonet.gdm.Core;
 
-import org.apache.commons.io.FileUtils;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.gdm.Core.Utils.DayTime;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -74,7 +71,7 @@ public class WSQueueManager implements Runnable {
             }
 
             for (Map.Entry<String, Integer> entry : userSW2domSW.entrySet()) {
-                Thread t = new Thread(()->{
+                Thread t = new Thread(() -> {
                     try {
                         String userSW = entry.getKey();//s0
                         String userSWConf = wsOrder.switchConf.get(userSW);
@@ -85,23 +82,80 @@ public class WSQueueManager implements Runnable {
                         }
                         switch (userSWConf) {
                             case "OF1.0":
-                                operationCenter.addSWitchConf("OF1.0", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                                operationCenter.addSwitchConf("OF1.0", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
                                 break;
                             case "OF1.3":
-                                operationCenter.addSWitchConf("OF1.3", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+                                operationCenter.addSwitchConf("OF1.3", domSW, wsOrder.controllerIP, wsOrder.controllerPort);
                                 break;
-                            default:
-                                //URL to download.
+                            default://custom
+                                Map<String, String> customSwitchConf = wsOrder.customSwitchConf.get(userSW);
+                                if (customSwitchConf == null) {
+                                    logger.error("There should be #" + userSW + " , But this number is not in the custom switch conf.");
+                                    throw new Exception("Incomplete Custom Switch Configuration");
+                                }
+
+                                /*
+                                *   customSwitchConf should be like this.
+                                *
+                                *  {
+                                *     "root-fs": "http://202.117.15.79(WebUI)/TIMESTAMP.tar.xz",
+                                *     "boot-bin": "http://202.117.15.79(WebUI)/TIMESTAMP.bin",
+                                *     "uImage": "http://202.117.15.79(WebUI)/TIMESTAMP",
+                                *     "device-tree": "http://202.117.15.79(WebUI)/TIMESTAMP"
+                                *  }
+                                *
+                                * */
+
+                                String rootFsUrl = customSwitchConf.get("root-fs");
+                                String bootBinUrl = customSwitchConf.get("boot-bin");
+                                String uImageUrl = customSwitchConf.get("uImage");
+                                String deviceTreeUrl = customSwitchConf.get("device-tree");
+
+                                //Url Validation.
                                 String urlRegex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-                                if (!userSWConf.matches(urlRegex)) {
-                                    logger.error("Wrong URL");
+                                if (!rootFsUrl.matches(urlRegex) ||
+                                        !bootBinUrl.matches(urlRegex) ||
+                                        !uImageUrl.matches(uImageUrl) ||
+                                        !deviceTreeUrl.matches(urlRegex)) {
+                                    logger.error("rootFsUrl = " + rootFsUrl);
+                                    logger.error("bootBinUrl = " + bootBinUrl);
+                                    logger.error("uImageUrl = " + uImageUrl);
+                                    logger.error("deviceTreeUrl = " + deviceTreeUrl);
                                     throw new Exception("Wrong URL");
                                 }
-                                String fileName = System.currentTimeMillis() + ".tar.xz";
-                                String filePath = "/var/www/html/SwitchConfStore/" + fileName;
-                                FileUtils.copyURLToFile(new URL(userSWConf), new File(filePath));
-                                String urlFilePath = "http://202.117.15.79/SwitchConfStore/" + fileName;
-                                operationCenter.addSWitchConf(urlFilePath, domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+
+                                //RootFS
+                                String rootFsFileName = System.currentTimeMillis() + "-rootfs.tar.xz";
+                                String rootFsFilePath = "/var/www/html/SwitchConfStore/" + rootFsFileName;
+//                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(rootFsFilePath));
+                                String rootFsUrlFilePath = "http://202.117.15.79/SwitchConfStore/" + rootFsFileName;
+
+                                //Boot-Bin
+                                String bootBinFileName = System.currentTimeMillis() + "-boot.bin";
+                                String bootBinFilePath = "/var/www/html/SwitchConfStore/" + bootBinFileName;
+//                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(bootBinFilePath));
+                                String bootBinUrlFilePath = "http://202.117.15.79/SwitchConfStore/" + bootBinFileName;
+
+                                //uImage
+                                String uImageFileName = System.currentTimeMillis() + "-uImage";
+                                String uImageFilePath = "/var/www/html/SwitchConfStore/" + uImageFileName;
+//                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(uImageFilePath));
+                                String uImageUrlFilePath = "http://202.117.15.79/SwitchConfStore/" + uImageFileName;
+
+                                //Device Tree
+                                String deviceTreeFileName = System.currentTimeMillis() + "-deviceTree";
+                                String deviceTreeFilePath = "/var/www/html/SwitchConfStore/" + deviceTreeFileName;
+//                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(deviceTreeFilePath));
+                                String deviceTreeUrlFilePath = "http://202.117.15.79/SwitchConfStore/" + deviceTreeFileName;
+
+                                Map<String, String> customSwitchConfGDM = new HashMap<>();
+                                customSwitchConfGDM.put("root-fs", rootFsUrlFilePath);
+                                customSwitchConfGDM.put("boot-bin", bootBinUrlFilePath);
+                                customSwitchConfGDM.put("uImage", uImageUrlFilePath);
+                                customSwitchConfGDM.put("device-tree", deviceTreeUrlFilePath);
+
+                                operationCenter.addSwitchConf(customSwitchConfGDM, domSW, wsOrder.controllerIP, wsOrder.controllerPort);
+
                                 break;
                         }
                     } catch (Throwable e) {
@@ -154,7 +208,7 @@ public class WSQueueManager implements Runnable {
             waitingTermQueue.newOrder(wtOrder);
 
             //Wait for all the thread to complete.
-            for(Thread t : threadsStartVM){
+            for (Thread t : threadsStartVM) {
                 t.join();
             }
         }
@@ -174,6 +228,7 @@ public class WSQueueManager implements Runnable {
             if (userID.substring(0, 1).equals("h") || userPeerID.substring(0, 1).equals("h"))
                 continue;
 
+            //FIXME if userId is null, and the whole program will be crashed.
             int domIDint = userSW2domSw.get(userID);
             int domPeerIDint = userSW2domSw.get(userPeerID);
 

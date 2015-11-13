@@ -19,5 +19,13 @@
   "controllerConf": {
     "ip": "202.117.15.123",
     "port": "6633"
+  },
+  "customSwitchConf":{
+    "s1": {
+      "root-fs": "http://202.117.15.79(WebUI)/TIMESTAMP.tar.xz",
+      "boot-bin": "http://202.117.15.79(WebUI)/TIMESTAMP.bin",
+      "uImage": "http://202.117.15.79(WebUI)/TIMESTAMP",
+      "device-tree": "http://202.117.15.79(WebUI)/TIMESTAMP"
+    }
   }
 }

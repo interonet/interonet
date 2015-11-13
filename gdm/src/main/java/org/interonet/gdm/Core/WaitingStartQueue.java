@@ -28,14 +28,16 @@ public class WaitingStartQueue {
     }
 
     synchronized public boolean newOrder(String username,
-                            List<Integer> switchIDs,
-                            List<Integer> vmIDs,
-                            String beginTime,
-                            String endTime,
-                            Map<String, String> topology,
-                            Map<String, String> switchConf,
-                            String controllerIP,
-                            int controllerPort) {
+                                         List<Integer> switchIDs,
+                                         List<Integer> vmIDs,
+                                         String beginTime,
+                                         String endTime,
+                                         Map<String, String> topology,
+                                         Map<String, String> switchConf,
+                                         String controllerIP,
+                                         int controllerPort,
+                                         Map<String, Map> customSwitchConf
+    ) {
 
         if (userOrderNum.get(username) == null)
             userOrderNum.put(username, 0);
@@ -43,7 +45,7 @@ public class WaitingStartQueue {
 
         String orderID = username + userOrderNum.get(username);
 
-        WSOrder wsOrder = new WSOrder(orderID, username, switchIDs, vmIDs, beginTime, endTime, topology, switchConf, controllerIP, controllerPort);
+        WSOrder wsOrder = new WSOrder(orderID, username, switchIDs, vmIDs, beginTime, endTime, topology, switchConf, controllerIP, controllerPort, customSwitchConf);
         return wsQueue.add(wsOrder);
     }
 
