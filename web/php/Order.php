@@ -13,7 +13,7 @@ $SwitchNum = $_POST["SwitchNum"];
 $VMNum = $_POST["VMNum"];
 $StartTime = $_POST["StartTimeHour"].":".$_POST["StartTimeMinute"];
 $EndTime = $_POST["EndTimeHour"].":".$_POST["EndTimeMinute"];
-$topology = json_decode($_COOKIE["Topology"]);
+$topology = json_decode($_POST["Topology"]);
 $ip = $_POST["IP"];
 $port = $_POST["Port"];
 

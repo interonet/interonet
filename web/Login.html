@@ -2,92 +2,65 @@
 <html>
 <head>
     <title>Login</title>
-    <link href="css/reset.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="css/styles.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="css/print.css" rel="stylesheet" type="text/css" media="print" />
+
     <link href="css/bootstrap.css" rel="stylesheet" media="screen"/>
-    <script src="js/custom-menu.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" />
-    <script src="js/bootstrap.js"></script>
-    <script src="js/jquery-1.7.1.js" type="text/javascript"></script>
-
-
-    <link href="css/onebyone.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="css/login.css" rel="stylesheet" type="text/css">
-
+    <script src="js/jquery-2.1.4.js" type="text/javascript"></script>
+    <script src="js/bootstrap.js"></script>
 </head>
 <body>
-<div id="wrapper">
-
-    <!-- start content -->
-    <div id="container" class="clearfix">
-        <div class="content">
-
-                <form class="loginForm" method="post" action="php/Login.php" onsubmit="return validate(this)">
-                    <fieldset>
-                        <legend>Login</legend>
-                        <div class="control-group" id="RegisterDiv">
-                            <a id="Register" class="pull-right">Register</a>
-                        </div>
-                        <br/>
-
-                           <input id="inputUsername" name="username"  class="input-medium" type="text" placeholder="username"/>
-
-                          <input id="inputPassword" name="password" class="input-medium" type="password" placeholder="password"/>
-
-                                <button class="btn btn-success"  type="submit" >Login</button>
-
-                                <script type="text/javascript">
-                                    function validate(form) {
-                                        var returnValue = true;
-                                        if(form.username.value == "")
-                                        {
-                                            alert("username should not be empty");
-                                            form.username.focus();
-                                            returnValue = false;
-                                        }
-                                        if(form.password.value == "")
-                                        {
-                                            alert("password should not be empty");
-                                            form.password.focus();
-                                            returnValue = false;
-                                        }
-
-                                        return returnValue;
-                                    }   // submit form
-                                </script>
-
-
-                         <br/>
-                        <br/>
-                        <div class="control-group" id="divIndexForget">
-                            <a id="aIndexForget" class="pull-right">forget</a>
-                        </div>
-                        <br/>
-
-                    </fieldset>
-                </form>
-
-
+<div class="container">
+    <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <form class="loginForm" method="post" action="php/Login.php" onsubmit="return validate(this)">
+            <fieldset>
+                <legend>Login</legend>
+                <div class="control-group" id="RegisterDiv">
+                    <a id="Register" class="pull-right">Register</a>
                 </div>
-            </div>
+                <br/>
+                <div class="form-group">
+                    <input id="inputUsername" name="username"  placeholder="username" class="input-medium" type="text" />
+                </div>
+                <div class="form-group">
+                    <input id="inputPassword" name="password"  placeholder="password" class="input-medium" type="password" />
+                </div>
+                <button class="btn btn-success"  type="submit" >Login</button>
 
+                <script type="text/javascript">
+                    function validate(form) {
+                        var returnValue = true;
+                        if(form.username.value == "")
+                        {
+                            alert("username should not be empty");
+                            form.username.focus();
+                            returnValue = false;
+                        }
+                        if(form.password.value == "")
+                        {
+                            alert("password should not be empty");
+                            form.password.focus();
+                            returnValue = false;
+                        }
 
+                        return returnValue;
+                    } 
+                </script>
+                <br/>
+                <br/>
+                <div class="control-group" id="divIndexForget">
+                    <a id="aIndexForget" class="pull-right">forget</a>
+                </div>
+                <br/>
 
-
-
+            </fieldset>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
 </div>
 
 
-  </div>
-    </div>
-
-<!-- end content -->
-
-<!-- start footer -->
-
-<!-- end footer -->
-<div id="background"></div>
-
+</div>
 </body>
 </html>
