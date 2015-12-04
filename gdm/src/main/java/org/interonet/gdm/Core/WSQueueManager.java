@@ -1,11 +1,14 @@
 package org.interonet.gdm.Core;
 
+import org.apache.commons.io.FileUtils;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.gdm.Core.Utils.DayTime;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -98,27 +101,27 @@ public class WSQueueManager implements Runnable {
                                 *   customSwitchConf should be like this.
                                 *
                                 *  {
-                                *     "root-fs": "http://202.117.15.79(WebUI)/TIMESTAMP.tar.xz",
-                                *     "boot-bin": "http://202.117.15.79(WebUI)/TIMESTAMP.bin",
-                                *     "uImage": "http://202.117.15.79(WebUI)/TIMESTAMP",
-                                *     "device-tree": "http://202.117.15.79(WebUI)/TIMESTAMP"
+                                *     "root-fs": "http://202.117.15.79/ons_bak/backup.tar.xz",
+                                *     "system-bit": "http://202.117.15.79/ons_bak/system.bit",
+                                *     "uImage": "http://202.117.15.79/ons_bak/uImage",
+                                *     "device-tree": "http://202.117.15.79/ons_bak/devicetree.dtb"
                                 *  }
                                 *
                                 * */
 
                                 String rootFsUrl = customSwitchConf.get("root-fs");
-                                String bootBinUrl = customSwitchConf.get("boot-bin");
+                                String systemBitUrl = customSwitchConf.get("system-bit");
                                 String uImageUrl = customSwitchConf.get("uImage");
                                 String deviceTreeUrl = customSwitchConf.get("device-tree");
 
                                 //Url Validation.
                                 String urlRegex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
                                 if (!rootFsUrl.matches(urlRegex) ||
-                                        !bootBinUrl.matches(urlRegex) ||
+                                        !systemBitUrl.matches(urlRegex) ||
                                         !uImageUrl.matches(uImageUrl) ||
                                         !deviceTreeUrl.matches(urlRegex)) {
                                     logger.error("rootFsUrl = " + rootFsUrl);
-                                    logger.error("bootBinUrl = " + bootBinUrl);
+                                    logger.error("systemBitUrl = " + systemBitUrl);
                                     logger.error("uImageUrl = " + uImageUrl);
                                     logger.error("deviceTreeUrl = " + deviceTreeUrl);
                                     throw new Exception("Wrong URL");
@@ -127,25 +130,35 @@ public class WSQueueManager implements Runnable {
                                 //RootFS
                                 String rootFsFileName = System.currentTimeMillis() + "-rootfs.tar.xz";
                                 String rootFsFilePath = "/var/www/html/SwitchConfStore/" + rootFsFileName;
-//                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(rootFsFilePath));
+                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(rootFsFilePath));
                                 String rootFsUrlFilePath = "http://202.117.15.79/SwitchConfStore/" + rootFsFileName;
 
-                                //Boot-Bin
+                                //system-bit
+                                String bootGenUtilWorkingDir = configurationCenter.getConf("BootgenUtilWorkingDir");
+                                FileUtils.copyURLToFile(new URL(systemBitUrl), new File(bootGenUtilWorkingDir + "onetswitch_top.bit"));
+                                //Generate actual boot-bin using bootgen utils.
+                                Runtime.getRuntime().exec("rm boot.bin", null, new File(bootGenUtilWorkingDir)).waitFor();
+                                Runtime.getRuntime().exec("bootgen -w -image output.bif -o boot.bin", null, new File(bootGenUtilWorkingDir)).waitFor();
+                                if (!new File(bootGenUtilWorkingDir + "boot.bin").exists()) {
+                                    logger.error("bootgen build error");
+                                    Runtime.getRuntime().exec("rm boot.bin", null, new File(bootGenUtilWorkingDir)).waitFor();
+                                    throw new Exception("bootgen build error.");
+                                }
                                 String bootBinFileName = System.currentTimeMillis() + "-boot.bin";
                                 String bootBinFilePath = "/var/www/html/SwitchConfStore/" + bootBinFileName;
-//                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(bootBinFilePath));
+                                FileUtils.copyFile(new File(bootGenUtilWorkingDir + "boot.bin"), new File(bootBinFilePath));
                                 String bootBinUrlFilePath = "http://202.117.15.79/SwitchConfStore/" + bootBinFileName;
 
                                 //uImage
                                 String uImageFileName = System.currentTimeMillis() + "-uImage";
                                 String uImageFilePath = "/var/www/html/SwitchConfStore/" + uImageFileName;
-//                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(uImageFilePath));
+                                FileUtils.copyURLToFile(new URL(uImageUrl), new File(uImageFilePath));
                                 String uImageUrlFilePath = "http://202.117.15.79/SwitchConfStore/" + uImageFileName;
 
                                 //Device Tree
-                                String deviceTreeFileName = System.currentTimeMillis() + "-deviceTree";
+                                String deviceTreeFileName = System.currentTimeMillis() + "-devicetree.dtb";
                                 String deviceTreeFilePath = "/var/www/html/SwitchConfStore/" + deviceTreeFileName;
-//                                FileUtils.copyURLToFile(new URL(rootFsUrl), new File(deviceTreeFilePath));
+                                FileUtils.copyURLToFile(new URL(deviceTreeUrl), new File(deviceTreeFilePath));
                                 String deviceTreeUrlFilePath = "http://202.117.15.79/SwitchConfStore/" + deviceTreeFileName;
 
                                 Map<String, String> customSwitchConfGDM = new HashMap<>();
