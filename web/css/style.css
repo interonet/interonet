@@ -1,0 +1,128 @@
+
+/*首页图片*/
+.onetswitch{
+    margin-top: 41px;
+    background: url('../images/ons20-slide.png') no-repeat center;
+    background-size: 700px auto;
+    height: 450px;
+}
+
+/*首页服务介绍*/
+.tile
+{
+    text-align: center;
+    padding: 20px 20px;
+    margin: 20px 20px;
+}
+.tile-image
+{
+    height: 150px;
+    width: 150px;
+    margin:0 auto;
+    padding: 0 auto;
+}
+
+/*其它页导航栏*/
+.navbar-inverse-black
+{
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#010101), color-stop(50%, #020202), to(#030303));
+} 
+.navbar-nav-inner > li > a,
+.navbar-nav-inner > li > a:hover {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    -webkit-transition: color ease-in-out 0.2s;
+    -o-transition: color ease-in-out 0.2s;
+    transition: color ease-in-out 0.2s;
+}
+
+/*网页内容*/
+
+.content
+{
+	margin-top: 50px;
+}
+
+/* 浮动导航栏 Begin */
+.floatMenu
+{
+    padding-top: 5px;
+    position: relative;
+    top: 0px;
+}
+/*一级导航目录*/
+.first
+{
+    background-color: #eeeeee;
+}
+/*二级导航目录*/
+.second
+{
+    background-color: #ffffff;
+}
+
+/*内容边框*/
+.contextBorder
+{
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding:10px ;
+    height: inherit;
+}
+
+
+div #WaitingSlice, div#RunningSlice
+{
+    padding: 2px;
+}
+.createPart
+{
+    border: 2px solid #cccccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: 10px 10px 20px 10px;
+    padding: 10px;
+}
+.timeInput
+{
+    width: 8.33333333%;
+    float: left;
+}
+#Topology
+{
+    margin: 10px 10px 10px 10px;
+    padding: 10px;
+
+}
+
+#modelType
+{
+    position: static;
+    height: 500px;
+    width: 800px;
+
+}
+.OrderButton
+{
+    margin: 10px 20px 10px 20px;
+    padding: 10px;
+    text-align: right;
+}
+.timeWidth 
+{
+    border: solid 1px #8D8D8D;
+    width: 720px;
+    height: 30px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 5px;
+}
+.timeBlock
+{
+    position: absolute;
+    left: 50px;
+    height: 30px;
+    width: 50px;
+    background-color: #337ab7;
+    border-radius: 5px;
+}

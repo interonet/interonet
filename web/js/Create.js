@@ -1,7 +1,3 @@
-/**
- * Created by Lenovo on 2015/5/30.
- */
-
 $(document).ready(function () {
 
     //滚动导航栏
@@ -9,15 +5,32 @@ $(document).ready(function () {
     Switch();
     VM();
     //设置标题栏用户名
-    $("#user").text(getCookie("username"));
-    //设置Switch configure
+    $("#user").ready(function(){
+        $.post("php/Cookie.php",
+            {type:"Get"},
+            function(data)
+            {
+                $("#user").text(data);
+            });
+
+    });
+    $("#Logout").click(function(){
+            $.post("php/Cookie.php",
+                {type:"Del"});
+    }
+    );
+
+
+    //根据用户设置的交换机数目，设置第三模块需要配置交换机的数目
     $("#inputSwitch").blur(function () {
         SwitchConfigure()
     });
+
     //设置Topology
     $("#CreateTopology").click(function () {
         CreateTopology()
     });
+
     //查看topology
     $("#CheckTopology").click(function () {
         $('#myModal').modal('show');
@@ -31,15 +44,19 @@ $(document).ready(function () {
     });
 
 });
+
+// 导航栏滚动
 function menuYloc() {
     var name = "#floatMenu";
     var menuYloc = null;
     menuYloc = parseInt($(name).css("top").substring(0, $(name).css("top").indexOf("px")));
     $(window).scroll(function () {
-        offset = menuYloc + $(document).scrollTop() + "px";
+        var offset = menuYloc + $(document).scrollTop() + "px";
         $(name).animate({top: offset}, {duration: 500, queue: false});
     });
 }
+
+// 设置第三模块交换机数目
 function SwitchConfigure() {
     var SwitchNum = parseInt($("#inputSwitch").val());
     var VMNum = parseInt($("#inputVM").val());
@@ -77,6 +94,8 @@ function SwitchConfigure() {
     }
 
 }
+
+// 创建交换机、主机和拓扑
 function CreateTopology() {
     var myModal = $("#myModal");
     myModal.css("display", "block");
@@ -106,11 +125,7 @@ function CreateTopology() {
 
     jsPlumb.ready(function () {
 
-        var instance = jsPlumb.getInstance({
-            DragOptions: {cursor: 'pointer', zIndex: 2000},
-            ConnectionOverlays: [],
-            Container: "flowchart-demo"
-        });
+      
         var connectorHoverStyle = {
                 lineWidth: 4,
                 strokeStyle: "#216477",
@@ -126,8 +141,7 @@ function CreateTopology() {
                 endpoint: "Dot",
                 paintStyle: {
                     strokeStyle: "#000000",  // endpoint color
-                    fillStyle: "transparent",
-                    radius: 5,
+                    radius: 4,
                     lineWidth: 2
                 },
                 isSource: true,
@@ -136,7 +150,6 @@ function CreateTopology() {
                 connectorStyle: {
                     strokeStyle: "#5c96bc",
                     lineWidth: 2,
-                    outlineColor: "transparent",
                     outlineWidth: 4
                 },
                 hoverPaintStyle: endpointHoverStyle,
@@ -154,8 +167,7 @@ function CreateTopology() {
                 endpoint: "Dot",
                 paintStyle: {
                     strokeStyle: "#000000",  // endpoint color
-                    fillStyle: "transparent",
-                    radius: 5,
+                    radius: 4,
                     lineWidth: 2
                 },
                 isSource: true,
@@ -164,7 +176,6 @@ function CreateTopology() {
                 connectorStyle: {
                     strokeStyle: "#5c96bc",
                     lineWidth: 2,
-                    outlineColor: "transparent",
                     outlineWidth: 4
                 },
                 hoverPaintStyle: endpointHoverStyle,
@@ -182,8 +193,7 @@ function CreateTopology() {
                 endpoint: "Dot",
                 paintStyle: {
                     strokeStyle: "#000000",  // endpoint color
-                    fillStyle: "transparent",
-                    radius: 5,
+                    radius: 4,
                     lineWidth: 2
                 },
                 isSource: true,
@@ -192,7 +202,6 @@ function CreateTopology() {
                 connectorStyle: {
                     strokeStyle: "#5c96bc",
                     lineWidth: 2,
-                    outlineColor: "transparent",
                     outlineWidth: 4
                 },
                 hoverPaintStyle: endpointHoverStyle,
@@ -210,8 +219,7 @@ function CreateTopology() {
                 endpoint: "Dot",
                 paintStyle: {
                     strokeStyle: "#000000",  // endpoint color
-                    fillStyle: "transparent",
-                    radius: 5,
+                    radius: 4,
                     lineWidth: 2
                 },
                 isSource: true,
@@ -220,7 +228,6 @@ function CreateTopology() {
                 connectorStyle: {
                     strokeStyle: "#5c96bc",
                     lineWidth: 2,
-                    outlineColor: "transparent",
                     outlineWidth: 4
                 },
                 hoverPaintStyle: endpointHoverStyle,
@@ -234,7 +241,11 @@ function CreateTopology() {
                     }]
                 ]
             }
-
+        var instance = jsPlumb.getInstance({
+            DragOptions: {cursor: 'pointer', zIndex: 2000},
+            ConnectionOverlays: [],
+            Container: "flowchart-demo"
+        });
 
         var addSwitchEndpoints = function (toId, Anthors) {
             var Endpoints = new Array(firstEndpoint, secondEndpoint, thirdEndpoint, fourthEndpoint);
@@ -265,8 +276,6 @@ function CreateTopology() {
                 addVMEndpoints(VM, ["TopCenter"])
             }
 
-
-
             instance.draggable(jsPlumb.getSelector(".flowchart-demo .window"), {grid: [20, 20]});
 
 
@@ -286,11 +295,11 @@ function CheckSwitch() {
 }
 function SwitchState(data)
 {
-        var SwitchesUsageStatus = eval('(' + data + ')');
-        var SwitchesUsageStatusLength = 0;
-        for (var slength in SwitchesUsageStatus) {
-            SwitchesUsageStatusLength++;
-        }
+    var SwitchesUsageStatus = eval('(' + data + ')');
+    var SwitchesUsageStatusLength = 0;
+    for (var slength in SwitchesUsageStatus) {
+        SwitchesUsageStatusLength++;
+    }
     var SwitchModalBody = $("#SwitchModalBody");
     for (var i=1; i<=SwitchesUsageStatusLength; i++)
     {
@@ -314,7 +323,6 @@ function SwitchState(data)
                 var startPoint = parseInt((parseInt(startTime.substr(0, 2)) * 60 + parseInt(startTime.substr(3, 5))) / 2);
                 var endPoint = parseInt((parseInt(endTime.substr(0, 2)) * 60 + parseInt(endTime.substr(3, 5))) / 2);
                 var timeSwitchBlock = "<div class='timeBlock' id='" + "s" + m + "n" + n + "' data-toggle='tooltip' data-placement='top' title='" + startTime + "~" + endTime + "'></div>";
-
                 $(sDivID).append(timeSwitchBlock);
                 var SwitchBlockID = "#s" + m + "n" + n;
                 $(SwitchBlockID).css({"left": startPoint, "width": endPoint - startPoint});
@@ -366,9 +374,31 @@ function VMState(data)
 }
 function SaveChanges(instance)
 {
-    var Topology = "{";
+    // var Topology = "{";
+    // var connect = instance.getAllConnections();
+    // for (var k = 0; k < connect.length; k++) {
+    //     var line = connect[k].endpoints;
+    //     var start, end;
+    //     if (line[0].getUuid().substr(0, 1) == "h") {
+    //         start = line[0].getUuid();
+    //         end = line[1].getUuid();
+    //     }
+    //     else {
+    //         start = line[1].getUuid();
+    //         end = line[0].getUuid();
+    //     }
+
+    //     Topology = Topology + "\"" + start + "\":" + "\"" + end + "\"";
+    //     if (k < connect.length - 1)
+    //         Topology = Topology + ",";
+    //     else Topology = Topology + "}";
+    // }
+    // document.cookie = "Topology" + " = " + Topology + ";";
+    //  $("#inputTopology").val(Topology);
+    var Topology = new Object;
     var connect = instance.getAllConnections();
-    for (var k = 0; k < connect.length; k++) {
+    for(var k =0; k < connect.length; k++)
+    {
         var line = connect[k].endpoints;
         var start, end;
         if (line[0].getUuid().substr(0, 1) == "h") {
@@ -379,14 +409,10 @@ function SaveChanges(instance)
             start = line[1].getUuid();
             end = line[0].getUuid();
         }
+        Topology[start] = end;
 
-        Topology = Topology + "\"" + start + "\":" + "\"" + end + "\"";
-        if (k < connect.length - 1)
-            Topology = Topology + ",";
-        else Topology = Topology + "}";
     }
-
-    document.cookie = "Topology" + " = " + Topology + ";";
+    $("#inputTopology").val(JSON.stringify(Topology));
 }
 function Switch()
 {
