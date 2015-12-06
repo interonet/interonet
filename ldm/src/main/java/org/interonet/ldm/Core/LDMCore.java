@@ -7,6 +7,7 @@ import org.interonet.ldm.SwitchManager.ISwitchManager;
 import org.interonet.ldm.SwitchManager.SwitchManager;
 import org.interonet.ldm.TopologyTransformer.TopologyTransformer;
 import org.interonet.ldm.VMM.IVMManager;
+import org.interonet.ldm.VMM.VMManager;
 
 import java.io.IOException;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class LDMCore {
         switchManager = new SwitchManager(this);
 
         // VMManager initiation
-//        vMManager = new VMManager();
+        vMManager = new VMManager();
 
         // TT initiation.
         topologyTransformer = new TopologyTransformer();
