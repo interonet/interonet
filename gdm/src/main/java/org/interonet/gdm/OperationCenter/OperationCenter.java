@@ -50,6 +50,15 @@ public class OperationCenter implements IOperationCenter {
         }
     }
 
+    /*
+     *  customSwitchConf should be like this.
+     *  {
+     *     "root-fs": "http://202.117.15.79/ons_bak/backup.tar.xz",
+     *     "boot-bin": "http://202.117.15.79/ons_bak/system.bit",
+     *     "uImage": "http://202.117.15.79/ons_bak/uImage",
+     *     "device-tree": "http://202.117.15.79/ons_bak/devicetree.dtb"
+     *  }
+     * */
     @Override
     public void addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchId, String controllerIP, int controllerPort) throws Throwable {
         operationCenterLogger.info("LDM --> addSwitchConf(customSwitchConfGDM=" + customSwitchConfGDM + ",switchId=" + switchId + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");

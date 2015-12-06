@@ -39,7 +39,7 @@ public class RPCService {
     public String addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) {
         ldmRPCServiceLogger.info(type + " " + switchID + " " + controllerIP + " " + controllerPort);
         try {
-            ldmAgent.addSWitchConf(type, switchID, controllerIP, controllerPort);
+            ldmAgent.addSwitchConf(type, switchID, controllerIP, controllerPort);
             return "Success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,9 +47,21 @@ public class RPCService {
         }
     }
 
+    /*
+    *   customSwitchConf should be like this.
+    *
+    *  {
+    *     "root-fs": "http://202.117.15.79/ons_bak/backup.tar.xz",
+    *     "boot-bin": "http://202.117.15.79/ons_bak/system.bit",
+    *     "uImage": "http://202.117.15.79/ons_bak/uImage",
+    *     "device-tree": "http://202.117.15.79/ons_bak/devicetree.dtb"
+    *  }
+    *
+    * */
     public String addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchId, String controllerIP, int controllerPort) {
         ldmRPCServiceLogger.info("customSwitchConfGDM = [" + customSwitchConfGDM + "], switchId = [" + switchId + "], controllerIP = [" + controllerIP + "], controllerPort = [" + controllerPort + "]");
         try {
+            ldmAgent.addSwitchConf(customSwitchConfGDM, switchId, controllerIP, controllerPort);
             return "Success";
         } catch (Exception e) {
             e.printStackTrace();

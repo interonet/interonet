@@ -7,9 +7,9 @@ import org.interonet.ldm.SwitchManager.ISwitchManager;
 import org.interonet.ldm.SwitchManager.SwitchManager;
 import org.interonet.ldm.TopologyTransformer.TopologyTransformer;
 import org.interonet.ldm.VMM.IVMManager;
-import org.interonet.ldm.VMM.VMManager;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class LDMCore {
     @SuppressWarnings("FieldCanBeLocal")
@@ -35,7 +35,7 @@ public class LDMCore {
         switchManager = new SwitchManager(this);
 
         // VMManager initiation
-        vMManager = new VMManager();
+//        vMManager = new VMManager();
 
         // TT initiation.
         topologyTransformer = new TopologyTransformer();
@@ -65,12 +65,12 @@ public class LDMCore {
         powerManager.powerOffSwitchById(switchID);
     }
 
-    public void addSwitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
-        switchManager.changeConnectionPropertyFromNFS(switchID, controllerIP, controllerPort);
-    }
-
     public void addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
         switchManager.changeConnectionPropertyFromNFS(type, switchID, controllerIP, controllerPort);
+    }
+
+    public void addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchID, String controllerIP, int controllerPort) throws Exception {
+        switchManager.changeConnectionPropertyFromNFS(customSwitchConfGDM, switchID, controllerIP, controllerPort);
     }
 
     public IConfigurationCenter getConfigurationCenter() {
