@@ -1,16 +1,9 @@
 package org.interonet.ldm.SwitchManager;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import org.apache.commons.io.FileUtils;
 import org.interonet.ldm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.ldm.Core.LDMCore;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -66,7 +59,7 @@ public class SwitchManager implements ISwitchManager {
     *
     * */
     @Override
-    public void changeConnectionPropertyFromNFS(Map<String, String> customSwitchConfGDM, Integer switchID, String controllerIP, int controllerPort) throws Exception {
+    public void changeSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchId, String controllerIP, int controllerPort) throws Exception {
         //Parameter Parsing.
         String rootFsUrl = customSwitchConfGDM.get("root-fs");
         String bootBinUrl = customSwitchConfGDM.get("boot-bin");
@@ -91,70 +84,40 @@ public class SwitchManager implements ISwitchManager {
         // 2. Create a directory for every switch.
         // 3. Uncompress the tar.xz file into this directory.
         // 4. change the mode bit for every file.
-        FileUtils.copyURLToFile(new URL(rootFsUrl), new File("/export/" + switchID.toString() + ".tar.xz"));
-
-        Process process2Mkdir = Runtime.getRuntime().exec("mkdir /export/" + switchID.toString());
-        logger.info("mkdir /export/" + switchID.toString());
-        process2Mkdir.waitFor();
-
-        Process process2xz = Runtime.getRuntime().exec("tar xfJ /export/" + switchID.toString() + ".tar.xz -C " + "/export/" + switchID + "/");
-        process2xz.waitFor();
-        logger.info("Finish: tar xvfJ /export/" + switchID.toString() + ".tar.xz -C " + "/export/" + switchID + "/");
-
-        Process process2Chmod = Runtime.getRuntime().exec("chmod -R 777 /export/" + switchID.toString() + "/");
-        logger.info("chmod -R 777 " + "/export/" + switchID.toString() + "/");
-        process2Chmod.waitFor();
-
+        try {
+            nfsManager.copyRootFsFileToDir(rootFsUrl, switchId);
+            nfsManager.createSwitchDirectory(switchId);
+            nfsManager.unCompressXZFile(switchId);
+            nfsManager.changeFilePermission(switchId);
+        } catch (Exception e) {
+            throw e;
+        }
 
         //uImage and devicetree.dtb Processing
         // 1. Copy the url file to the /tftpboot/0/ directory.
         try {
-            FileUtils.copyURLToFile(new URL(uImageUrl), new File("/tftpboot/" + switchID + "/uImage"));
-            logger.info("copy " + uImageUrl + " to " + "/tftpboot/" + switchID + "/uImage successfully");
-            FileUtils.copyURLToFile(new URL(deviceTreeUrl), new File("/tftpboot/" + switchID + "/devicetree.dtb"));
-            logger.info("copy " + deviceTreeUrl + " to " + "/tftpboot/\" + switchID + \"/devicetree.dtb successfully");
+            bootImageManager.changeUImage(switchId, uImageUrl);
+            bootImageManager.changeDeviceTree(switchId, deviceTreeUrl);
         } catch (Exception e) {
-            logger.severe(e.getMessage());
             throw e;
         }
 
         //boot.bin Processing.
         // 1. scp the boot.bin into every switch's /mnt/ directory.
-        String username = "root";
-
-        String host = configurationCenter.getSwitchId2AddressMapping().get(switchID.toString());
-        String password = "root";
-        String knownHostFile = "/home/samuel/.ssh/known_hosts";
-        String fileDestination = "/mnt/boot.bin";
-
-        Session session = null;
-        ChannelSftp c = null;
         try {
-            JSch jsch = new JSch();
-            session = jsch.getSession(username, host, 22);
-            session.setPassword(password);
-            jsch.setKnownHosts(knownHostFile);
-            session.connect();
-
-            Channel channel = session.openChannel("sftp");
-            channel.connect();
-            c = (ChannelSftp) channel;
-
-            c.put(new URL(bootBinUrl).openStream(), fileDestination);
-            logger.info("scp " + bootBinUrl + " to " + host + ":" + fileDestination + " successfully");
-
+            String username = "root";
+            String hostIp = configurationCenter.getSwitchId2AddressMapping().get(switchId.toString());
+            String password = "root";
+            String knownHostFile = "/home/samuel/.ssh/known_hosts";
+            String fileDestination = "/mnt/boot.bin";
+            bootImageManager.changeBootBin(bootBinUrl, hostIp, username, password, knownHostFile, fileDestination);
         } catch (Exception e) {
-            logger.severe(e.getMessage());
             throw e;
-        } finally {
-            if (c != null) c.disconnect();
-            if (session != null) session.disconnect();
         }
-
     }
 
     @Override
-    public void changeConnectionPropertyFromNFS(String type, Integer switchID, String controllerIP, int controllerPort) throws InterruptedException, IOException {
+    public void changeSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws InterruptedException, IOException {
         Process process2Copy;
         Process process2Chmod;
 

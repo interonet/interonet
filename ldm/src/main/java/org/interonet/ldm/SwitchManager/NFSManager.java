@@ -1,11 +1,17 @@
 package org.interonet.ldm.SwitchManager;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import org.apache.commons.io.FileUtils;
+
+import java.io.*;
+import java.net.URL;
+import java.util.logging.Logger;
 
 public class NFSManager {
+    Logger logger = Logger.getLogger(NFSManager.class.getCanonicalName());
+
+    public NFSManager() {
+    }
+
     public void changeConnecitonPropertyFromNFS(Integer switchID, String nfsRootPath, String controllerIP, int controllerPort) throws IOException {
         // nfsRootPath like /export/0
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(nfsRootPath + "/root/start_switch.sh", true)));
@@ -63,5 +69,49 @@ public class NFSManager {
         }
         Hex12Digits.append(swIdhex);
         return Hex12Digits.toString();
+    }
+
+
+    public void copyRootFsFileToDir(String rootFsUrl, Integer switchID) throws IOException {
+        try {
+            FileUtils.copyURLToFile(new URL(rootFsUrl), new File("/export/" + switchID.toString() + ".tar.xz"));
+        } catch (IOException e) {
+            logger.severe(e.getMessage());
+            throw e;
+        }
+    }
+
+    public void createSwitchDirectory(Integer switchId) throws IOException, InterruptedException {
+        try {
+            Process process2Mkdir = Runtime.getRuntime().exec("mkdir /export/" + switchId.toString());
+            logger.info("mkdir /export/" + switchId.toString());
+            process2Mkdir.waitFor();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            throw e;
+        }
+    }
+
+    public void unCompressXZFile(Integer switchId) throws IOException, InterruptedException {
+        try {
+            Process process2xz = Runtime.getRuntime().exec("tar xfJ /export/" + switchId.toString() + ".tar.xz -C " + "/export/" + switchId + "/");
+            process2xz.waitFor();
+            logger.info("Finish: tar xvfJ /export/" + switchId.toString() + ".tar.xz -C " + "/export/" + switchId + "/");
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            throw e;
+        }
+
+    }
+
+    public void changeFilePermission(Integer switchId) throws IOException, InterruptedException {
+        try {
+            Process process2Chmod = Runtime.getRuntime().exec("chmod -R 777 /export/" + switchId.toString() + "/");
+            logger.info("chmod -R 777 " + "/export/" + switchId.toString() + "/");
+            process2Chmod.waitFor();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            throw e;
+        }
     }
 }

@@ -11,6 +11,7 @@ import org.interonet.ldm.VMM.VMManager;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class LDMCore {
     @SuppressWarnings("FieldCanBeLocal")
@@ -22,6 +23,8 @@ public class LDMCore {
     private IVMManager vMManager;
 
     private TopologyTransformer topologyTransformer;
+
+    private Logger logger = Logger.getLogger(SwitchManager.class.getCanonicalName());
 
     public void start() {
         ldmAgent = new LDMAgent(this);
@@ -67,11 +70,22 @@ public class LDMCore {
     }
 
     public void addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
-        switchManager.changeConnectionPropertyFromNFS(type, switchID, controllerIP, controllerPort);
+        switchManager.changeSwitchConf(type, switchID, controllerIP, controllerPort);
     }
 
+    /*
+    *   customSwitchConf should be like this.
+    *
+    *  {
+    *     "root-fs": "http://202.117.15.79/ons_bak/backup.tar.xz",
+    *     "boot-bin": "http://202.117.15.79/ons_bak/system.bit",
+    *     "uImage": "http://202.117.15.79/ons_bak/uImage",
+    *     "device-tree": "http://202.117.15.79/ons_bak/devicetree.dtb"
+    *  }
+    *
+    * */
     public void addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchID, String controllerIP, int controllerPort) throws Exception {
-        switchManager.changeConnectionPropertyFromNFS(customSwitchConfGDM, switchID, controllerIP, controllerPort);
+        switchManager.changeSwitchConf(customSwitchConfGDM, switchID, controllerIP, controllerPort);
     }
 
     public IConfigurationCenter getConfigurationCenter() {
