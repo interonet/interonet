@@ -26,6 +26,8 @@ $(document).ready(function () {
         SwitchConfigure()
     });
 
+
+
     //设置Topology
     $("#CreateTopology").click(function () {
         CreateTopology()
@@ -42,6 +44,19 @@ $(document).ready(function () {
     $("#CheckVMButton").click(function () {
         CheckVM();
     });
+    $("#Order").click(function(){
+    var input = $("#OrderForm input");
+    var submit = true;
+    for(var i = 0; i < input.length; i++){
+        if($(input[i]).val() == "")
+            submit = false;
+    }
+    if(submit == true)
+        $("#OrderForm").submit();
+    else
+        alert("The form is not complete, please complete it");
+
+    })
 
 });
 
@@ -64,24 +79,14 @@ function SwitchConfigure() {
     if (SwitchNum > SwitchNumNow) {
         for (var i = SwitchNumNow; i < SwitchNum; i++) {
             var row = "<div class='row' id='" + "row" + i + "'></div>";
-            var br = "<br id='" + "br" + i + "' />";
-            $("#Configure").append(row, br);
-            var col1 = "<div  class='col-xs-2'></div>";
-            var col2 = "<div id='" + "s" + i + "Col2" + "' class='col-xs-1'></div>";
-            var col3 = "<div id='" + "s" + i + "Col3" + "' class='col-xs-more'></div>";
-            var col4 = "<div id='" + "s" + i + "Col4" + "' class='col-xs-2'></div>"
+            var divfile = "<div id='" + "divfile" + i +"'>"
+            $("#Configure").append(row,divfile);
+            var col1 = "<div id='" + "s" + i + "Col1" + "' class='col-xs-1 col-xs-offset-2'><label class='" + "control-label'>" + "s" + i + "</label></div>";
+            var col2 = "<div id='" + "s" + i + "Col2" + "' class='col-xs-2'><input type='radio' name='" + "OF" + i + "' value='OF1.0'/>&nbspOF1.0</div>";
+            var col3 = "<div id='" + "s" + i + "Col3" + "' class='col-xs-2'><input type='radio' name='" + "OF" + i + "' value='OF1.3' checked='checked'/>&nbspOF1.3</div>";
+            var col4 = "<div id='" + "s" + i + "Col4" + "' class='col-xs-2'><input type='radio' name='" + "OF" + i + "' value='custom'/>&nbspcustom</div>";
             var rowID = "#row" + i;
             $(rowID).append(col1, col2, col3, col4);
-            var label = "<label class='" + "control-label'>" + "s" + i + "</label>";
-            var inputRadio1 = "<input type='radio' name='" + "OF" + i + "' value='OF1.0'/>OF1.0";
-            var inputRadio2 = "<input type='radio' name='" + "OF" + i + "' value='OF1.3' checked='checked'/>OF1.3";
-            var inputFile = "<input type='file' name='" + "file" + i + "'/>";
-            var col2ID = "#s" + i + "Col2";
-            var col3ID = "#s" + i + "Col3";
-            var col4ID = "#s" + i + "Col4";
-            $(col2ID).append(label);
-            $(col3ID).append(inputRadio1, inputRadio2);
-            $(col4ID).append(inputFile);
         }
     }
     else {
@@ -92,6 +97,23 @@ function SwitchConfigure() {
             $(brID).remove();
         }
     }
+    $("input[name^='OF']").click(function(){
+        var ID = parseInt($(this).attr("name").substr(2));
+        var value = $(this).attr("value");
+        var div = "#divfile" + ID;
+        if(value == "custom")
+        {
+            var row1 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">root-fs</div><div class="col-xs-2"><input type="file" name="root'+ID+'"/></div></div>';
+            var row2 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">system-bit</div><div class="col-xs-2"><input type="file" name="system'+ID+'"/></div></div>';
+            var row3 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">uImage</div><div class="col-xs-2"><input type="file" name="uImage'+ID+'"/></div></div>';
+            var row4 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">device-tree</div><div class="col-xs-2"><input type="file" name="device'+ID+'"/></div></div>';
+            $(div).append(row1,row2,row3,row4);
+        }
+        else
+        {
+            $(div).empty();
+        }
+    })
 
 }
 
@@ -374,27 +396,7 @@ function VMState(data)
 }
 function SaveChanges(instance)
 {
-    // var Topology = "{";
-    // var connect = instance.getAllConnections();
-    // for (var k = 0; k < connect.length; k++) {
-    //     var line = connect[k].endpoints;
-    //     var start, end;
-    //     if (line[0].getUuid().substr(0, 1) == "h") {
-    //         start = line[0].getUuid();
-    //         end = line[1].getUuid();
-    //     }
-    //     else {
-    //         start = line[1].getUuid();
-    //         end = line[0].getUuid();
-    //     }
 
-    //     Topology = Topology + "\"" + start + "\":" + "\"" + end + "\"";
-    //     if (k < connect.length - 1)
-    //         Topology = Topology + ",";
-    //     else Topology = Topology + "}";
-    // }
-    // document.cookie = "Topology" + " = " + Topology + ";";
-    //  $("#inputTopology").val(Topology);
     var Topology = new Object;
     var connect = instance.getAllConnections();
     for(var k =0; k < connect.length; k++)
@@ -410,7 +412,6 @@ function SaveChanges(instance)
             end = line[0].getUuid();
         }
         Topology[start] = end;
-
     }
     $("#inputTopology").val(JSON.stringify(Topology));
 }

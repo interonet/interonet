@@ -141,7 +141,7 @@
             </div>
             <div class="col-md-9">
                 <div class="contextBorder">
-                    <form class="form-horizontal" method="post" action="php/Order.php"
+                    <form id="OrderForm" class="form-horizontal" method="post" action="php/Order.php"
                               enctype="multipart/form-data">
 
                         <div id="Number" class="createPart Number">
@@ -313,7 +313,51 @@
                         </div>
                         <div id="Configure" class="createPart">
                             <h2>Switch Configure</h2>
-
+<!--                             <div class="row">
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-1">
+                                    <label class="control-label">s1</label>
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type='radio' name="OF1" value='OF1.0'/>
+                                    &nbspOF1.0
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type='radio' name="OF1" value='OF3.0'/>
+                                    &nbspOF3.0
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type='radio' name="OF1" id="custom1" value='custom'/>
+                                    &nbspcustom
+                                </div>
+                            </div> -->
+                        <!--     <div id="a">
+                                 <div class="row">
+                                <div class="col-xs-2 col-xs-offset-3">root-fs</div>
+                                <div class="col-xs-2">
+                                    <input type='file' name="file"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-xs-offset-3">boot-bin</div>
+                                <div class="col-xs-2">
+                                    <input type='file' name="file"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-xs-offset-3">uImage</div>
+                                <div class="col-xs-2">
+                                    <input type='file' name="file"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-xs-offset-3">device-tree</div>
+                                <div class="col-xs-2">
+                                    <input type='file' name="file"/>
+                                </div>
+                            </div>
+                            </div> -->
+                           
                         </div>
                         <div id="Controller" class="createPart">
                             <h2>Controller</h2>
@@ -341,7 +385,7 @@
                         </div>
                         <div id="Topology" class="createPart">
                             <h2>Topology</h2>
-                              <div class="row">
+                            <div class="row">
                                 <div class="col-xs-1"></div>
                                 <div class="col-xs-1">
                                     <label class="control-label" for="inputTopology">Topology</label>
@@ -363,8 +407,8 @@
                             </div>
                         </div>
 
-                        <div class="OrderButton" id="Order">
-                            <button type="submit" class="btn btn-lg btn-primary">Order</button>
+                        <div class="OrderButton" >
+                            <button type="button" class="btn btn-lg btn-primary" id="Order">Order</button>
                         </div>
 
                     </form>
