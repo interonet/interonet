@@ -1,7 +1,0 @@
-setenv bootargs 'console=ttyPS0,115200 ip=10.0.0.3:10.0.0.1:10.0.0.1:255.0.0.0::eth0:off root=/dev/nfs devtmpfs.mount=0 nfsroot=10.0.0.1:/export/0 rw earlyprintk'
-setenv ethaddr 00:0a:35:00:00:0x
-setenv ipaddr 10.0.0.x/24
-setenv tftpboot tftpboot 0x3000000 10.0.0.1:0/uImage\;tftpboot 0x2A00000 10.0.0.1:0/devicetree.dtb\;bootm 0x3000000 - 0x2A00000
-setenv bootcmd $tftpboot
-setenv bootdelay 1
-saveenv
