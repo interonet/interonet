@@ -31,7 +31,7 @@ setenv ipaddr 10.0.0.3/24
 ```
 Note that the ip and mac address are as above.
 ```
-setenv interonet tftpboot 0x3000000 10.0.0.1:0/uImage\;tftpboot 0x2A00000 10.0.0.1:0/devicetree.dtb\;bootm 0x3000000 - 0x2A00000
+setenv interonetboot tftpboot 0x3000000 10.0.0.1:0/uImage\;tftpboot 0x2A00000 10.0.0.1:0/devicetree.dtb\;bootm 0x3000000 - 0x2A00000
 setenv bootcmd $interonetboot
 setenv bootdelay 1
 ```
