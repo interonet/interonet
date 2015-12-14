@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 public class PowerManager {
-
     public String powerSystemIpAddress = "10.0.0.2";
     public String sIP = "10.0.0.2";
     public int sPort = 3000;
@@ -34,6 +33,7 @@ public class PowerManager {
     String recvMessageClient = "";
     public int relayState = 0;
     public int state = 0;
+    private Logger logger = Logger.getLogger(PowerManager.class.getCanonicalName());
 
     public PowerManager() {
         try {
@@ -47,7 +47,7 @@ public class PowerManager {
             powerOffSwitchById(2);
             Thread.sleep(1000);
 
-            Logger.getAnonymousLogger().info("Init: power off all the switch.");
+            logger.info("Init: power off all the switch.");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,7 +182,6 @@ public class PowerManager {
                     ret = mBufferedReaderClient.read(recv, 0, 16);
                 else
                     ret = mBufferedReaderClient.read(recv, 0, 8);
-                System.out.println("len=" + Integer.toString(ret));
                 if (ret >= 8) {
                     recvState = ret;
                     storeRelayState();
