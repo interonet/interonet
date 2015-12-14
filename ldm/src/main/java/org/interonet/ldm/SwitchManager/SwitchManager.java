@@ -122,13 +122,9 @@ public class SwitchManager implements ISwitchManager {
 
         switch (type) {
             case "OF1.3":
-                /*
-                 *  Comment these logic for the not working fuck eth0 driver.
-                 */
-
-                //Map<String, String> nfsMapping = configurationCenter.getSwitchId2NFSRootDirectoryMapping();
-                //String nfsRootPath = nfsMapping.get(switchId.toString());
-                //nfsManager.copyDefaultRootFsFileToDir("OF1.3", switchId, nfsRootPath, controllerIp, new Integer(controllerPort));
+                Map<String, String> nfsMapping = configurationCenter.getSwitchId2NFSRootDirectoryMapping();
+                String nfsRootPath = nfsMapping.get(switchId.toString());
+                nfsManager.copyDefaultRootFsFileToDir("OF1.3", switchId, nfsRootPath, controllerIp, new Integer(controllerPort));
                 break;
             case "OF1.0":
                 //TODO

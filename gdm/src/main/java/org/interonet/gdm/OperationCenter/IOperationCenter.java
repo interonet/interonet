@@ -2,9 +2,6 @@ package org.interonet.gdm.OperationCenter;
 
 import java.util.Map;
 
-/**
- * Created by samuel on 1/2/15.
- */
 public interface IOperationCenter {
     void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) throws Throwable;
 
