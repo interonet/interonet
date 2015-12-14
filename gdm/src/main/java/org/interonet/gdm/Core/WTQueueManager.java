@@ -54,13 +54,26 @@ public class WTQueueManager implements Runnable {
                 operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
             }
 
-            for (Integer switchID : switchesIDs) {
-                operationCenter.deleteSWitchConf(switchID);
-            }
+            /*
+            *
+            * Comment these lines for the fuck onetswitch30's eth0 driver in u-boot-meshsr.
+            * By Samuel, Dec, 14
+            *
+            * */
 
-            for (Integer switchID : switchesIDs) {
-                operationCenter.powerOffSwitch(switchID);
-            }
+            //for (Integer switchID : switchesIDs) {
+            //    operationCenter.deleteSWitchConf(switchID);
+            //}
+
+            /*
+            *
+            * Comment these lines for the fuck box to fix the power system.
+            * by Samuel, Dec, 14
+            *
+            * */
+            //for (Integer switchID : switchesIDs) {
+            //    operationCenter.powerOffSwitch(switchID);
+            //}
 
             for (Integer vmID : vmIDs) {
                 operationCenter.powerOffVM(vmID);
