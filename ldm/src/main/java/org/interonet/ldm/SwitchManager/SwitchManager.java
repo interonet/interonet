@@ -85,7 +85,7 @@ public class SwitchManager implements ISwitchManager {
         // 3. Uncompress the tar.xz file into this directory.
         // 4. change the mode bit for every file.
         try {
-            nfsManager.copyRootFsFileToDir(rootFsUrl, switchId);
+            nfsManager.copyCustomRootFsFileToDir(rootFsUrl, switchId);
             nfsManager.createSwitchDirectory(switchId);
             nfsManager.unCompressXZFile(switchId);
             nfsManager.changeFilePermission(switchId);
@@ -117,23 +117,18 @@ public class SwitchManager implements ISwitchManager {
     }
 
     @Override
-    public void changeSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws InterruptedException, IOException {
-        Process process2Copy;
-        Process process2Chmod;
+    public void changeSwitchConf(String type, Integer switchId, String controllerIp, int controllerPort) throws InterruptedException, IOException {
+
 
         switch (type) {
             case "OF1.3":
-                Map<String, String> nfsMapping = configurationCenter.getSwitchId2NFSRootDirectoryMapping();
-                String nfsRootPath = nfsMapping.get(switchID.toString());
-                // nfsRootPath equals like /export/0
-                //TODO move to nfsManager
-                process2Copy = Runtime.getRuntime().exec("cp -r /export/of13_fs /export/" + switchID.toString());
-                process2Copy.waitFor();
-                logger.info("cp -r /export/of13_fs /export/" + switchID.toString());
-                nfsManager.changeConnecitonPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
-                process2Chmod = Runtime.getRuntime().exec("chmod -R 777 /export/" + switchID.toString() + "/");
-                logger.info("chmod -R 777 " + "/export/" + switchID.toString() + "/");
-                process2Chmod.waitFor();
+                /*
+                 *  Comment these logic for the not working fuck eth0 driver.
+                 */
+
+                //Map<String, String> nfsMapping = configurationCenter.getSwitchId2NFSRootDirectoryMapping();
+                //String nfsRootPath = nfsMapping.get(switchId.toString());
+                //nfsManager.copyDefaultRootFsFileToDir("OF1.3", switchId, nfsRootPath, controllerIp, new Integer(controllerPort));
                 break;
             case "OF1.0":
                 //TODO

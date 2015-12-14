@@ -12,7 +12,8 @@ public class NFSManager {
     public NFSManager() {
     }
 
-    public void changeConnecitonPropertyFromNFS(Integer switchID, String nfsRootPath, String controllerIP, int controllerPort) throws IOException {
+
+    private void changeConnectionPropertyFromNFS(Integer switchID, String nfsRootPath, String controllerIP, int controllerPort) throws IOException {
         // nfsRootPath like /export/0
         PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(nfsRootPath + "/root/start_switch.sh", true)));
         pw.println("#!/bin/ash");
@@ -72,7 +73,25 @@ public class NFSManager {
     }
 
 
-    public void copyRootFsFileToDir(String rootFsUrl, Integer switchID) throws IOException {
+    public void copyDefaultRootFsFileToDir(String type, Integer switchID, String nfsRootPath, String controllerIP, Integer controllerPort) throws IOException, InterruptedException {
+        Process process2Copy;
+        Process process2Chmod;
+        // nfsRootPath equals like /export/0
+        try {
+            process2Copy = Runtime.getRuntime().exec("cp -r /export/of13_fs /export/" + switchID.toString());
+            process2Copy.waitFor();
+            logger.info("cp -r /export/of13_fs /export/" + switchID.toString());
+            changeConnectionPropertyFromNFS(switchID, nfsRootPath, controllerIP, controllerPort);
+            process2Chmod = Runtime.getRuntime().exec("chmod -R 777 /export/" + switchID.toString() + "/");
+            logger.info("chmod -R 777 " + "/export/" + switchID.toString() + "/");
+            process2Chmod.waitFor();
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            throw e;
+        }
+    }
+
+    public void copyCustomRootFsFileToDir(String rootFsUrl, Integer switchID) throws IOException {
         try {
             FileUtils.copyURLToFile(new URL(rootFsUrl), new File("/export/" + switchID.toString() + ".tar.xz"));
         } catch (IOException e) {
