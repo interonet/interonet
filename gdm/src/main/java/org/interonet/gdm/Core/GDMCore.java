@@ -84,12 +84,12 @@ public class GDMCore {
         DayTime beginTime = new DayTime(beginT);
         DayTime nowTime = new DayTime(new SimpleDateFormat("HH:mm").format(date));
 
-//        if (beginTime.earlyThan(nowTime)){
-//            gdmCoreLogger.info("begin time is early than now time, failed");
-//            gdmCoreLogger.info("beginTime = " + beginTime);
-//            gdmCoreLogger.info("nowTime = " + nowTime);
-//            return false;
-//        }
+        if (beginTime.earlyThan(nowTime)) {
+            gdmCoreLogger.info("begin time is early than now time, failed");
+            gdmCoreLogger.info("beginTime = " + beginTime);
+            gdmCoreLogger.info("nowTime = " + nowTime);
+            return false;
+        }
 
         String username = authTokenManager.getUsernameByToken(authToken);
         List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginT, endT);
