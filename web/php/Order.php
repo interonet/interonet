@@ -1,5 +1,5 @@
 <?php
-
+define("SAVEIP","127.0.0.1");
 $authToken = $_COOKIE["authToken"];
 $user = base64_decode($authToken);
 $SwitchNum = $_POST["SwitchNum"];
@@ -65,7 +65,7 @@ function checkRoot($path, $user, $i)
     if ($typeCode == "25355") {
         $location = "upload/" . $user . "sw" . $i . time() . "root_bin" . ".tar.xz";
         move_uploaded_file($path, $location);
-        $value = "http://202.117.15.78/interonetWeb/" . $location;
+        $value = "http://".SAVEIP."/interonetWeb/" . $location;
         return $value;
     } else {
         return false;
@@ -79,7 +79,7 @@ function checkSystem($path, $user, $i)
     if ($typeCode == "9") {
         $location = "upload/" . $user . "sw" . $i . time() . "system.bit";
         move_uploaded_file($path, $location);
-        $value = "http://202.117.15.78/interonetWeb/" . $location;
+        $value = "http://".SAVEIP."/interonetWeb/" . $location;
         return $value;
     } else {
         return false;
@@ -92,7 +92,7 @@ function checkUImage($path, $user, $i)
     if ($typeCode == "395") {
         $location = "upload/" . $user . "sw" . $i . time() . "uImage";
         move_uploaded_file($path, $location);
-        $value = "http://202.117.15.78/interonetWeb/" . $location;
+        $value = "http://".SAVEIP."/interonetWeb/" . $location;
         return $value;
     } else {
         return false;
@@ -105,7 +105,7 @@ function checkDevice($path, $user, $i)
     if ($typeCode == "20813") {
         $location = "upload/" . $user . "sw" . $i . time() . "device_tree.dtb";
         move_uploaded_file($path, $location);
-        $value = "http://202.117.15.78/interonetWeb/" . $location;
+        $value = "http://".SAVEIP."/interonetWeb/" . $location;
         return $value;
     } else {
         return false;
