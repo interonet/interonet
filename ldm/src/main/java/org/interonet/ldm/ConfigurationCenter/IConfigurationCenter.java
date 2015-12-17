@@ -6,4 +6,5 @@ public interface IConfigurationCenter {
     Map<String, String> getSwitchId2NFSRootDirectoryMapping();
 
     Map<String, String> getSwitchId2AddressMapping();
+    String getLibvirtConnectURL();
 }

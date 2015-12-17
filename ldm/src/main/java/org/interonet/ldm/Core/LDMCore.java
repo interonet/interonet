@@ -1,5 +1,6 @@
 package org.interonet.ldm.Core;
 
+import org.dom4j.DocumentException;
 import org.interonet.ldm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.ldm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.ldm.PowerManager.PowerManager;
@@ -8,6 +9,7 @@ import org.interonet.ldm.SwitchManager.SwitchManager;
 import org.interonet.ldm.TopologyTransformer.TopologyTransformer;
 import org.interonet.ldm.VMM.IVMManager;
 import org.interonet.ldm.VMM.VMManager;
+import org.libvirt.LibvirtException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,7 +26,7 @@ public class LDMCore {
 
     private TopologyTransformer topologyTransformer;
 
-    private Logger logger = Logger.getLogger(SwitchManager.class.getCanonicalName());
+    private Logger logger = Logger.getLogger(LDMCore.class.getCanonicalName());
 
     public void start() {
         ldmAgent = new LDMAgent(this);
@@ -39,7 +41,7 @@ public class LDMCore {
         switchManager = new SwitchManager(this);
 
         // VMManager initiation
-        vMManager = new VMManager();
+        vMManager = new VMManager(this);
 
         // TT initiation.
         topologyTransformer = new TopologyTransformer();
@@ -50,7 +52,19 @@ public class LDMCore {
         return ldmAgent;
     }
 
-    public String powerOnVM(Integer vmID) {
+    public IVMManager getVMManager() {
+        return vMManager;
+    }
+
+    public ISwitchManager getSwitchManager() {
+        return switchManager;
+    }
+
+    public TopologyTransformer getTopologyTransformer() {
+        return topologyTransformer;
+    }
+
+    public String powerOnVM(Integer vmID) throws LibvirtException, DocumentException {
         return vMManager.powerOnVM(vmID);
     }
 

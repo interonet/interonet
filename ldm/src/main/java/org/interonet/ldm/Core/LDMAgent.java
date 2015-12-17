@@ -1,5 +1,8 @@
 package org.interonet.ldm.Core;
 
+import org.dom4j.DocumentException;
+import org.libvirt.LibvirtException;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -37,7 +40,7 @@ public class LDMAgent {
         ldmCore.addSwitchConf(customSwitchConfGDM, switchID, controllerIP, controllerPort);
     }
 
-    public String powerOnVM(Integer vmID) {
+    public String powerOnVM(Integer vmID) throws LibvirtException, DocumentException {
         return ldmCore.powerOnVM(vmID);
 //        String OnResult = "failure";
 //        OnResult = ldmCore.powerOnVM(vmID);

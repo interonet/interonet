@@ -75,14 +75,19 @@ public class RPCService {
             ldmAgent.powerOnSwitch(switchID);
             return "Success";
         } catch (Exception e) {
-            e.printStackTrace();
+            ldmRPCServiceLogger.severe(e.getMessage());
             return "Failed";
         }
     }
 
     public String powerOnVM(Integer vmID) {
-        ldmRPCServiceLogger.info("");
-        return ldmAgent.powerOnVM(vmID);
+        try {
+            ldmRPCServiceLogger.info("");
+            return ldmAgent.powerOnVM(vmID);
+        } catch (Exception e) {
+            ldmRPCServiceLogger.severe(e.getMessage());
+            return "Failed";
+        }
     }
 
     public String deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) {

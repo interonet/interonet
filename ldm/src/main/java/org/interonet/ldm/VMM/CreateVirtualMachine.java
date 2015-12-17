@@ -52,7 +52,6 @@ public class CreateVirtualMachine implements ICreateVirtualMachine {
             Domain domain = null;
             domain = connect.domainCreateXML(xmlDesc, 0);
             domain.resume();
-            logger.info("Virtual Machine ID = [" + ID + "] have been start successfully");
             return "success";
 
         } catch (Exception e) {
