@@ -8,47 +8,108 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 public class PowerManager {
+    static BufferedInputStream mBufferedReaderClient = null;
+    static PrintStream mPrintStreamClient = null;
     public String powerSystemIpAddress = "10.0.0.2";
     public String sIP = "10.0.0.2";
     public int sPort = 3000;
-    byte address = 0x01;
-    private Socket mSocketClient = null;
-    static BufferedInputStream mBufferedReaderClient = null;
-    static PrintStream mPrintStreamClient = null;
-    int wayState[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0};
-
-    private byte buf[] = {(byte) 0x55, (byte) 0x01, (byte) 0x13, (byte) 0x00,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x55,
-            (byte) 0x02, (byte) 0x13, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-            (byte) 0x00, (byte) 0x00};
     public byte recv[] = {(byte) 0x55, (byte) 0x01, (byte) 0x13, (byte) 0x00,
             (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x55,
             (byte) 0x02, (byte) 0x13, (byte) 0x00, (byte) 0x00, (byte) 0x00,
             (byte) 0x00, (byte) 0x00};
     public int recvState = 0;
-    private int ways;
-    private Thread mThreadClient = null;
     public int Socketstate = 0;
-    String recvMessageClient = "";
     public int relayState = 0;
     public int state = 0;
+    byte address = 0x01;
+    int wayState[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0};
+    String recvMessageClient = "";
+    private Socket mSocketClient = null;
+    private byte buf[] = {(byte) 0x55, (byte) 0x01, (byte) 0x13, (byte) 0x00,
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x55,
+            (byte) 0x02, (byte) 0x13, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+            (byte) 0x00, (byte) 0x00};
+    private int ways;
+    private Thread mThreadClient = null;
     private Logger logger = Logger.getLogger(PowerManager.class.getCanonicalName());
+    private Runnable mRunnable = new Runnable() {
+        public void run() {
+            if (sIP.equals("") || sPort == 0)
+                return;
+            buf[7] = 0;
+            for (int i = 0; i < 7; i++) {
+                buf[7] += buf[i];
+            }
+            if (ways > 16) {
+                buf[15] = 0;
+                for (int i = 8; i < 15; i++) {
+                    buf[15] += buf[i];
+                }
+            }
+            int ret = 0;
+            try {
+                InetAddress x = java.net.InetAddress.getByName(sIP);
+                String ipaddress = x.getHostAddress();
+                mSocketClient = new Socket(ipaddress, sPort); // portnum
+                state = 1;
+                mBufferedReaderClient = new BufferedInputStream(
+                        new DataInputStream(mSocketClient.getInputStream()));
+                mPrintStreamClient = new PrintStream(
+                        mSocketClient.getOutputStream(), true);
+                state = 2;
+                if (ways > 16)
+                    mPrintStreamClient.write(buf, 0, 16);
+                else
+                    mPrintStreamClient.write(buf, 0, 8);
+                mPrintStreamClient.flush();
+                state = 3;
+                if (ways > 16)
+                    ret = mBufferedReaderClient.read(recv, 0, 16);
+                else
+                    ret = mBufferedReaderClient.read(recv, 0, 8);
+                if (ret >= 8) {
+                    recvState = ret;
+                    storeRelayState();
+                }
+                mBufferedReaderClient.close();
+                mPrintStreamClient.close();
+                mSocketClient.close();
+                Socketstate = 1;
+            } catch (Exception e) {
+//					recvMessageClient = "Connection Error:" + e.toString() + ":"
+//							+ e.getMessage() + "\n";
+                e.printStackTrace();
+                try {
+                    mSocketClient.close();
+                } catch (Exception f) {
+                    f.printStackTrace();
+                    Socketstate = 0;
+                    return;
+                }
+                Socketstate = 0;
+            }
+
+        }
+    };
 
     public PowerManager() {
         try {
-            powerOnSwitchById(1);
-            Thread.sleep(1000);
-            powerOffSwitchById(1);
-            Thread.sleep(1000);
+            /*
+            * Comment these lines for the fuck box fixing power system.
+            * By Samuel. Dec.16.2015
+            * */
 
-            powerOnSwitchById(2);
-            Thread.sleep(1000);
-            powerOffSwitchById(2);
-            Thread.sleep(1000);
-
-            logger.info("Init: power off all the switch.");
-
+            //powerOnSwitchById(1);
+            //Thread.sleep(1000);
+            //powerOffSwitchById(1);
+            //Thread.sleep(1000);
+            //
+            //powerOnSwitchById(2);
+            //Thread.sleep(1000);
+            //powerOffSwitchById(2);
+            //Thread.sleep(1000);
+            //logger.info("Init: power off all the switch.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,66 +207,6 @@ public class PowerManager {
         }
         return Socketstate;
     }
-
-    private Runnable mRunnable = new Runnable() {
-        public void run() {
-            if (sIP.equals("") || sPort == 0)
-                return;
-            buf[7] = 0;
-            for (int i = 0; i < 7; i++) {
-                buf[7] += buf[i];
-            }
-            if (ways > 16) {
-                buf[15] = 0;
-                for (int i = 8; i < 15; i++) {
-                    buf[15] += buf[i];
-                }
-            }
-            int ret = 0;
-            try {
-                InetAddress x = java.net.InetAddress.getByName(sIP);
-                String ipaddress = x.getHostAddress();
-                mSocketClient = new Socket(ipaddress, sPort); // portnum
-                state = 1;
-                mBufferedReaderClient = new BufferedInputStream(
-                        new DataInputStream(mSocketClient.getInputStream()));
-                mPrintStreamClient = new PrintStream(
-                        mSocketClient.getOutputStream(), true);
-                state = 2;
-                if (ways > 16)
-                    mPrintStreamClient.write(buf, 0, 16);
-                else
-                    mPrintStreamClient.write(buf, 0, 8);
-                mPrintStreamClient.flush();
-                state = 3;
-                if (ways > 16)
-                    ret = mBufferedReaderClient.read(recv, 0, 16);
-                else
-                    ret = mBufferedReaderClient.read(recv, 0, 8);
-                if (ret >= 8) {
-                    recvState = ret;
-                    storeRelayState();
-                }
-                mBufferedReaderClient.close();
-                mPrintStreamClient.close();
-                mSocketClient.close();
-                Socketstate = 1;
-            } catch (Exception e) {
-//					recvMessageClient = "Connection Error:" + e.toString() + ":"
-//							+ e.getMessage() + "\n";
-                e.printStackTrace();
-                try {
-                    mSocketClient.close();
-                } catch (Exception f) {
-                    f.printStackTrace();
-                    Socketstate = 0;
-                    return;
-                }
-                Socketstate = 0;
-            }
-
-        }
-    };
 
     public void powerOnSwitchById(Integer switchID) throws Exception {
         // Initiate the Magic Number.
