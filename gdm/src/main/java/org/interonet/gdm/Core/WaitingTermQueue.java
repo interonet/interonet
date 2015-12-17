@@ -1,6 +1,7 @@
 package org.interonet.gdm.Core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.interonet.gdm.Core.Utils.DayTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,5 +79,14 @@ public class WaitingTermQueue {
             }
         }
         return false;
+    }
+
+    synchronized public List<WTOrder> getTimeReadyWSOrders(DayTime currentTime) {
+        List<WTOrder> list = new ArrayList<>();
+        for (WTOrder wtOrder : wtQueue) {
+            if (new DayTime(wtOrder.endTime).earlyThan(currentTime))
+                list.add(wtOrder);
+        }
+        return list;
     }
 }

@@ -29,13 +29,9 @@ public class WSQueueManager implements Runnable {
     }
 
     public List<WSOrder> checkOrders() {
-        List<WSOrder> list = new ArrayList<>();
+        List<WSOrder> list;
         DayTime currentTime = new DayTime(new SimpleDateFormat("HH:mm").format(new Date()));
-
-        for (WSOrder wsOrder : waitingStartQueue.getQueue()) {
-            if (new DayTime(wsOrder.beginTime).earlyThan(currentTime))
-                list.add(wsOrder);
-        }
+        list = waitingStartQueue.getTimeReadyWSOrders(currentTime);
         return list;
     }
 

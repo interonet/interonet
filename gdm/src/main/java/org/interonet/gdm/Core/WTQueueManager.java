@@ -5,7 +5,6 @@ import org.interonet.gdm.Core.Utils.DayTime;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,18 +23,13 @@ public class WTQueueManager implements Runnable {
         configurationCenter = core.getConfigurationCenter();
     }
 
-    synchronized private List<WTOrder> checkOrders() {
-        List<WTOrder> list = new ArrayList<>();
+    private List<WTOrder> checkOrders() {
         DayTime currentTime = new DayTime(new SimpleDateFormat("HH:mm").format(new Date()));
-
-        for (WTOrder wtOrder : waitingTermQueue.getQueue()) {
-            if (new DayTime(wtOrder.endTime).earlyThan(currentTime))
-                list.add(wtOrder);
-        }
+        List<WTOrder> list = waitingTermQueue.getTimeReadyWSOrders(currentTime);
         return list;
     }
 
-    synchronized private void stopSlice(List<WTOrder> wtOrderList) throws Throwable {
+    private void stopSlice(List<WTOrder> wtOrderList) throws Throwable {
         for (WTOrder wtOrder : wtOrderList) {
             List<Integer> switchesIDs = wtOrder.switchIDs;
             List<Integer> vmIDs = wtOrder.vmIDs;

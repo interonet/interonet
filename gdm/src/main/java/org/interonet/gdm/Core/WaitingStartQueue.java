@@ -2,6 +2,7 @@ package org.interonet.gdm.Core;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.interonet.gdm.Core.Utils.DayTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,5 +87,14 @@ public class WaitingStartQueue {
         }
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(orderInfo);
+    }
+
+    synchronized public List<WSOrder> getTimeReadyWSOrders(DayTime currentTime) {
+        List<WSOrder> list = new ArrayList<>();
+        for (WSOrder wsOrder : wsQueue) {
+            if (new DayTime(wsOrder.beginTime).earlyThan(currentTime))
+                list.add(wsOrder);
+        }
+        return list;
     }
 }
