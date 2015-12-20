@@ -5,19 +5,18 @@ $(document).ready(function () {
     Switch();
     VM();
     //设置标题栏用户名
-    $("#user").ready(function(){
+    $("#user").ready(function () {
         $.post("php/Cookie.php",
-            {type:"Get"},
-            function(data)
-            {
+            {type: "Get"},
+            function (data) {
                 $("#user").text(data);
             });
 
     });
-    $("#Logout").click(function(){
+    $("#Logout").click(function () {
             $.post("php/Cookie.php",
-                {type:"Del"});
-    }
+                {type: "Del"});
+        }
     );
 
 
@@ -25,7 +24,6 @@ $(document).ready(function () {
     $("#inputSwitch").blur(function () {
         SwitchConfigure()
     });
-
 
 
     //设置Topology
@@ -44,17 +42,67 @@ $(document).ready(function () {
     $("#CheckVMButton").click(function () {
         CheckVM();
     });
-    $("#Order").click(function(){
-    var input = $("#OrderForm input");
-    var submit = true;
-    for(var i = 0; i < input.length; i++){
-        if($(input[i]).val() == "")
+    $("#Order").click(function () {
+        var submit = true;
+        var numInfo = $("#numberInformation");
+        var timeInfo = $("#timeInformation");
+        var confInfo =  $("#configureInformation");
+        var ctrlInfo  = $("#controllerInformation");
+        var topoInfo = $("#topologyInformation");
+        numInfo.text(" ");
+        timeInfo.text(" ");
+        confInfo.text(" ");
+        ctrlInfo.text(" ");
+        topoInfo.text(" ");
+        if ($("#inputSwitch").val() == "0" || $("#inputVM").val() == "0") {
             submit = false;
-    }
-    if(submit == true)
-        $("#OrderForm").submit();
-    else
-        alert("The form is not complete, please complete it");
+            numInfo.text("The number of switch or VM can not be zero, please select the number you need!");
+        }
+        var date = new Date();
+        var now = date.getHours() * 60 + date.getMinutes();
+        console.log(now);
+        var start = 60 * parseInt($("#inputStartHour").val()) + parseInt($("#inputStartMinute").val());
+        console.log(start);
+        var end = 60 * parseInt($("#inputEndHour").val()) + parseInt($("#inputEndMinute").val());
+        console.log(end);
+        if (start < now) {
+            submit = false;
+            timeInfo.text("The start time must be later than the current time");
+        }
+        else if (start > end) {
+            submit = false;
+            timeInfo.text("The end time must be later than the start time");
+        }
+        var inputFile = $("#Configure input");
+        for (var i = 0; i < inputFile.length; i++) {
+            if ($(inputFile[i]).val() == "") {
+                submit = false;
+                confInfo.text("Some files have been uploaded");
+                break;
+            }
+
+        }
+        var inputController = $("#Controller input");
+        for (var j = 0; j < inputController.length; j++) {
+            if ($(inputController[j]).val() == "") {
+                submit = false;
+                ctrlInfo.text("The IP or Port can not been empty");
+                break;
+            }
+
+        }
+
+        var topology = $("#inputTopology").val();
+        if (topology == "" || topology == "{}") {
+            submit = false;
+            topoInfo.text("The topology can not been empty");
+        }
+
+
+        if (submit == true)
+            $("#OrderForm").submit();
+        else
+            alert("The form is not complete, please complete it");
 
     })
 
@@ -79,8 +127,8 @@ function SwitchConfigure() {
     if (SwitchNum > SwitchNumNow) {
         for (var i = SwitchNumNow; i < SwitchNum; i++) {
             var row = "<div class='row' id='" + "row" + i + "'></div>";
-            var divfile = "<div id='" + "divfile" + i +"'>"
-            $("#Configure").append(row,divfile);
+            var divfile = "<div id='" + "divfile" + i + "'>"
+            $("#Configure").append(row, divfile);
             var col1 = "<div id='" + "s" + i + "Col1" + "' class='col-xs-1 col-xs-offset-2'><label class='" + "control-label'>" + "s" + i + "</label></div>";
             var col2 = "<div id='" + "s" + i + "Col2" + "' class='col-xs-2'><input type='radio' name='" + "OF" + i + "' value='OF1.0'/>&nbspOF1.0</div>";
             var col3 = "<div id='" + "s" + i + "Col3" + "' class='col-xs-2'><input type='radio' name='" + "OF" + i + "' value='OF1.3' checked='checked'/>&nbspOF1.3</div>";
@@ -97,20 +145,18 @@ function SwitchConfigure() {
             $(brID).remove();
         }
     }
-    $("input[name^='OF']").click(function(){
+    $("input[name^='OF']").click(function () {
         var ID = parseInt($(this).attr("name").substr(2));
         var value = $(this).attr("value");
         var div = "#divfile" + ID;
-        if(value == "custom")
-        {
-            var row1 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">root-fs</div><div class="col-xs-2"><input type="file" name="root'+ID+'"/></div></div>';
-            var row2 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">system-bit</div><div class="col-xs-2"><input type="file" name="system'+ID+'"/></div></div>';
-            var row3 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">uImage</div><div class="col-xs-2"><input type="file" name="uImage'+ID+'"/></div></div>';
-            var row4 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">device-tree</div><div class="col-xs-2"><input type="file" name="device'+ID+'"/></div></div>';
-            $(div).append(row1,row2,row3,row4);
+        if (value == "custom") {
+            var row1 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">root-fs</div><div class="col-xs-2"><input type="file" name="root' + ID + '"/></div></div>';
+            var row2 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">system-bit</div><div class="col-xs-2"><input type="file" name="system' + ID + '"/></div></div>';
+            var row3 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">uImage</div><div class="col-xs-2"><input type="file" name="uImage' + ID + '"/></div></div>';
+            var row4 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">device-tree</div><div class="col-xs-2"><input type="file" name="device' + ID + '"/></div></div>';
+            $(div).append(row1, row2, row3, row4);
         }
-        else
-        {
+        else {
             $(div).empty();
         }
     })
@@ -147,7 +193,7 @@ function CreateTopology() {
 
     jsPlumb.ready(function () {
 
-      
+
         var connectorHoverStyle = {
                 lineWidth: 4,
                 strokeStyle: "#216477",
@@ -315,48 +361,45 @@ function CheckSwitch() {
     $("#CheckSwitchModal").modal("toggle");
 
 }
-function SwitchState(data)
-{
+function SwitchState(data) {
     var SwitchesUsageStatus = eval('(' + data + ')');
     var SwitchesUsageStatusLength = 0;
     for (var slength in SwitchesUsageStatus) {
         SwitchesUsageStatusLength++;
     }
     var SwitchModalBody = $("#SwitchModalBody");
-    for (var i=1; i<=SwitchesUsageStatusLength; i++)
-    {
-        var option = "<option value='"+i+"'>"+i+"</option>";
+    for (var i = 1; i <= SwitchesUsageStatusLength; i++) {
+        var option = "<option value='" + i + "'>" + i + "</option>";
         $("#inputSwitch").append(option);
     }
-        for (var m = 0; m < SwitchesUsageStatusLength; m++) {
+    for (var m = 0; m < SwitchesUsageStatusLength; m++) {
 
-            var row = "<div class='row' id='rowSwitch"+m+"'></div>";
-            var br ="<br/>";
-            SwitchModalBody.append(row,br);
-            row=$("#rowSwitch"+m);
-            var label = "<div class='col-xs-1'>Switch"+m+"</div>";
-            var SwitchBar ="<div class='col-xs-10'><div id='s"+m+"Div' class='timeWidth'></div></div>";
-            row.append(label,SwitchBar);
-            var sDivID = "#s" + m + "Div";
-            $(sDivID).html("");
-            for (var n = 0; n < SwitchesUsageStatus[m].length; n++) {
-                var startTime = SwitchesUsageStatus[m][n].start;
-                var endTime = SwitchesUsageStatus[m][n].end;
-                var startPoint = parseInt((parseInt(startTime.substr(0, 2)) * 60 + parseInt(startTime.substr(3, 5))) / 2);
-                var endPoint = parseInt((parseInt(endTime.substr(0, 2)) * 60 + parseInt(endTime.substr(3, 5))) / 2);
-                var timeSwitchBlock = "<div class='timeBlock' id='" + "s" + m + "n" + n + "' data-toggle='tooltip' data-placement='top' title='" + startTime + "~" + endTime + "'></div>";
-                $(sDivID).append(timeSwitchBlock);
-                var SwitchBlockID = "#s" + m + "n" + n;
-                $(SwitchBlockID).css({"left": startPoint, "width": endPoint - startPoint});
-                $(SwitchBlockID).tooltip();
-            }
+        var row = "<div class='row' id='rowSwitch" + m + "'></div>";
+        var br = "<br/>";
+        SwitchModalBody.append(row, br);
+        row = $("#rowSwitch" + m);
+        var label = "<div class='col-xs-1'>Switch" + m + "</div>";
+        var SwitchBar = "<div class='col-xs-10'><div id='s" + m + "Div' class='timeWidth'></div></div>";
+        row.append(label, SwitchBar);
+        var sDivID = "#s" + m + "Div";
+        $(sDivID).html("");
+        for (var n = 0; n < SwitchesUsageStatus[m].length; n++) {
+            var startTime = SwitchesUsageStatus[m][n].start;
+            var endTime = SwitchesUsageStatus[m][n].end;
+            var startPoint = parseInt((parseInt(startTime.substr(0, 2)) * 60 + parseInt(startTime.substr(3, 5))) / 2);
+            var endPoint = parseInt((parseInt(endTime.substr(0, 2)) * 60 + parseInt(endTime.substr(3, 5))) / 2);
+            var timeSwitchBlock = "<div class='timeBlock' id='" + "s" + m + "n" + n + "' data-toggle='tooltip' data-placement='top' title='" + startTime + "~" + endTime + "'></div>";
+            $(sDivID).append(timeSwitchBlock);
+            var SwitchBlockID = "#s" + m + "n" + n;
+            $(SwitchBlockID).css({"left": startPoint, "width": endPoint - startPoint});
+            $(SwitchBlockID).tooltip();
         }
+    }
 }
 function CheckVM() {
     $("#CheckVMModal").modal("toggle");
 }
-function VMState(data)
-{
+function VMState(data) {
     var VMsUsageStatus = eval('(' + data + ')');
     var VMsUsageStatusLength = 0;
     var VMModalBody = $("#VMModalBody");
@@ -364,19 +407,18 @@ function VMState(data)
         VMsUsageStatusLength++;
     }
 
-    for (var j=1; j<=VMsUsageStatusLength; j++)
-    {
-        var option = "<option value='"+j+"'>"+j+"</option>";
+    for (var j = 1; j <= VMsUsageStatusLength; j++) {
+        var option = "<option value='" + j + "'>" + j + "</option>";
         $("#inputVM").append(option);
     }
     for (var m = 0; m < VMsUsageStatusLength; m++) {
-        var row = "<div class='row' id='rowVM"+m+"'></div>";
-        var br ="<br/>";
-        VMModalBody.append(row,br);
-        row=$("#rowVM"+m);
-        var label = "<div class='col-xs-1'>VM"+m+"</div>";
-        var VMBar ="<div class='col-xs-10'><div id='h"+m+"Div' class='timeWidth'></div></div>";
-        row.append(label,VMBar);
+        var row = "<div class='row' id='rowVM" + m + "'></div>";
+        var br = "<br/>";
+        VMModalBody.append(row, br);
+        row = $("#rowVM" + m);
+        var label = "<div class='col-xs-1'>VM" + m + "</div>";
+        var VMBar = "<div class='col-xs-10'><div id='h" + m + "Div' class='timeWidth'></div></div>";
+        row.append(label, VMBar);
         for (var n = 0; n < VMsUsageStatus[m].length; n++) {
             var startTime = VMsUsageStatus[m][n].start;
             var endTime = VMsUsageStatus[m][n].end;
@@ -394,13 +436,11 @@ function VMState(data)
 
 
 }
-function SaveChanges(instance)
-{
+function SaveChanges(instance) {
 
     var Topology = new Object;
     var connect = instance.getAllConnections();
-    for(var k =0; k < connect.length; k++)
-    {
+    for (var k = 0; k < connect.length; k++) {
         var line = connect[k].endpoints;
         var start, end;
         if (line[0].getUuid().substr(0, 1) == "h") {
@@ -415,18 +455,16 @@ function SaveChanges(instance)
     }
     $("#inputTopology").val(JSON.stringify(Topology));
 }
-function Switch()
-{
+function Switch() {
     $.post("php/getState.php",
         {
             type: "switch"
-        },SwitchState
+        }, SwitchState
     );
 }
-function VM()
-{
+function VM() {
     $.post("php/getState.php",
         {
             type: "VM"
-        },VMState);
+        }, VMState);
 }

@@ -148,8 +148,7 @@
                             <h2>Number</h2>
 
                             <div class="row">
-                                <div class="col-xs-2"></div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-1 col-xs-offset-2">
                                     <label class="control-label" for="inputSwitch">Switch</label>
                                 </div>
                                 <div class="col-xs-2">
@@ -157,8 +156,8 @@
                                         <option value="0">0</option>
 
                                         <!-- test -->
-                                        <!--<option value="1">1</option>-->
-                                        <!--<option value="2">2</option>-->
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
                                         <!-- test --> </select>
                                 </div>
                                 <div class="col-xs-1">
@@ -168,12 +167,18 @@
                                     <select id="inputVM" name="VMNum" class="form-control">
                                         <option value="0">0</option>
                                         <!-- test -->
-                                        <!--<option value="1">1</option>-->
-                                        <!--<option value="2">2</option>-->
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
                                         <!-- test -->
                                     </select>
                                 </div>
 
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <p class="text-danger" id="numberInformation"></p>
+                                </div>
                             </div>
                         </div>
                         <div id="Time" class="createPart">
@@ -193,8 +198,7 @@
                             <h2>Time</h2>
 
                             <div class="row">
-                                <div class="col-xs-2"></div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-1 col-xs-offset-2">
                                     <label class="control-label ">Start</label>
                                 </div>
 
@@ -310,7 +314,12 @@
                                 <div class="col-xs-less">min</div>
 
                             </div>
-
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <p class="text-danger" id="timeInformation"></p>
+                                </div>
+                            </div>
                         </div>
                         <div id="Configure" class="createPart">
                             <h2>Switch Configure</h2>
@@ -358,14 +367,19 @@
                                 </div>
                             </div>
                             </div> -->
-                           
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <p class="text-danger" id="configureInformation"></p>
+                                </div>
+                            </div>
                         </div>
                         <div id="Controller" class="createPart">
                             <h2>Controller</h2>
 
                             <div class="row">
-                                <div class="col-xs-3"></div>
-                                <div class="col-xs-1">
+
+                                <div class="col-xs-1 col-xs-offset-3">
                                     <label class="control-label" for="inputIP">IP</label>
                                 </div>
                                 <div class="col-xs-3">
@@ -375,37 +389,47 @@
                             <br/>
 
                             <div class="row">
-                                <div class="col-xs-3"></div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-1 col-xs-offset-3">
                                     <label class="control-label" for="inputPort">Port</label>
                                 </div>
                                 <div class="col-xs-3">
                                     <input id="inputPort" name="Port" class="form-control"/>
                                 </div>
                             </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <p class="text-danger" id="controllerInformation">&nbsp;</p>
+                                </div>
+                            </div>
+
                         </div>
                         <div id="Topology" class="createPart">
                             <h2>Topology</h2>
+                            <br/>
                             <div class="row">
-                                <div class="col-xs-1"></div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-1 col-xs-offset-1">
                                     <label class="control-label" for="inputTopology">Topology</label>
                                 </div>
                                 <div class="col-xs-7">
                                     <input id="inputTopology" name="Topology"  readonly="true" class="form-control"/>
                                 </div>
                             </div>
-                            <br>
+
                             <div class="row">
-                                <div class="col-xs-2"></div>
-                                <div class="col-xs-2">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <p class="text-danger" id="topologyInformation">&nbsp;</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2 col-xs-offset-2">
                                     <button type="button" id="CreateTopology" class="btn btn-primary btn-lg " >Create Topology</button>
                                 </div>
-                                <div class="col-xs-1"></div>
-                                <div class="col-xs-2">
+                                <div class="col-xs-2 col-xs-offset-1">
                                     <button type="button" id="CheckTopology" class="btn btn-primary  btn-lg" >Check Topology</button>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="OrderButton" >
