@@ -63,6 +63,17 @@ it will run successfully if the log is like the following.
  INFO [main] (org.interonet.gdm.Main:Main.java:17) - Starting InterONet GDM RPC Server
  INFO [main] (Main.java:17) - Starting InterONet GDM RPC Server
  ```
+ >**NOTE** `gdm` will listen 8080 in 0.0.0.0, So, setting the iptables if required.
+ 
+### Web
+Assume that the web root path is `/var/www/html`.
+```
+$ sudo cp -r web/* /var/www/html/
+```
+If needed, the last line in `web/jsonrpcphp/jsonRPCClient.php` is the connection address to `gdm`.
+```
+$client = new jsonRPCClient("http://127.0.0.1:8080/");
+```
 
 ### LDM
 > **TBA**
