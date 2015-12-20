@@ -1,8 +1,6 @@
 # User Guide
 This user guide is maintained by Shuoling. If you have any question, please contact me via [e-mail](mr.dengshuoling@gmail.com)
 
----
-
 ## VPN Configuration
 To use the InterONet : Full-Stack-Programmable SDN Testbed, the first step is connect to our VPN by PPTP.
 ### For Win7
@@ -24,8 +22,6 @@ To use the InterONet : Full-Stack-Programmable SDN Testbed, the first step is co
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_5.png)
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_6.png)
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_7.png)
-
----
 
 ## Order Slice
 Slice is a collection of SDN switches, virtual machines and the links. Simply a slice is much more like a topology which contains switches, hosts and links.

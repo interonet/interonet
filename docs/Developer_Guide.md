@@ -1,8 +1,6 @@
 # Developer Guide
 This developer guide is maintained by Shuoling. If you have any question, please contact me via [e-mail](mr.dengshuoling@gmail.com).
 
----
-
 ## Introdution
 **InterONet** is a distributed system which contains the one **master** node called Global Domain Manager(`gdm`) and serveral **slave** node called Local Domain Manager(`ldm`).
 
@@ -10,7 +8,6 @@ The `gdm` is the master node which recieve the user request, allocate resources 
 
 The `ldm` is the slave node which dependent on serveral device(`virtual-machine-manager`, `topology-transformer`, `power-system`). `ldm` is hard to install because it will interact with plenty of deivices. 
 
----
 
 ##  Installation
 First, Clone the github repo and make a jar package.
