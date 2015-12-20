@@ -13,10 +13,10 @@ public class VMTimeTable {
 
     private int totalVmsNumber;
     Map<Integer, List<Duration>> vmTimeTable;
-    private Logger vmTimeTableLogger;
+    private Logger logger;
 
     public VMTimeTable(GDMCore core) {
-        vmTimeTableLogger = LoggerFactory.getLogger(VMTimeTable.class);
+        logger = LoggerFactory.getLogger(VMTimeTable.class);
         this.core = core;
 
         totalVmsNumber = Integer.parseInt(core.getConfigurationCenter().getConf("VMsNumber"));
@@ -101,7 +101,7 @@ public class VMTimeTable {
     }
 
     public String getTimeTable() throws IOException {
-        vmTimeTableLogger.info(this.toString());
+        logger.info(this.toString());
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(vmTimeTable);
     }

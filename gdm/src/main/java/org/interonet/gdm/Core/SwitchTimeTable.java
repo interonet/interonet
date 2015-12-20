@@ -14,10 +14,10 @@ public class SwitchTimeTable {
     private int totalSwitchesNumber = 1;
     public Map<Integer, List<Duration>> switchTimeTable;
 
-    private Logger switchTimeTableLogger;
+    private Logger logger;
 
     public SwitchTimeTable(GDMCore core) {
-        switchTimeTableLogger = LoggerFactory.getLogger(SwitchTimeTable.class);
+        logger = LoggerFactory.getLogger(SwitchTimeTable.class);
         this.core = core;
 
         totalSwitchesNumber = Integer.parseInt(core.getConfigurationCenter().getConf("SwitchesNumber"));
@@ -99,7 +99,7 @@ public class SwitchTimeTable {
 
 
     public String getTimeTable() throws IOException {
-        switchTimeTableLogger.info(this.toString());
+        logger.info(this.toString());
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(switchTimeTable);
     }

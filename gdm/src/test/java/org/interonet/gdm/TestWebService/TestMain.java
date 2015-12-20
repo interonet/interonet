@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 import org.interonet.gdm.Core.GDMCore;
 import org.interonet.gdm.Core.IGDMAgent;
 import org.interonet.gdm.WebService.RPCServer;
-import org.junit.Assert;
 
 public class TestMain extends TestCase {
     public void testStart() throws Exception {

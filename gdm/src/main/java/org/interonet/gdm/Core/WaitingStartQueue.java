@@ -16,12 +16,12 @@ public class WaitingStartQueue {
 
     public List<WSOrder> wsQueue;
     private Map<String, Integer> userOrderNum;
-    private Logger waitingStartQueueLogger;
+    private Logger logger;
 
     public WaitingStartQueue() {
         this.wsQueue = new ArrayList<>();
         this.userOrderNum = new HashMap<>();
-        waitingStartQueueLogger = LoggerFactory.getLogger(WaitingStartQueue.class);
+        logger = LoggerFactory.getLogger(WaitingStartQueue.class);
     }
 
     public List<WSOrder> getQueue() {

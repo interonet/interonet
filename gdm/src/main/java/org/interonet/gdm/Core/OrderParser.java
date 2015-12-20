@@ -29,9 +29,14 @@ public class OrderParser {
             throw e;
         }
 
-        //TODO validate the topology and switch configuration.
+        /*
+        * TODO validate the topology and switch configuration.
+        * Bug Tracking Link: https://github.com/samueldeng/interonet/issues/11
+        * */
         Map<String, String> topology = getTopology();
         Map<String, String> swConf = getSwitchConfig();
+        Map<String, Map> customSwitchConf = getCustomSwitchConf();
+        if (topology == null || swConf == null) throw new Exception("topology or swConf are null");
 
         String ctrlIP = getControllerIP();
         String match = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +

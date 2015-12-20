@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class OperationCenter implements IOperationCenter {
     JsonRpcHttpClient client;
-    Logger operationCenterLogger = LoggerFactory.getLogger(OperationCenter.class);
+    Logger logger = LoggerFactory.getLogger(OperationCenter.class);
     GDMCore core;
     boolean DEBUG = true;
 
@@ -28,7 +28,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) throws Throwable {
-        operationCenterLogger.info("LDM --> createTunnelSW2SW(switchPortPeer=" + switchPortPeer + ",peerSwitchPortPeer=" + peerSwitchPortPeer + ")");
+        logger.debug("LDM --> createTunnelSW2SW(switchPortPeer=" + switchPortPeer + ",peerSwitchPortPeer=" + peerSwitchPortPeer + ")");
         if (!DEBUG) {
             client.invoke("createTunnelSW2SW", new Object[]{switchPortPeer, peerSwitchPortPeer}, String.class);
         }
@@ -36,7 +36,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void createTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Throwable {
-        operationCenterLogger.info("LDM --> createTunnelSW2VM(switchPortPeeronTT=" + switchPortPeeronTT + ",VMID=" + vmID + ")");
+        logger.debug("LDM --> createTunnelSW2VM(switchPortPeeronTT=" + switchPortPeeronTT + ",VMID=" + vmID + ")");
         if (!DEBUG) {
             client.invoke("createTunnelSW2VM", new Object[]{switchPortPeeronTT, vmID + 11}, String.class);
         }
@@ -44,7 +44,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void addSwitchConf(String type, Integer switchId, String controllerIP, int controllerPort) throws Throwable {
-        operationCenterLogger.info("LDM --> addSwitchConf(type=" + type + ",switchId=" + switchId + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
+        logger.debug("LDM --> addSwitchConf(type=" + type + ",switchId=" + switchId + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
         if (!DEBUG) {
             client.invoke("addSwitchConf", new Object[]{type, switchId, controllerIP, controllerPort}, String.class);
         }
@@ -61,7 +61,7 @@ public class OperationCenter implements IOperationCenter {
      * */
     @Override
     public void addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchId, String controllerIP, int controllerPort) throws Throwable {
-        operationCenterLogger.info("LDM --> addSwitchConf(customSwitchConfGDM=" + customSwitchConfGDM + ",switchId=" + switchId + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
+        logger.debug("LDM --> addSwitchConf(customSwitchConfGDM=" + customSwitchConfGDM + ",switchId=" + switchId + ",controllerIP=" + controllerIP + ",controllerPort=" + controllerPort + ")");
         if (!DEBUG) {
             client.invoke("addSwitchConf", new Object[]{customSwitchConfGDM, switchId, controllerIP, controllerPort}, String.class);
         }
@@ -69,7 +69,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void powerOnSwitch(Integer switchID) throws Throwable {
-        operationCenterLogger.info("LDM --> powerOnSwitch(switchId=" + switchID + ")");
+        logger.debug("LDM --> powerOnSwitch(switchId=" + switchID + ")");
         if (!DEBUG) {
             client.invoke("powerOnSwitch", new Object[]{switchID + 1}, String.class);
         }
@@ -77,7 +77,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void powerOnVM(Integer vmID) throws Throwable {
-        operationCenterLogger.info("LDM --> powerOnVM(vmID=" + vmID + ")");
+        logger.debug("LDM --> powerOnVM(vmID=" + vmID + ")");
         if (!DEBUG) {
             client.invoke("powerOnVM", new Object[]{vmID + 1}, String.class);
         }
@@ -85,7 +85,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) throws Throwable {
-        operationCenterLogger.info("LDM --> deleteTunnelSW2SW(switchPortPeeronTT=" + switchPortPeeronTT + ",athrSwitchPortPeeronTT=" + athrSwitchPortPeeronTT + ")");
+        logger.debug("LDM --> deleteTunnelSW2SW(switchPortPeeronTT=" + switchPortPeeronTT + ",athrSwitchPortPeeronTT=" + athrSwitchPortPeeronTT + ")");
         if (!DEBUG) {
             client.invoke("deleteTunnelSW2SW", new Object[]{switchPortPeeronTT, athrSwitchPortPeeronTT}, String.class);
         }
@@ -94,7 +94,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void deleteTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Throwable {
-        operationCenterLogger.info("LDM --> deleteTunnelSW2VM(switchPortPeeronTT=" + switchPortPeeronTT + ",vmID=" + vmID + ")");
+        logger.debug("LDM --> deleteTunnelSW2VM(switchPortPeeronTT=" + switchPortPeeronTT + ",vmID=" + vmID + ")");
         if (!DEBUG) {
             client.invoke("deleteTunnelSW2VM", new Object[]{switchPortPeeronTT, vmID + 11}, String.class);
         }
@@ -102,7 +102,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void deleteSWitchConf(Integer switchID) throws Throwable {
-        operationCenterLogger.info("LDM --> deleteSWitchConf(switchId=" + switchID + ")");
+        logger.debug("LDM --> deleteSWitchConf(switchId=" + switchID + ")");
         if (!DEBUG) {
             client.invoke("deleteSWitchConf", new Object[]{switchID}, String.class);
         }
@@ -110,7 +110,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void powerOffSwitch(Integer switchID) throws Throwable {
-        operationCenterLogger.info("LDM --> powerOffSwitch(switchId=" + switchID);
+        logger.debug("LDM --> powerOffSwitch(switchId=" + switchID);
         if (!DEBUG) {
             client.invoke("powerOffSwitch", new Object[]{switchID + 1}, String.class);
         }
@@ -118,7 +118,7 @@ public class OperationCenter implements IOperationCenter {
 
     @Override
     public void powerOffVM(Integer vmID) throws Throwable {
-        operationCenterLogger.info("LDM --> powerOffVM(vmID=" + vmID + ")");
+        logger.debug("LDM --> powerOffVM(vmID=" + vmID + ")");
         if (!DEBUG) {
             client.invoke("powerOffVM", new Object[]{vmID + 1}, String.class);
         }

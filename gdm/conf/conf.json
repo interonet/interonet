@@ -1,11 +1,9 @@
 {
-  "LDMConnectionURL":"http://10.0.0.1:8081/",
+  "LDMConnectionURL": "http://10.0.0.1:8081/",
   "LDMConnectionReadTimeoutMillis": "300000",
   "BootgenUtilWorkingDir": "/home/samuel/exp_image/",
-
-  "TTPortMapDBTTPortMapDB":"/home/samuel/github/interonet/gdm/db/TTPortMap.json",
-  "userDB":"/home/samuel/github/interonet/gdm/db/userDB.json",
-
-  "SwitchesNumber":"1",
-  "VMsNumber":"8"
+  "TTPortMapDBTTPortMapDB": "/home/samuel/github/interonet/gdm/db/TTPortMap.json",
+  "userDB": "/home/samuel/github/interonet/gdm/db/userDB.json",
+  "SwitchesNumber": "1",
+  "VMsNumber": "8"
 }

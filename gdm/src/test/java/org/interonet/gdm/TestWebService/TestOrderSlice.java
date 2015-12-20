@@ -2,13 +2,10 @@ package org.interonet.gdm.TestWebService;
 
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import junit.framework.TestCase;
-import org.interonet.gdm.Core.GDMCore;
-import org.interonet.gdm.Core.IGDMAgent;
-import org.interonet.gdm.WebService.RPCServer;
 
 import java.net.URL;
 
-public class TestOrderSlice extends TestCase{
+public class TestOrderSlice extends TestCase {
     JsonRpcHttpClient client;
 
 

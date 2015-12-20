@@ -30,7 +30,7 @@ public class GDMCore {
     private VMTimeTable vmTimeTable;
     private IConfigurationCenter configurationCenter;
     private IUserManager userManager;
-    private Logger gdmCoreLogger = LoggerFactory.getLogger(GDMCore.class);
+    private Logger logger = LoggerFactory.getLogger(GDMCore.class);
 
     public GDMCore() {
     }
@@ -63,52 +63,72 @@ public class GDMCore {
     }
 
     public Boolean orderSlice(AuthToken authToken, String order) throws Exception {
+        try {
+            if (!authTokenManager.auth(authToken)) {
+                logger.info("authentication error");
+                return false;
+            }
 
-        if (!authTokenManager.auth(authToken)){
-            gdmCoreLogger.info("authentication error");
-            return false;
+            OrderParser orderParser = new OrderParser(order);
+            int switchesNum = orderParser.getSwitchesNum();
+            int vmsNum = orderParser.getvmsNum();
+            String beginT = orderParser.getBeginTime();
+            String endT = orderParser.getEndTime();
+            Map<String, String> topology = orderParser.getTopology();
+            Map<String, String> swConf = orderParser.getSwitchConfig();
+            String ctrlIP = orderParser.getControllerIP();
+            int ctrlPort = orderParser.getControllerPort();
+            Map<String, Map> customSwitchConf = orderParser.getCustomSwitchConf();
+
+            logger.debug("[switchesNum]= " + switchesNum);
+            logger.debug("[vmsNum]= " + vmsNum);
+            logger.debug("[beginT]= " + beginT);
+            logger.debug("[endT]= " + endT);
+            logger.debug("[topology]= " + topology);
+            logger.debug("[swConf]= " + swConf);
+            logger.debug("[ctrlIP]= " + ctrlIP);
+            logger.debug("[ctrlPort]= " + ctrlPort);
+            logger.debug("[customSwitchConf]= " + customSwitchConf);
+
+            Date date = new Date();
+            DayTime beginTime = new DayTime(beginT);
+            DayTime nowTime = new DayTime(new SimpleDateFormat("HH:mm").format(date));
+
+            if (beginTime.earlyThan(nowTime)) {
+                logger.error("begin time is early than now time, failed");
+                logger.error("beginTime = " + beginTime);
+                logger.error("nowTime = " + nowTime);
+                return false;
+            }
+
+            String username = authTokenManager.getUsernameByToken(authToken);
+
+            /*
+            * FIXME transaction.
+            * Bug Tracking Link: https://github.com/samueldeng/interonet/issues/15
+            * */
+            List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginT, endT);
+            List<Integer> vmIDs = vmTimeTable.checkVMAvailability(vmsNum, beginT, endT);
+
+            if (switchIDs == null) {
+                logger.error("switches is not enough now");
+                return false;
+            }
+
+            if (vmIDs == null) {
+                logger.error("vms is not enough now");
+                return false;
+            }
+
+            boolean swStatus = switchTimeTable.setOccupied(switchIDs, beginT, endT);
+            boolean vmStatus = vmTimeTable.setOccupied(vmIDs, beginT, endT);
+            if (!swStatus || !vmStatus) return false;
+            return wsQueue.newOrder(username, switchIDs, vmIDs, beginT, endT, topology, swConf, ctrlIP, ctrlPort, customSwitchConf);
+
+        } catch (Exception e) {
+            logger.error(e.toString());
+            throw e;
         }
-
-        OrderParser orderParser = new OrderParser(order);
-        int switchesNum = orderParser.getSwitchesNum();
-        int vmsNum = orderParser.getvmsNum();
-        String beginT = orderParser.getBeginTime();
-        String endT = orderParser.getEndTime();
-        Map<String, String> topology = orderParser.getTopology();
-        Map<String, String> swConf = orderParser.getSwitchConfig();
-        String ctrlIP = orderParser.getControllerIP();
-        int ctrlPort = orderParser.getControllerPort();
-        Map<String, Map> customSwitchConf = orderParser.getCustomSwitchConf();
-
-        Date date = new Date();
-        DayTime beginTime = new DayTime(beginT);
-        DayTime nowTime = new DayTime(new SimpleDateFormat("HH:mm").format(date));
-
-        if (beginTime.earlyThan(nowTime)) {
-            gdmCoreLogger.info("begin time is early than now time, failed");
-            gdmCoreLogger.info("beginTime = " + beginTime);
-            gdmCoreLogger.info("nowTime = " + nowTime);
-            return false;
-        }
-
-        String username = authTokenManager.getUsernameByToken(authToken);
-        List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginT, endT);
-        List<Integer> vmIDs = vmTimeTable.checkVMAvailability(vmsNum, beginT, endT);
-
-        if(switchIDs == null){
-            gdmCoreLogger.info("switches is not enough now");
-            return false;
-        }
-
-        if(vmIDs == null){
-            gdmCoreLogger.info("vms is not enough now");
-            return false;
-        }
-
-        boolean swStatus = switchTimeTable.setOccupied(switchIDs, beginT, endT);
-        boolean vmStatus = vmTimeTable.setOccupied(vmIDs, beginT, endT);
-        return !(!swStatus || !vmStatus) && wsQueue.newOrder(username, switchIDs, vmIDs, beginT, endT, topology, swConf, ctrlIP, ctrlPort, customSwitchConf);
-
     }
 
     public String authenticateUser(String username, String password) {

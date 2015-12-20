@@ -6,6 +6,7 @@ import org.interonet.gdm.OperationCenter.IOperationCenter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class WTQueueManager implements Runnable {
@@ -29,24 +30,24 @@ public class WTQueueManager implements Runnable {
         return list;
     }
 
-    private void stopSlice(List<WTOrder> wtOrderList) throws Throwable {
-        for (WTOrder wtOrder : wtOrderList) {
-            List<Integer> switchesIDs = wtOrder.switchIDs;
-            List<Integer> vmIDs = wtOrder.vmIDs;
-            List<SWSWTunnel> swswTunnels = wtOrder.swswTunnel;
-            List<SWVMTunnel> swvmTunnels = wtOrder.swvmTunnel;
+    private void stopSlice(WTOrder wtOrder) throws Throwable {
 
-            for (SWSWTunnel swswT : swswTunnels) {
-                int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.SwitchID, swswT.SwitchIDPortNum);
-                int athrSwitchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.PeerSwitchID, swswT.PeerSwitchIDPortNum);
-                operationCenter.deleteTunnelSW2SW(switchPortPeeronTT, athrSwitchPortPeeronTT);
-            }
+        List<Integer> switchesIDs = wtOrder.switchIDs;
+        List<Integer> vmIDs = wtOrder.vmIDs;
+        List<SWSWTunnel> swswTunnels = wtOrder.swswTunnel;
+        List<SWVMTunnel> swvmTunnels = wtOrder.swvmTunnel;
 
-            for (SWVMTunnel swvmTunnel : swvmTunnels) {
-                int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.SwitchID, swvmTunnel.SwitchPort);
-                int vmID = swvmTunnel.VMID;
-                operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
-            }
+        for (SWSWTunnel swswT : swswTunnels) {
+            int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.SwitchID, swswT.SwitchIDPortNum);
+            int athrSwitchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.PeerSwitchID, swswT.PeerSwitchIDPortNum);
+            operationCenter.deleteTunnelSW2SW(switchPortPeeronTT, athrSwitchPortPeeronTT);
+        }
+
+        for (SWVMTunnel swvmTunnel : swvmTunnels) {
+            int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.SwitchID, swvmTunnel.SwitchPort);
+            int vmID = swvmTunnel.VMID;
+            operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
+        }
 
             /*
             *
@@ -55,9 +56,9 @@ public class WTQueueManager implements Runnable {
             *
             * */
 
-            //for (Integer switchID : switchesIDs) {
-            //    operationCenter.deleteSWitchConf(switchID);
-            //}
+        //for (Integer switchID : switchesIDs) {
+        //    operationCenter.deleteSWitchConf(switchID);
+        //}
 
             /*
             *
@@ -65,26 +66,36 @@ public class WTQueueManager implements Runnable {
             * by Samuel, Dec, 14
             *
             * */
-            //for (Integer switchID : switchesIDs) {
-            //    operationCenter.powerOffSwitch(switchID);
-            //}
+        //for (Integer switchID : switchesIDs) {
+        //    operationCenter.powerOffSwitch(switchID);
+        //}
 
-            for (Integer vmID : vmIDs) {
-                operationCenter.powerOffVM(vmID);
-            }
-
-            waitingTermQueue.deleteOrderByID(wtOrder.sliceID);
+        for (Integer vmID : vmIDs) {
+            operationCenter.powerOffVM(vmID);
         }
-
+        waitingTermQueue.deleteOrderByID(wtOrder.sliceID);
     }
 
     @Override
     public void run() {
         while (true) {
             try {
-                List<WTOrder> list = checkOrders();
-                if (list.size() != 0) {
-                    stopSlice(list);
+                List<WTOrder> wtOrderList = checkOrders();
+
+                HashSet<Thread> threadsStopSlice = new HashSet<>();
+                for (WTOrder wtOrder : wtOrderList) {
+                    Thread thread = new Thread(() -> {
+                        try {
+                            stopSlice(wtOrder);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    });
+                    thread.start();
+                    threadsStopSlice.add(thread);
+                }
+                for (Thread t : threadsStopSlice) {
+                    t.join();
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

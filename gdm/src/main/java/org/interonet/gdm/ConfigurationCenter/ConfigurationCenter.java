@@ -2,13 +2,13 @@ package org.interonet.gdm.ConfigurationCenter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.Core.GDMCore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ConfigurationCenter implements IConfigurationCenter {
     public Map<String, Integer> TTPortMap = new HashMap<>();
@@ -17,7 +17,7 @@ public class ConfigurationCenter implements IConfigurationCenter {
     private Logger logger = LoggerFactory.getLogger(ConfigurationCenter.class);
 
     public ConfigurationCenter() {
-        if (System.getenv().get("INTERONET_HOME") == null){
+        if (System.getenv().get("INTERONET_HOME") == null) {
             System.out.println("INTERONET_HOME Environment Variable Check Error.");
             System.exit(1);
         }
@@ -25,13 +25,13 @@ public class ConfigurationCenter implements IConfigurationCenter {
         initTopologyTransformerPortMap();
     }
 
-    private void initGlobalConf(){
+    private void initGlobalConf() {
         logger.info("reading conf file from" + System.getenv().get("INTERONET_HOME") + "/gdm/conf/conf.json");
         File confFile = new File(System.getenv().get("INTERONET_HOME") + "/gdm/conf/conf.json");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Map<String, String> map = objectMapper.readValue(confFile, Map.class);
-            for(Map.Entry<String,String> entry : map.entrySet()){
+            for (Map.Entry<String, String> entry : map.entrySet()) {
                 globalConfiguration.put(entry.getKey(), entry.getValue());
             }
         } catch (IOException e) {
@@ -46,7 +46,7 @@ public class ConfigurationCenter implements IConfigurationCenter {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             Map<String, Integer> map = objectMapper.readValue(confFile, Map.class);
-            for(Map.Entry<String,Integer> entry : map.entrySet()){
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
                 TTPortMap.put(entry.getKey(), entry.getValue());
             }
         } catch (IOException e) {
