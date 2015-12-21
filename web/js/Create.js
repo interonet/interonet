@@ -127,7 +127,7 @@ function SwitchConfigure() {
     if (SwitchNum > SwitchNumNow) {
         for (var i = SwitchNumNow; i < SwitchNum; i++) {
             var row = "<div class='row' id='" + "row" + i + "'></div>";
-            var divfile = "<div id='" + "divfile" + i + "'>"
+            var divfile = "<div id='" + "divfile" + i + "'>";
             $("#Configure").append(row, divfile);
             var col1 = "<div id='" + "s" + i + "Col1" + "' class='col-xs-1 col-xs-offset-2'><label class='" + "control-label'>" + "s" + i + "</label></div>";
             var col2 = "<div id='" + "s" + i + "Col2" + "' class='col-xs-2'><input type='radio' name='" + "OF" + i + "' value='OF1.0'/>&nbspOF1.0</div>";
@@ -141,22 +141,24 @@ function SwitchConfigure() {
         for (i = SwitchNum; i < SwitchNumNow; i++) {
             rowID = "#row" + i;
             var brID = "#br" + i;
+            var fileID = "#divfile" + i;
             $(rowID).remove();
             $(brID).remove();
+            $(fileID).remove();
         }
     }
     $("input[name^='OF']").click(function () {
         var ID = parseInt($(this).attr("name").substr(2));
         var value = $(this).attr("value");
         var div = "#divfile" + ID;
-        if (value == "custom") {
-            var row1 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">root-fs</div><div class="col-xs-2"><input type="file" name="root' + ID + '"/></div></div>';
-            var row2 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">system-bit</div><div class="col-xs-2"><input type="file" name="system' + ID + '"/></div></div>';
-            var row3 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">uImage</div><div class="col-xs-2"><input type="file" name="uImage' + ID + '"/></div></div>';
-            var row4 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">device-tree</div><div class="col-xs-2"><input type="file" name="device' + ID + '"/></div></div>';
+        if (value == "custom" && $(div).children().length == 0) {
+            var row1 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">root-fs</div><div class="col-xs-2"><input type="file" name="root' + ID + '" id="root'+ID+'"/></div></div>';
+            var row2 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">system-bit</div><div class="col-xs-2"><input type="file" name="system' + ID + '" id="system'+ID+'"/></div></div>';
+            var row3 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">uImage</div><div class="col-xs-2"><input type="file" name="uImage' + ID + '" id="uImage'+ID+'"/></div></div>';
+            var row4 = '<div class="row"><div class="col-xs-2 col-xs-offset-3">device-tree</div><div class="col-xs-2"><input type="file" name="device' + ID + '" id="device'+ID+'"/></div></div>';
             $(div).append(row1, row2, row3, row4);
         }
-        else {
+        else if(value != "custom"){
             $(div).empty();
         }
     })

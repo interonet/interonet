@@ -30,18 +30,25 @@ for ($i = 0; $i < $SwitchNum; $i++) {
             $customSwitchConf["s".$i] = array("root-fs"=>$rootResult,"system-bit"=>$systemResult,"uImage"=>$uImageResult,"device-tree"=>$deviceResult);
         }
         else {
-            echo "< script type='text/javascript'>location=history.go(-1);alert('The file type you upload is illegal');
+            echo "<script type='text/javascript'>location=history.go(-1);alert('The file type you upload is illegal');
              </script>";
             exit();
 
         }
-
     }
 }
+if(count($customSwitchConf) == 0)
+{
+    $order = $order = array('num' => array('switchesNum' => $SwitchNum, 'vmsNum' => $VMNum), 'time' => array('begin' => $StartTime, 'end' => $EndTime), 'topology' => $topology, 'switchConf' => $SwitchConf, 'controllerConf' => array('ip' => $ip, 'port' => $port));
+}
+else
+{
+    $order = array('num' => array('switchesNum' => $SwitchNum, 'vmsNum' => $VMNum), 'time' => array('begin' => $StartTime, 'end' => $EndTime), 'topology' => $topology, 'switchConf' => $SwitchConf, 'controllerConf' => array('ip' => $ip, 'port' => $port),'customSwitchConf'=>$customSwitchConf);
+}
 
-$order = array('num' => array('switchesNum' => $SwitchNum, 'vmsNum' => $VMNum), 'time' => array('begin' => $StartTime, 'end' => $EndTime), 'topology' => $topology, 'switchConf' => $SwitchConf, 'controllerConf' => array('ip' => $ip, 'port' => $port),'customSwitchConf'=>$customSwitchConf);
 
 $jsonOrder = json_encode($order);
+//echo $jsonOrder;
 
 include(dirname(__FILE__) . "/../jsonrpcphp/jsonRPCClient.php");
 
@@ -64,8 +71,8 @@ function checkRoot($path, $user, $i)
     $typeCode = getTypeCode($path);
     if ($typeCode == "25355") {
         $location = "upload/" . $user . "sw" . $i . time() . "root_bin" . ".tar.xz";
-        move_uploaded_file($path, $location);
-        $value = "http://".SAVEIP."/interonetWeb/" . $location;
+        move_uploaded_file($path, "../".$location);
+        $value = "http://".SAVEIP."/".$location;
         return $value;
     } else {
         return false;
@@ -78,8 +85,8 @@ function checkSystem($path, $user, $i)
     $typeCode = getTypeCode($path);
     if ($typeCode == "9") {
         $location = "upload/" . $user . "sw" . $i . time() . "system.bit";
-        move_uploaded_file($path, $location);
-        $value = "http://".SAVEIP."/interonetWeb/" . $location;
+        move_uploaded_file($path, "../".$location);
+        $value = "http://".SAVEIP."/". $location;
         return $value;
     } else {
         return false;
@@ -91,8 +98,8 @@ function checkUImage($path, $user, $i)
     $typeCode = getTypeCode($path);
     if ($typeCode == "395") {
         $location = "upload/" . $user . "sw" . $i . time() . "uImage";
-        move_uploaded_file($path, $location);
-        $value = "http://".SAVEIP."/interonetWeb/" . $location;
+        move_uploaded_file($path,"../". $location);
+        $value = "http://".SAVEIP."/" . $location;
         return $value;
     } else {
         return false;
@@ -104,8 +111,8 @@ function checkDevice($path, $user, $i)
     $typeCode = getTypeCode($path);
     if ($typeCode == "20813") {
         $location = "upload/" . $user . "sw" . $i . time() . "device_tree.dtb";
-        move_uploaded_file($path, $location);
-        $value = "http://".SAVEIP."/interonetWeb/" . $location;
+        move_uploaded_file($path, "../".$location);
+        $value = "http://".SAVEIP."/". $location;
         return $value;
     } else {
         return false;
