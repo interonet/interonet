@@ -7,5 +7,6 @@
   "switchDB": "/Users/samuel/Github/interonet/gdm/db/switchDB.json",
   "vmDB": "/Users/samuel/Github/interonet/gdm/db/vmDB.json",
   "SwitchesNumber": "1",
-  "VMsNumber": "8"
+  "VMsNumber": "8",
+  "gdmDebug": "true"
 }

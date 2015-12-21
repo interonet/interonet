@@ -13,7 +13,7 @@ public class OperationCenter implements IOperationCenter {
     JsonRpcHttpClient client;
     Logger logger = LoggerFactory.getLogger(OperationCenter.class);
     GDMCore core;
-    boolean DEBUG = true;
+    boolean DEBUG;
 
     public OperationCenter(GDMCore core) {
         this.core = core;
@@ -21,6 +21,9 @@ public class OperationCenter implements IOperationCenter {
             client = new JsonRpcHttpClient(new URL(core.getConfigurationCenter().getConf("LDMConnectionURL")));
             String readTimeout = core.getConfigurationCenter().getConf("LDMConnectionReadTimeoutMillis");
             client.setReadTimeoutMillis(Integer.parseInt(readTimeout));
+            String gdmDebug = core.getConfigurationCenter().getConf("gdmDebug");
+            DEBUG = gdmDebug.equals("true") ? true : false;
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
