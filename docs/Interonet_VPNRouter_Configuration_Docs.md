@@ -85,16 +85,19 @@ sudo /etc/init.d/pptpd restart
 ```
 sudo iptables -t nat -A POSTROUTING -s 10.255.255.0/24 -o eth0 -j MASQUERADE
 ```
+
 > **MISTAKE:** The following instruction is a common mistake, it would make all traffic be disguised as 202.117.15.119. So，the host can ping all ip address。**
 > 
 > ```
 > sudo iptables -t nat -A PREROUTING -d 10.0.0.0/8 -j DNAT --to 202.117.15.119
 > ```
-> **NOTE:** If you have finish the above configuration, you will find you can not visit most web pages. It is because the traffic is limited. Enter the following instructions to resolve the problem.
+
+ **NOTE:** If you have finish the above configuration, you will find you can not visit most web pages. It is because the traffic is limited. Enter the following instructions to resolve the problem.
 ```
 sudo iptables -t filter -I FORWARD -p tcp --syn -i ppp+ -j TCPMSS --set-mss 1356
 sudo iptables -A FORWARD -p tcp --syn -s 10.255.255.0/24 -j TCPMSS --set-mss 1356
 ```
+
 # DNS System Configuration
 In VPN Router，it contains a DNS SOA Server to forward and manage the `interonet.org` domain。
 
@@ -120,6 +123,7 @@ We have modified these files.
 ```
 `named.conf.options`
 * we add ACL `goodclients` to prevent the DNS Amp Attack.
+
 ```
 acl goodclients {
     10.0.0.0/8;
@@ -132,8 +136,8 @@ options {
     allow-query { goodclients; };
 ###
 };
- 
 ```
+
 * Then, we add forwarders to speed up recursive query.
 ```
 options {
@@ -158,7 +162,7 @@ options {
 
 `db.interonet.org`
 * BIND data file
-* Edit this file accoring to the format.
+* Edit this file according to the format.
 
 > **NOTE:** add the Serial Number every time modify this file.
 
