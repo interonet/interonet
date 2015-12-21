@@ -88,3 +88,76 @@ sudo iptables -t nat -A POSTROUTING -s 10.255.255.0/24 -o eth0 -j MASQUERADE
 sudo iptables -t filter -I FORWARD -p tcp --syn -i ppp+ -j TCPMSS --set-mss 1356
 sudo iptables -A FORWARD -p tcp --syn -s 10.255.255.0/24 -j TCPMSS --set-mss 1356
 ```
+# DNS System Configuration
+In VPN Router，it contains a DNS SOA Server to forward and manage the `interonet.org` domain。
+
+We use the bin9 to set up our dns name server as follow.
+```
+ii  bind9                               1:9.9.5.dfsg-3ubuntu0.6          amd64        Internet Domain Name Server
+ii  bind9-doc                           1:9.9.5.dfsg-3ubuntu0.6          all          Documentation for BIND
+ii  bind9-host                          1:9.9.5.dfsg-3ubuntu0.6          amd64        Version of 'host' bundled with BIND 9.X
+ii  bind9utils                          1:9.9.5.dfsg-3ubuntu0.6          amd64        Utilities for BIND
+ii  libbind9-90                         1:9.9.5.dfsg-3ubuntu0.6          amd64        BIND9 Shared Library used by BIND
+```
+
+## Configuration File
+The configuration files in our system are stored in
+```
+/etc/bind/
+```
+We have modified these files.
+```
+-rw-r--r--  1 root bind  726 Dec 21 01:21 db.10
+-rw-r--r--  1 root bind  492 Dec 21 00:43 db.interonet.org
+-rw-r--r--  1 root bind 1057 Dec 21 01:19 named.conf.options
+```
+`named.conf.options`
+* we add ACL `goodclients` to prevent the DNS Amp Attack.
+```
+acl goodclients {
+    10.0.0.0/8;
+    localhost;
+    localnets;
+};
+options {
+###
+    recursion yes;
+    allow-query { goodclients; };
+###
+};
+ 
+```
+* Then, we add forwarders to speed up recursive query.
+```
+options {
+    ###
+    forwarders {
+        202.117.0.20;
+        202.117.0.21;
+        114.114.114.114;
+    };
+    ###
+};
+```
+* Finally, we disable the dnssec option because all of the china's name server disbale the dnssec, so, our bind will query from root. It will slow down the query speed for the name such as `taobao.com`
+```
+options {
+    ###
+    dnssec-enable no;
+    dnssec-validation no;
+    ###
+}
+```
+
+`db.interonet.org`
+* BIND data file
+* Edit this file accoring to the format.
+> **NOTE:** add the Serial Number every time modify this file.
+
+`db.10`
+* BIND reverse data file
+* Edit this file accoring to the format.
+> **NOTE:** add the Serial Number every time modify this file.
+
+## Reference
+[Bind9ServerHowto](https://help.ubuntu.com/community/BIND9ServerHowto)
