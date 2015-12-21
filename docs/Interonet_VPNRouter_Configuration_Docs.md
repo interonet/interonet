@@ -81,7 +81,8 @@ user1           pptpd   user1                   *
 sudo /etc/init.d/pptpd restart
 ```
 
-## Configure the IPtable forwarding in order to make the PPTP client can connect the outer net
+## Open SNAT for PPTP Client 
+Configure the iptables forwarding which make the PPTP client can connect internet.
 ```
 sudo iptables -t nat -A POSTROUTING -s 10.255.255.0/24 -o eth0 -j MASQUERADE
 ```
