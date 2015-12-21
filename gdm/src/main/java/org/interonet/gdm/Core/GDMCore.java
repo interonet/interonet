@@ -1,5 +1,6 @@
 package org.interonet.gdm.Core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.AuthenticationCenter.*;
 import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
@@ -12,10 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GDMCore {
 
@@ -202,10 +200,34 @@ public class GDMCore {
 
     }
 
-    public String getRunningSliceInfoByID(AuthToken authToken, String sliceID) throws IOException {
+    public String getRunningSliceInfoByID(AuthToken authToken, String sliceID) throws Exception {
         if (!authTokenManager.auth(authToken)) return null;
 
-        return wtQueue.getRunningSliceInfoByID(sliceID);
+        Map<String, Object> runningSliceInfo = wtQueue.getRunningSliceInfoByID(sliceID);
+
+        // Replace the userSW2domSWMapping to userSW2domSWUrl;
+        Map<String, Integer> userSW2domSWMapping = (Map<String, Integer>) runningSliceInfo.get("userSW2domSWMapping");
+        Map<String, String> userSW2domSWUrl = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : userSW2domSWMapping.entrySet()) {
+            Integer domSwitchId = entry.getValue();
+            String domSwitchUrl = configurationCenter.getSwitchUrlById(domSwitchId);
+            userSW2domSWUrl.put(entry.getKey(), domSwitchUrl);
+        }
+        runningSliceInfo.put("userSW2domSWMapping", userSW2domSWUrl);
+
+        // Replace the userSW2domSWMapping to userSW2domSWUrl;
+        Map<String, Integer> userVM2domVMMapping = (Map<String, Integer>) runningSliceInfo.get("userVM2domVMMapping");
+        Map<String, String> userVM2domVMUrl = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : userVM2domVMMapping.entrySet()) {
+            Integer domVMId = entry.getValue();
+            String domVMUrl = configurationCenter.getVMUrlById(domVMId);
+            userVM2domVMUrl.put(entry.getKey(), domVMUrl);
+        }
+        runningSliceInfo.put("userVM2domVMMapping", userVM2domVMUrl);
+
+        //Trans into String.
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(runningSliceInfo);
     }
 
     public IAuthTokenManager getAuthTokenManager() {
