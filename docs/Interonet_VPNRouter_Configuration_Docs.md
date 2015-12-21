@@ -152,11 +152,13 @@ options {
 `db.interonet.org`
 * BIND data file
 * Edit this file accoring to the format.
+
 > **NOTE:** add the Serial Number every time modify this file.
 
 `db.10`
 * BIND reverse data file
 * Edit this file accoring to the format.
+
 > **NOTE:** add the Serial Number every time modify this file.
 
 ## Reference
