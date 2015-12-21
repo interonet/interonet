@@ -222,13 +222,13 @@ public class WSQueueManager implements Runnable {
                 userVM2domVM
         );
 
-        waitingStartQueue.deleteOrderByID(wsOrder.orderID);
-        waitingTermQueue.newOrder(wtOrder);
-
         //Wait for all the thread to complete.
         for (Thread t : threadsStartVM) {
             t.join();
         }
+
+        waitingStartQueue.deleteOrderByID(wsOrder.orderID);
+        waitingTermQueue.newOrder(wtOrder);
     }
 
 
