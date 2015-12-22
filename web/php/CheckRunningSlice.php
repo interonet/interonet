@@ -82,7 +82,7 @@ function showSwitchMap(&$arr,$SwitchNum,$i)
         $index = "s".$j;
         $map = $arr->$index;
 
-        echo '<td data-toggle="tooltip" data-placement="top" title="'.$map.'">'.'s'.$j.':'.substr($map,10,1).'</td>';
+        echo '<td data-toggle="tooltip" data-placement="top" title="'.$map.'">'.'s'.$j.'</td>';
         echo "</tr>";
 
     }
@@ -110,7 +110,7 @@ function showVMMap(&$arr,$VMNum,$i)
         }
         $index = "h".$j;
         $map = $arr->$index;
-        echo '<td data-toggle="tooltip" data-placement="top" title="'.$map.'">'.'h'.$j.':'.substr($map,15,1).'</td>';
+        echo '<td data-toggle="tooltip" data-placement="top" title="'.$map.'">'.'h'.$j.'</td>';
         echo "</tr>";
 
     }
