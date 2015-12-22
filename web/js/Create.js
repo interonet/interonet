@@ -2,8 +2,10 @@ $(document).ready(function () {
 
     //滚动导航栏
     menuYloc();
+    $('a[data-toggle="tooltip"]').tooltip();
     Switch();
     VM();
+
     //设置标题栏用户名
     $("#user").ready(function () {
         $.post("php/Cookie.php",

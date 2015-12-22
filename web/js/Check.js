@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $('a[data-toggle="tooltip"]').tooltip();
     $("#user").ready(function(){
         $.post("php/Cookie.php",
             {type:"Get"},
