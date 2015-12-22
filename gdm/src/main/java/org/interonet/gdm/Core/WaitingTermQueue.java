@@ -1,6 +1,7 @@
 package org.interonet.gdm.Core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.interonet.gdm.Core.Utils.DayTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class WaitingTermQueue {
         return new ObjectMapper().writeValueAsString(orderIDList);
     }
 
-    synchronized public String getRunningSliceInfoByID(String sliceID) throws IOException {
+    synchronized public Map<String, Object> getRunningSliceInfoByID(String sliceID) throws IOException {
         Map<String, Object> sliceInfo = new HashMap<>();
         for (WTOrder wtOrder : wtQueue) {
             if (wtOrder.sliceID.equals(sliceID)) {
@@ -51,8 +52,7 @@ public class WaitingTermQueue {
                 break;
             }
         }
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(sliceInfo);
+        return sliceInfo;
     }
 
     synchronized public void newOrder(WTOrder wtOrder) {
@@ -78,5 +78,14 @@ public class WaitingTermQueue {
             }
         }
         return false;
+    }
+
+    synchronized public List<WTOrder> getTimeReadyWSOrders(DayTime currentTime) {
+        List<WTOrder> list = new ArrayList<>();
+        for (WTOrder wtOrder : wtQueue) {
+            if (new DayTime(wtOrder.endTime).earlyThan(currentTime))
+                list.add(wtOrder);
+        }
+        return list;
     }
 }

@@ -1,13 +1,26 @@
 <?php
 include(dirname(__FILE__) . "/../jsonrpcphp/jsonRPCClient.php");
-
-
 $authToken = $_COOKIE["authToken"];
 $response = $client->__call("getRunningSlices",array($authToken));
 $orderList = json_decode($response);
 for($i=0;$i<count($orderList);$i++)
 {
     $response2 = $client->__call("getRunningSliceInfoById",array($authToken,$orderList[$i]));
+//  $response2 = '{"userSW2domSWMapping": {"s0": "telnet://s0.interonet.org"},
+//  "EndTime": "14:20",
+//  "ControllerPort": "6633",
+//  "userVM2domVMMapping": {
+//        "h0": "vnc://vm:vm@vmm0.interonet.org:6901",
+//    "h1": "vnc://vm:vm@vmm1.interonet.org:6902"
+//  },
+//  "BeginTime": "14:18",
+//  "SliceID": "root1",
+//  "Topology": {
+//        "h0:0": "s0:0",
+//    "h1:0": "s0:1"
+//  },
+//  "ControllerIP": "202.117.15.79"
+//}';
     $slice = json_decode($response2);
     $slice2 = json_decode($response2,true);
     $SwitchNum = count($slice2["userSW2domSWMapping"]);
@@ -68,7 +81,8 @@ function showSwitchMap(&$arr,$SwitchNum,$i)
         }
         $index = "s".$j;
         $map = $arr->$index;
-        echo "<td>"."s".$j.":".$map."</td>";
+
+        echo '<td data-toggle="tooltip" data-placement="top" title="'.$map.'">'.'s'.$j.':'.substr($map,10,1).'</td>';
         echo "</tr>";
 
     }
@@ -96,7 +110,7 @@ function showVMMap(&$arr,$VMNum,$i)
         }
         $index = "h".$j;
         $map = $arr->$index;
-        echo "<td>"."h".$j.":".$map."</td>";
+        echo '<td data-toggle="tooltip" data-placement="top" title="'.$map.'">'.'h'.$j.':'.substr($map,15,1).'</td>';
         echo "</tr>";
 
     }

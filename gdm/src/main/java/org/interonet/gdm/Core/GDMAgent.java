@@ -64,7 +64,7 @@ public class GDMAgent implements IGDMAgent {
     }
 
     @Override
-    public String getRunningSliceInfoById(AuthToken authToken, String sliceID) throws IOException {
+    public String getRunningSliceInfoById(AuthToken authToken, String sliceID) throws Exception {
         return gdmCore.getRunningSliceInfoByID(authToken, sliceID);
     }
 }

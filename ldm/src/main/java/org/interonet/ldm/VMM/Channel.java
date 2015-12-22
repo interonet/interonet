@@ -15,15 +15,15 @@ public class Channel {
     private String password;
     private String IP;
     private int port;
-    public Channel(String user,String password,String IP,int port)
-    {
+
+    public Channel(String user, String password, String IP, int port) {
         this.user = user;
         this.password = password;
         this.IP = IP;
         this.port = port;
     }
-    public String setChannel(String command,boolean judge)
-    {
+
+    public String setChannel(String command, boolean judge) {
         String result = "";
         Session session = null;
         ChannelExec openChannel = null;
@@ -47,8 +47,7 @@ public class Channel {
                 while ((buf = reader.readLine()) != null) {
                     result = new String(buf.getBytes("gbk"), "UTF-8");
                 }
-            }
-            else{
+            } else {
                 while ((buf = reader.readLine()) != null) {
                     result += new String(buf.getBytes("gbk"), "UTF-8");
                 }
@@ -67,7 +66,4 @@ public class Channel {
         }
         return result;
     }
-
-
-
 }

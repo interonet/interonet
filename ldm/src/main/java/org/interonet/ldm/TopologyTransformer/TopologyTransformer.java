@@ -4,6 +4,8 @@ package org.interonet.ldm.TopologyTransformer;
 import java.util.logging.Logger;
 
 public class TopologyTransformer {
+    private final int MAX_TT_PORT_NUM = 40;
+
     private SnmpManager snmpManager;
     private Logger logger = Logger.getLogger(TopologyTransformer.class.getName());
 
@@ -11,19 +13,32 @@ public class TopologyTransformer {
         try {
             snmpManager = new SnmpManager();
             initVlanTag();
+            initPortStatus();
+            logger.info(TopologyTransformer.class.getCanonicalName() + "has been initiate successfully");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
     }
 
-    private void initVlanTag() {
+    public void initPortStatus() {
         try {
-            for (int i = 1; i <= 20; i++) {
+            for (int i = 1; i <= MAX_TT_PORT_NUM; i++) {
+                snmpManager.downPort(i);
+            }
+            logger.info("Initiate all the 40 ports to disable status");
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+    }
+
+    public void initVlanTag() {
+        try {
+            for (int i = 1; i <= MAX_TT_PORT_NUM; i++) {
                 snmpManager.changePortFromVlantoVlan(i, 1);
             }
-            logger.info("Initiate all the 20 ports to VLAN 1");
+            logger.info("Initiate all the 40 ports to VLAN 1");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
     }
 

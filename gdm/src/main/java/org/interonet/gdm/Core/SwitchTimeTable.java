@@ -2,23 +2,27 @@ package org.interonet.gdm.Core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.Core.Utils.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class SwitchTimeTable {
 
-    private static final int TOTALSWITCHESNUMBER = 2;
-    Map<Integer, List<Duration>> switchTimeTable;
+    private GDMCore core;
+    private int totalSwitchesNumber = 1;
+    public Map<Integer, List<Duration>> switchTimeTable;
 
-    Logger switchTimeTableLogger;
+    private Logger logger;
 
-    public SwitchTimeTable() {
-        switchTimeTableLogger = Logger.getLogger("switchTimeTableLogger");
+    public SwitchTimeTable(GDMCore core) {
+        logger = LoggerFactory.getLogger(SwitchTimeTable.class);
+        this.core = core;
 
+        totalSwitchesNumber = Integer.parseInt(core.getConfigurationCenter().getConf("SwitchesNumber"));
         switchTimeTable = new HashMap<>();
-        for (int i = 0; i < TOTALSWITCHESNUMBER; i++) {
+        for (int i = 0; i < totalSwitchesNumber; i++) {
             List<Duration> swTimeLine = new LinkedList<>();
             switchTimeTable.put(i, swTimeLine);
         }
@@ -95,7 +99,7 @@ public class SwitchTimeTable {
 
 
     public String getTimeTable() throws IOException {
-        switchTimeTableLogger.info(this.toString());
+        logger.info(this.toString());
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(switchTimeTable);
     }

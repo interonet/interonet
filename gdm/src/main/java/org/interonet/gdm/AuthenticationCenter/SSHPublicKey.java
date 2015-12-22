@@ -2,7 +2,7 @@ package org.interonet.gdm.AuthenticationCenter;
 
 import java.security.PublicKey;
 
-public class SSHPublicKey implements PublicKey{
+public class SSHPublicKey implements PublicKey {
     @Override
     public String getAlgorithm() {
         return null;

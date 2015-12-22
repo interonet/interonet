@@ -1,16 +1,15 @@
 package org.interonet.gdm.OperationCenter;
 
-/**
- * Created by samuel on 1/2/15.
- */
+import java.util.Map;
+
 public interface IOperationCenter {
     void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) throws Throwable;
 
     void createTunnelSW2VM(int switchPortPeeronTT, int peerVMPortPeeronTT) throws Throwable;
 
-    void addSWitchConf(Integer switchID, String controllerIP, int controllerPort) throws Throwable;
+    void addSwitchConf(String oFVersion, Integer switchID, String controllerIP, int controllerPort) throws Throwable;
 
-    void addSWitchConf(String s, Integer domSW, String controllerIP, int controllerPort) throws Throwable;
+    void addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchID, String controllerIP, int controllerPort) throws Throwable;
 
     void powerOnSwitch(Integer switchID) throws Throwable;
 

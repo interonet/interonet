@@ -2,20 +2,26 @@ package org.interonet.gdm.Core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.Core.Utils.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class VMTimeTable {
-    private final int TOTALVMSNUMBER = 8;
-    Map<Integer, List<Duration>> vmTimeTable;
-    private Logger vmTimeTableLogger;
+    private GDMCore core;
 
-    public VMTimeTable() {
-        vmTimeTableLogger = Logger.getLogger("vmTimeTableLogger");
+    private int totalVmsNumber;
+    Map<Integer, List<Duration>> vmTimeTable;
+    private Logger logger;
+
+    public VMTimeTable(GDMCore core) {
+        logger = LoggerFactory.getLogger(VMTimeTable.class);
+        this.core = core;
+
+        totalVmsNumber = Integer.parseInt(core.getConfigurationCenter().getConf("VMsNumber"));
         vmTimeTable = new HashMap<Integer, List<Duration>>();
-        for (int i = 0; i < TOTALVMSNUMBER; i++) {
+        for (int i = 0; i < totalVmsNumber; i++) {
             List<Duration> vmTimeLine = new LinkedList<Duration>();
             vmTimeTable.put(i, vmTimeLine);
         }
@@ -24,7 +30,6 @@ public class VMTimeTable {
     synchronized public List<Integer> checkVMAvailability(int vmsNum, String beginTime, String endTime) {
         Duration orderDur = new Duration(beginTime, endTime);
         List<Integer> availableVMs = new ArrayList<Integer>();
-
 
         for (Map.Entry<Integer, List<Duration>> entry : vmTimeTable.entrySet()) {
             int vmID = entry.getKey();
@@ -96,7 +101,7 @@ public class VMTimeTable {
     }
 
     public String getTimeTable() throws IOException {
-        vmTimeTableLogger.info(this.toString());
+        logger.info(this.toString());
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(vmTimeTable);
     }

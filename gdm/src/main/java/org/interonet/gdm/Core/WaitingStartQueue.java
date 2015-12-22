@@ -2,24 +2,26 @@ package org.interonet.gdm.Core;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.interonet.gdm.Core.Utils.DayTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class WaitingStartQueue {
 
     public List<WSOrder> wsQueue;
     private Map<String, Integer> userOrderNum;
-    private Logger waitingStartQueueLogger;
+    private Logger logger;
 
     public WaitingStartQueue() {
         this.wsQueue = new ArrayList<>();
         this.userOrderNum = new HashMap<>();
-        waitingStartQueueLogger = Logger.getLogger("waitingStartQueueLogger");
+        logger = LoggerFactory.getLogger(WaitingStartQueue.class);
     }
 
     public List<WSOrder> getQueue() {
@@ -27,14 +29,16 @@ public class WaitingStartQueue {
     }
 
     synchronized public boolean newOrder(String username,
-                            List<Integer> switchIDs,
-                            List<Integer> vmIDs,
-                            String beginTime,
-                            String endTime,
-                            Map<String, String> topology,
-                            Map<String, String> switchConf,
-                            String controllerIP,
-                            int controllerPort) {
+                                         List<Integer> switchIDs,
+                                         List<Integer> vmIDs,
+                                         String beginTime,
+                                         String endTime,
+                                         Map<String, String> topology,
+                                         Map<String, String> switchConf,
+                                         String controllerIP,
+                                         int controllerPort,
+                                         Map<String, Map> customSwitchConf
+    ) {
 
         if (userOrderNum.get(username) == null)
             userOrderNum.put(username, 0);
@@ -42,7 +46,7 @@ public class WaitingStartQueue {
 
         String orderID = username + userOrderNum.get(username);
 
-        WSOrder wsOrder = new WSOrder(orderID, username, switchIDs, vmIDs, beginTime, endTime, topology, switchConf, controllerIP, controllerPort);
+        WSOrder wsOrder = new WSOrder(orderID, username, switchIDs, vmIDs, beginTime, endTime, topology, switchConf, controllerIP, controllerPort, customSwitchConf);
         return wsQueue.add(wsOrder);
     }
 
@@ -83,5 +87,14 @@ public class WaitingStartQueue {
         }
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(orderInfo);
+    }
+
+    synchronized public List<WSOrder> getTimeReadyWSOrders(DayTime currentTime) {
+        List<WSOrder> list = new ArrayList<>();
+        for (WSOrder wsOrder : wsQueue) {
+            if (new DayTime(wsOrder.beginTime).earlyThan(currentTime))
+                list.add(wsOrder);
+        }
+        return list;
     }
 }

@@ -15,6 +15,7 @@ public class WSOrder extends Order {
     Map<String, String> switchConf;
     String controllerIP;
     int controllerPort;
+    Map<String, Map> customSwitchConf;
 
     public WSOrder(String orderID,
                    String username,
@@ -25,7 +26,8 @@ public class WSOrder extends Order {
                    Map<String, String> topology,
                    Map<String, String> switchConf,
                    String controllerIP,
-                   int controllerPort) {
+                   int controllerPort,
+                   Map<String, Map> customSwitchConf) {
         this.orderID = orderID;
         this.username = username;
         this.switchIDs = switchIDs;
@@ -36,5 +38,6 @@ public class WSOrder extends Order {
         this.switchConf = switchConf;
         this.controllerIP = controllerIP;
         this.controllerPort = controllerPort;
+        this.customSwitchConf = customSwitchConf;
     }
 }

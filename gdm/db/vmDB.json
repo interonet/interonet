@@ -1,0 +1,30 @@
+{
+  "0": {
+    "name": "vm0",
+    "url": "vnc://vm:vm@vmm0.interonet.org:6901"
+  },
+  "1": {
+    "name": "vm1",
+    "url": "vnc://vm:vm@vmm0.interonet.org:6902"
+  },
+  "2": {
+    "name": "vm2",
+    "url": "vnc://vm:vm@vmm0.interonet.org:6903"
+  },
+  "3": {
+    "name": "vm3",
+    "url": "vnc://vm:vm@vmm0.interonet.org:6904"
+  },
+  "4": {
+    "name": "vm4",
+    "url": "vnc://vm:vm@vmm0.interonet.org:6905"
+  },
+  "6": {
+    "name": "vm6",
+    "url": "vnc://vm:vm@vmm0.interonet.org:6907"
+  },
+  "7": {
+    "name": "vm7",
+    "url": "vnc://vm:vm@vmm0.interonet.org:6908"
+  }
+}

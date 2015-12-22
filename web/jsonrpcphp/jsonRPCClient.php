@@ -163,5 +163,5 @@ class jsonRPCClient {
 		}
 	}
 }
+//$client = new jsonRPCClient("http://202.117.15.80:8080/");
 $client = new jsonRPCClient("http://127.0.0.1:8080/");
-?>

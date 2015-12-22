@@ -1,5 +1,6 @@
 package org.interonet.gdm.Core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.interonet.gdm.AuthenticationCenter.*;
 import org.interonet.gdm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.gdm.ConfigurationCenter.IConfigurationCenter;
@@ -7,13 +8,12 @@ import org.interonet.gdm.Core.Utils.DayTime;
 import org.interonet.gdm.Core.Utils.Duration;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 import org.interonet.gdm.OperationCenter.OperationCenter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GDMCore {
 
@@ -28,6 +28,7 @@ public class GDMCore {
     private VMTimeTable vmTimeTable;
     private IConfigurationCenter configurationCenter;
     private IUserManager userManager;
+    private Logger logger = LoggerFactory.getLogger(GDMCore.class);
 
     public GDMCore() {
     }
@@ -46,8 +47,8 @@ public class GDMCore {
         Thread wtQueueOperatorThread = new Thread(wtQueueOperator);
         wtQueueOperatorThread.start();
         authTokenManager = new AuthTokenManager();
-        switchTimeTable = new SwitchTimeTable();
-        vmTimeTable = new VMTimeTable();
+        switchTimeTable = new SwitchTimeTable(this);
+        vmTimeTable = new VMTimeTable(this);
     }
 
 
@@ -60,38 +61,72 @@ public class GDMCore {
     }
 
     public Boolean orderSlice(AuthToken authToken, String order) throws Exception {
-        if (!authTokenManager.auth(authToken))
-            return false;
+        try {
+            if (!authTokenManager.auth(authToken)) {
+                logger.info("authentication error");
+                return false;
+            }
 
-        OrderParser orderParser = new OrderParser(order);
-        int switchesNum = orderParser.getSwitchesNum();
-        int vmsNum = orderParser.getvmsNum();
-        String beginT = orderParser.getBeginTime();
-        String endT = orderParser.getEndTime();
-        Map<String, String> topology = orderParser.getTopology();
-        Map<String, String> swConf = orderParser.getSwitchConfig();
-        String ctrlIP = orderParser.getControllerIP();
-        int ctrlPort = orderParser.getControllerPort();
+            OrderParser orderParser = new OrderParser(order);
+            int switchesNum = orderParser.getSwitchesNum();
+            int vmsNum = orderParser.getvmsNum();
+            String beginT = orderParser.getBeginTime();
+            String endT = orderParser.getEndTime();
+            Map<String, String> topology = orderParser.getTopology();
+            Map<String, String> swConf = orderParser.getSwitchConfig();
+            String ctrlIP = orderParser.getControllerIP();
+            int ctrlPort = orderParser.getControllerPort();
+            Map<String, Map> customSwitchConf = orderParser.getCustomSwitchConf();
 
-        Date date = new Date();
-        DayTime beginTime = new DayTime(beginT);
-        DayTime nowTime = new DayTime(new SimpleDateFormat("HH:mm").format(date));
+            logger.debug("[switchesNum]= " + switchesNum);
+            logger.debug("[vmsNum]= " + vmsNum);
+            logger.debug("[beginT]= " + beginT);
+            logger.debug("[endT]= " + endT);
+            logger.debug("[topology]= " + topology);
+            logger.debug("[swConf]= " + swConf);
+            logger.debug("[ctrlIP]= " + ctrlIP);
+            logger.debug("[ctrlPort]= " + ctrlPort);
+            logger.debug("[customSwitchConf]= " + customSwitchConf);
 
-        if (beginTime.earlyThan(nowTime)){
-            return false;
+            Date date = new Date();
+            DayTime beginTime = new DayTime(beginT);
+            DayTime nowTime = new DayTime(new SimpleDateFormat("HH:mm").format(date));
+
+            if (beginTime.earlyThan(nowTime)) {
+                logger.error("begin time is early than now time, failed");
+                logger.error("beginTime = " + beginTime);
+                logger.error("nowTime = " + nowTime);
+                return false;
+            }
+
+            String username = authTokenManager.getUsernameByToken(authToken);
+
+            /*
+            * FIXME transaction.
+            * Bug Tracking Link: https://github.com/samueldeng/interonet/issues/15
+            * */
+            List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginT, endT);
+            List<Integer> vmIDs = vmTimeTable.checkVMAvailability(vmsNum, beginT, endT);
+
+            if (switchIDs == null) {
+                logger.error("switches is not enough now");
+                return false;
+            }
+
+            if (vmIDs == null) {
+                logger.error("vms is not enough now");
+                return false;
+            }
+
+            boolean swStatus = switchTimeTable.setOccupied(switchIDs, beginT, endT);
+            boolean vmStatus = vmTimeTable.setOccupied(vmIDs, beginT, endT);
+            if (!swStatus || !vmStatus) return false;
+            return wsQueue.newOrder(username, switchIDs, vmIDs, beginT, endT, topology, swConf, ctrlIP, ctrlPort, customSwitchConf);
+
+        } catch (Exception e) {
+            logger.error(e.toString());
+            throw e;
         }
-
-        String username = authTokenManager.getUsernameByToken(authToken);
-        List<Integer> switchIDs = switchTimeTable.checkSWAvailability(switchesNum, beginT, endT);
-        List<Integer> vmIDs = vmTimeTable.checkVMAvailability(vmsNum, beginT, endT);
-
-        if (username == null || switchIDs == null || vmIDs == null)
-            return false;
-
-        boolean swStatus = switchTimeTable.setOccupied(switchIDs, beginT, endT);
-        boolean vmStatus = vmTimeTable.setOccupied(vmIDs, beginT, endT);
-        return !(!swStatus || !vmStatus) && wsQueue.newOrder(username, switchIDs, vmIDs, beginT, endT, topology, swConf, ctrlIP, ctrlPort);
-
     }
 
     public String authenticateUser(String username, String password) {
@@ -165,10 +200,34 @@ public class GDMCore {
 
     }
 
-    public String getRunningSliceInfoByID(AuthToken authToken, String sliceID) throws IOException {
+    public String getRunningSliceInfoByID(AuthToken authToken, String sliceID) throws Exception {
         if (!authTokenManager.auth(authToken)) return null;
 
-        return wtQueue.getRunningSliceInfoByID(sliceID);
+        Map<String, Object> runningSliceInfo = wtQueue.getRunningSliceInfoByID(sliceID);
+
+        // Replace the userSW2domSWMapping to userSW2domSWUrl;
+        Map<String, Integer> userSW2domSWMapping = (Map<String, Integer>) runningSliceInfo.get("userSW2domSWMapping");
+        Map<String, String> userSW2domSWUrl = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : userSW2domSWMapping.entrySet()) {
+            Integer domSwitchId = entry.getValue();
+            String domSwitchUrl = configurationCenter.getSwitchUrlById(domSwitchId);
+            userSW2domSWUrl.put(entry.getKey(), domSwitchUrl);
+        }
+        runningSliceInfo.put("userSW2domSWMapping", userSW2domSWUrl);
+
+        // Replace the userSW2domSWMapping to userSW2domSWUrl;
+        Map<String, Integer> userVM2domVMMapping = (Map<String, Integer>) runningSliceInfo.get("userVM2domVMMapping");
+        Map<String, String> userVM2domVMUrl = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : userVM2domVMMapping.entrySet()) {
+            Integer domVMId = entry.getValue();
+            String domVMUrl = configurationCenter.getVMUrlById(domVMId);
+            userVM2domVMUrl.put(entry.getKey(), domVMUrl);
+        }
+        runningSliceInfo.put("userVM2domVMMapping", userVM2domVMUrl);
+
+        //Trans into String.
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(runningSliceInfo);
     }
 
     public IAuthTokenManager getAuthTokenManager() {

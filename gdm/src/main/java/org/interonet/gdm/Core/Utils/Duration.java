@@ -32,6 +32,6 @@ public class Duration {
 
     @Override
     public String toString() {
-        return "Duration{" + "start='" + start + '\'' +", end='" + end + '\'' +'}';
+        return "Duration{" + "start='" + start + '\'' + ", end='" + end + '\'' + '}';
     }
 }

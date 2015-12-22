@@ -1,5 +1,6 @@
 package org.interonet.ldm.Core;
 
+import org.dom4j.DocumentException;
 import org.interonet.ldm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.ldm.ConfigurationCenter.IConfigurationCenter;
 import org.interonet.ldm.PowerManager.PowerManager;
@@ -8,8 +9,11 @@ import org.interonet.ldm.SwitchManager.SwitchManager;
 import org.interonet.ldm.TopologyTransformer.TopologyTransformer;
 import org.interonet.ldm.VMM.IVMManager;
 import org.interonet.ldm.VMM.VMManager;
+import org.libvirt.LibvirtException;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.logging.Logger;
 
 public class LDMCore {
     @SuppressWarnings("FieldCanBeLocal")
@@ -21,6 +25,8 @@ public class LDMCore {
     private IVMManager vMManager;
 
     private TopologyTransformer topologyTransformer;
+
+    private Logger logger = Logger.getLogger(LDMCore.class.getCanonicalName());
 
     public void start() {
         ldmAgent = new LDMAgent(this);
@@ -35,7 +41,7 @@ public class LDMCore {
         switchManager = new SwitchManager(this);
 
         // VMManager initiation
-        vMManager = new VMManager();
+        vMManager = new VMManager(this);
 
         // TT initiation.
         topologyTransformer = new TopologyTransformer();
@@ -46,7 +52,19 @@ public class LDMCore {
         return ldmAgent;
     }
 
-    public String powerOnVM(Integer vmID) {
+    public IVMManager getVMManager() {
+        return vMManager;
+    }
+
+    public ISwitchManager getSwitchManager() {
+        return switchManager;
+    }
+
+    public TopologyTransformer getTopologyTransformer() {
+        return topologyTransformer;
+    }
+
+    public String powerOnVM(Integer vmID) throws LibvirtException, DocumentException {
         return vMManager.powerOnVM(vmID);
     }
 
@@ -65,12 +83,23 @@ public class LDMCore {
         powerManager.powerOffSwitchById(switchID);
     }
 
-    public void addSwitchConf(Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
-        switchManager.changeConnectionPropertyFromNFS(switchID, controllerIP, controllerPort);
+    public void addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
+        switchManager.changeSwitchConf(type, switchID, controllerIP, controllerPort);
     }
 
-    public void addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) throws IOException, InterruptedException {
-        switchManager.changeConnectionPropertyFromNFS(type, switchID, controllerIP, controllerPort);
+    /*
+    *   customSwitchConf should be like this.
+    *
+    *  {
+    *     "root-fs": "http://202.117.15.79/ons_bak/backup.tar.xz",
+    *     "boot-bin": "http://202.117.15.79/ons_bak/system.bit",
+    *     "uImage": "http://202.117.15.79/ons_bak/uImage",
+    *     "device-tree": "http://202.117.15.79/ons_bak/devicetree.dtb"
+    *  }
+    *
+    * */
+    public void addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchID, String controllerIP, int controllerPort) throws Exception {
+        switchManager.changeSwitchConf(customSwitchConfGDM, switchID, controllerIP, controllerPort);
     }
 
     public IConfigurationCenter getConfigurationCenter() {

@@ -1,4 +1,5 @@
 <?php
+set_error_handler("customError");
 
 $username = $password = "";
 
@@ -17,6 +18,7 @@ include(dirname(__FILE__) . "/../jsonrpcphp/jsonRPCClient.php");
 
 
 $response = $client->__call("authenticateUser",array($username,$password));
+
 setcookie("username",$username);
 setcookie("authToken", $response);
 
@@ -34,3 +36,8 @@ else
     header("location:../Create.html");
 }
 
+function customError($errno, $errstr)
+{
+    echo "<script type='text/javascript'>location='../index.html';alert('The server is under maintenance, please wait a moment');</script>";
+    die();
+}

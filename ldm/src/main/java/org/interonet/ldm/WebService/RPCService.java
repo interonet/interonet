@@ -2,6 +2,7 @@ package org.interonet.ldm.WebService;
 
 import org.interonet.ldm.Core.LDMAgent;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class RPCService {
@@ -35,10 +36,10 @@ public class RPCService {
         }
     }
 
-    public String addSWitchConf(Integer switchID, String controllerIP, int controllerPort) {
-        ldmRPCServiceLogger.info(switchID + " " + controllerIP + " " + controllerPort);
+    public String addSwitchConf(String type, Integer switchID, String controllerIP, int controllerPort) {
+        ldmRPCServiceLogger.info(type + " " + switchID + " " + controllerIP + " " + controllerPort);
         try {
-            ldmAgent.addSWitchConf(switchID, controllerIP, controllerPort);
+            ldmAgent.addSwitchConf(type, switchID, controllerIP, controllerPort);
             return "Success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,10 +47,21 @@ public class RPCService {
         }
     }
 
-    public String addSWitchConf(String type, Integer switchID, String controllerIP, int controllerPort) {
-        ldmRPCServiceLogger.info(type + " " + switchID + " " + controllerIP + " " + controllerPort);
+    /*
+    *   customSwitchConf should be like this.
+    *
+    *  {
+    *     "root-fs": "http://202.117.15.79/ons_bak/backup.tar.xz",
+    *     "boot-bin": "http://202.117.15.79/ons_bak/system.bit",
+    *     "uImage": "http://202.117.15.79/ons_bak/uImage",
+    *     "device-tree": "http://202.117.15.79/ons_bak/devicetree.dtb"
+    *  }
+    *
+    * */
+    public String addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchId, String controllerIP, int controllerPort) {
+        ldmRPCServiceLogger.info("customSwitchConfGDM = [" + customSwitchConfGDM + "], switchId = [" + switchId + "], controllerIP = [" + controllerIP + "], controllerPort = [" + controllerPort + "]");
         try {
-            ldmAgent.addSWitchConf(type, switchID, controllerIP, controllerPort);
+            ldmAgent.addSwitchConf(customSwitchConfGDM, switchId, controllerIP, controllerPort);
             return "Success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,14 +75,19 @@ public class RPCService {
             ldmAgent.powerOnSwitch(switchID);
             return "Success";
         } catch (Exception e) {
-            e.printStackTrace();
+            ldmRPCServiceLogger.severe(e.getMessage());
             return "Failed";
         }
     }
 
     public String powerOnVM(Integer vmID) {
-        ldmRPCServiceLogger.info("");
-        return ldmAgent.powerOnVM(vmID);
+        try {
+            ldmRPCServiceLogger.info("");
+            return ldmAgent.powerOnVM(vmID);
+        } catch (Exception e) {
+            ldmRPCServiceLogger.severe(e.getMessage());
+            return "Failed";
+        }
     }
 
     public String deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) {

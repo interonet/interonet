@@ -5,8 +5,8 @@ import org.interonet.gdm.Core.Utils.DayTime;
 import org.interonet.gdm.OperationCenter.IOperationCenter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class WTQueueManager implements Runnable {
@@ -24,60 +24,78 @@ public class WTQueueManager implements Runnable {
         configurationCenter = core.getConfigurationCenter();
     }
 
-    synchronized private List<WTOrder> checkOrders() {
-        List<WTOrder> list = new ArrayList<>();
+    private List<WTOrder> checkOrders() {
         DayTime currentTime = new DayTime(new SimpleDateFormat("HH:mm").format(new Date()));
-
-        for (WTOrder wtOrder : waitingTermQueue.getQueue()) {
-            if (new DayTime(wtOrder.endTime).earlyThan(currentTime))
-                list.add(wtOrder);
-        }
+        List<WTOrder> list = waitingTermQueue.getTimeReadyWSOrders(currentTime);
         return list;
     }
 
-    synchronized private void stopSlice(List<WTOrder> wtOrderList) throws Throwable {
-        for (WTOrder wtOrder : wtOrderList) {
-            List<Integer> switchesIDs = wtOrder.switchIDs;
-            List<Integer> vmIDs = wtOrder.vmIDs;
-            List<SWSWTunnel> swswTunnels = wtOrder.swswTunnel;
-            List<SWVMTunnel> swvmTunnels = wtOrder.swvmTunnel;
+    private void stopSlice(WTOrder wtOrder) throws Throwable {
 
-            for (SWSWTunnel swswT : swswTunnels) {
-                int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.SwitchID, swswT.SwitchIDPortNum);
-                int athrSwitchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.PeerSwitchID, swswT.PeerSwitchIDPortNum);
-                operationCenter.deleteTunnelSW2SW(switchPortPeeronTT, athrSwitchPortPeeronTT);
-            }
+        List<Integer> switchesIDs = wtOrder.switchIDs;
+        List<Integer> vmIDs = wtOrder.vmIDs;
+        List<SWSWTunnel> swswTunnels = wtOrder.swswTunnel;
+        List<SWVMTunnel> swvmTunnels = wtOrder.swvmTunnel;
 
-            for (SWVMTunnel swvmTunnel : swvmTunnels) {
-                int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.SwitchID, swvmTunnel.SwitchPort);
-                int vmID = swvmTunnel.VMID;
-                operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
-            }
-
-            for (Integer switchID : switchesIDs) {
-                operationCenter.deleteSWitchConf(switchID);
-            }
-
-            for (Integer switchID : switchesIDs) {
-                operationCenter.powerOffSwitch(switchID);
-            }
-
-            for (Integer vmID : vmIDs) {
-                operationCenter.powerOffVM(vmID);
-            }
-
-            waitingTermQueue.deleteOrderByID(wtOrder.sliceID);
+        for (SWSWTunnel swswT : swswTunnels) {
+            int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.SwitchID, swswT.SwitchIDPortNum);
+            int athrSwitchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswT.PeerSwitchID, swswT.PeerSwitchIDPortNum);
+            operationCenter.deleteTunnelSW2SW(switchPortPeeronTT, athrSwitchPortPeeronTT);
         }
 
+        for (SWVMTunnel swvmTunnel : swvmTunnels) {
+            int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swvmTunnel.SwitchID, swvmTunnel.SwitchPort);
+            int vmID = swvmTunnel.VMID;
+            operationCenter.deleteTunnelSW2VM(switchPortPeeronTT, vmID);
+        }
+
+            /*
+            *
+            * Comment these lines for the fuck onetswitch30's eth0 driver in u-boot-meshsr.
+            * By Samuel, Dec, 14
+            *
+            * */
+
+        //for (Integer switchID : switchesIDs) {
+        //    operationCenter.deleteSWitchConf(switchID);
+        //}
+
+            /*
+            *
+            * Comment these lines for the fuck box to fix the power system.
+            * by Samuel, Dec, 14
+            *
+            * */
+        //for (Integer switchID : switchesIDs) {
+        //    operationCenter.powerOffSwitch(switchID);
+        //}
+
+        for (Integer vmID : vmIDs) {
+            operationCenter.powerOffVM(vmID);
+        }
+        waitingTermQueue.deleteOrderByID(wtOrder.sliceID);
     }
 
     @Override
     public void run() {
         while (true) {
             try {
-                List<WTOrder> list = checkOrders();
-                if (list.size() != 0) {
-                    stopSlice(list);
+                List<WTOrder> wtOrderList = checkOrders();
+
+                HashSet<Thread> threadsStopSlice = new HashSet<>();
+                for (WTOrder wtOrder : wtOrderList) {
+                    Thread thread = new Thread(() -> {
+                        try {
+                            stopSlice(wtOrder);
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    });
+                    thread.start();
+                    threadsStopSlice.add(thread);
+                }
+                for (Thread t : threadsStopSlice) {
+                    t.join();
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
