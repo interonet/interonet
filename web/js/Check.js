@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     $("#user").ready(function(){
         $.post("php/Cookie.php",
             {type:"Get"},
@@ -61,10 +60,12 @@ function  RunningSlice()
         function(data)
         {
             $("#CheckRunningTbody").html(data);
+            $('[data-toggle="tooltip"]').tooltip();
             $(".btnTopology").click(function(){
                 $("#myModal").css("display","block");
                 var value=$(this).attr("name");
                 ShowTopology(value);
+
             });
         });
 }
