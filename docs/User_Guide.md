@@ -19,7 +19,6 @@ To use the InterONet : Full-Stack-Programmable SDN Testbed, the first step is co
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_2.png)
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_3.png)
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_4.png)
-![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_5.png)
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_6.png)
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/vpn_setting_osx_7.png)
 
