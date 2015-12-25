@@ -19,12 +19,16 @@ printenv: print environment variables.
 saveenv: save environment variables to SPI Flash.
 ```
 We assume that the switch ID in interonet is 0. type the following command to set the boot environment into u-boot.
+the original bootargs is
 ```
-setenv bootargs 'console=ttyPS0,115200 ip=10.0.0.3:10.0.0.1:10.0.0.1:255.0.0.0::eth0:off root=/dev/nfs devtmpfs.mount=0 nfsroot=10.0.0.1:/export/0 rw earlyprintk'
+bootargs=console=ttyPS0,115200 root=/dev/mmcblk0p2 rw  earlyprintk rootfstype=ext4 rootwait devtmpfs.mount=0
 ```
-Note that the 10.0.0.1 is the interonet LDM server. And /export/0 is the NFS directory in LDM Server.
-
-Note that 10.0.0.3 is the switch0's ip address. In the early version of InterONet, we use a magic number 3 to do the mapping.
+We need reset the bootargs using the following command.
+```
+setenv bootargs 'console=ttyPS0,115200 ip=10.0.0.3:10.0.0.1:10.0.0.254:255.0.0.0::eth0:off root=/dev/nfs devtmpfs.mount=0 nfsroot=10.0.0.1:/export/0 rw earlyprintk'
+```
+> **Note:** `10.0.0.1` is the interonet LDM server. And /export/0 is the NFS directory in LDM Server. `10.0.0.3`
+the switch0's ip address. In the early version of InterONet, we use a magic number 3 to do the mapping. `10.0.0.254` is the gateway's ip address.
 ```
 setenv ethaddr 00:0a:35:00:00:03
 setenv ipaddr 10.0.0.3/24
