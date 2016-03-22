@@ -54,6 +54,7 @@ The following imgae show the process to login into a switch.
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/switch_login.png)
 
 ### How to vnc into vm?
+> **BUG:**  **OSX's VNCViewer**, you have to click `Options`, click `Experts` tab and setting the variable of `FullColor` and `FullScreen` to `true`.
 1. click "check" button to show the topology, and select which host you want to login.
 2. move the mouse to the switches on **VMMap** to show the connection tips.
 3. Open the vnc software(eg. vnc viewer). Then input the host name and port number.
@@ -61,6 +62,7 @@ The following imgae show the process to login into a switch.
 5. Input the username and password we provide, and login into virtual machines.
 The following imgae show the process to login into a host.
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/host_login.png)
+
 
 ### Some Tips about dummy switches
 > **NOTE:** the default startup/configuration script is in `/mnt/init.sh`.
