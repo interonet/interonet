@@ -30,37 +30,37 @@ Slice is a collection of SDN switches, virtual machines and the links. Simply a 
 2.  Click the right up corner "login" link to access the your dashboard.
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/home_page.png)
 3.  Click the "Create Slice" on the left bar.
-  1. Choose the number of virtual machine and SDN switches you wanted to order.
+  1. Choose the number of virtual machine and SDN switches you wanted to slice.
   2. Choose the start time and the end time you want to  use your slice. note that your have.
   3.  Choose every switch's configuration. In the v1.0, it's unavailable.
   4.  Choose the controller IP address and port number, we will made a start script in the switch in advance.
   5.  Create your topology through click the circle around the vm or switch.
-  4.  If the order is available, you will get a slice of your wanted time.
+  4.  If the slice is available, you will get a slice of your wanted time.
 4. Click "Order" Button to submit your request.
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/order_page.png)
 5. Check the waiting slice.
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/waiting_slice_page.png)
 
 ### Login switches and virtual machines in Slice
-After the order's status turn into running. you can using your own slice.
+After the slice's status turn into running. you can using your own slice.
 There are two types of devices in your slices including switches and virtual machines. The method to login every type of device is different. The switch is so **dummy** that it only support the **telnet** login. vritual machines can support **vnc** login.
 
 ### How to telnet into switch?
 1. click "check" button to show the topology, and select which switches you want to login.
 2. move the mouse to the switches on **SwitchMap** to show the connection tips.
-3. Open the telnet software(eg. putty) and input the host name.
+3. Open the telnet software(eg. putty) and input the virtualMachine name.
 4. Connect to it.
 The following imgae show the process to login into a switch.
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/switch_login.png)
 
 ### How to vnc into vm?
 > **BUG:**  **OSX's VNCViewer**, you have to click `Options`, click `Experts` tab and setting the variable of `FullColor` and `FullScreen` to `true`.
-1. click "check" button to show the topology, and select which host you want to login.
+1. click "check" button to show the topology, and select which virtualMachine you want to login.
 2. move the mouse to the switches on **VMMap** to show the connection tips.
-3. Open the vnc software(eg. vnc viewer). Then input the host name and port number.
+3. Open the vnc software(eg. vnc viewer). Then input the virtualMachine name and port number.
 4. Connect to it.
 5. Input the username and password we provide, and login into virtual machines.
-The following imgae show the process to login into a host.
+The following imgae show the process to login into a virtualMachine.
 ![](http://7xpcbm.com1.z0.glb.clouddn.com/host_login.png)
 
 

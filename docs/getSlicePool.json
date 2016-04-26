@@ -1,0 +1,52 @@
+[
+  {
+    "id": "09cc28b1-751a-4d1b-a4c1-cdc016a0f3d0",
+    "status": "TIME_WAITING",
+    "username": "root",
+    "switchesNum": 1,
+    "vmsNum": 2,
+    "beginTime": "2016-04-26T20:51:39.546+08:00",
+    "endTime": "2016-04-26T21:11:36.563+08:00",
+    "topology": {
+      "h0:0": "s0:0",
+      "h1:0": "s0:1"
+    },
+    "switchConf": {
+      "s0": "custom"
+    },
+    "controllerIP": "202.117.15.123",
+    "controllerPort": 6633,
+    "customSwitchConf": null,
+    "switchIdList": [
+      1
+    ],
+    "switchList": [
+      {
+        "id": 1,
+        "name": "s1",
+        "url": "telnet://s1.interonet.org"
+      }
+    ],
+    "vmIdList": [
+      1,
+      2
+    ],
+    "vmList": [
+      {
+        "id": 1,
+        "name": "vm1",
+        "url": "vnc://vm:vm@vmm0.interonet.org:6901"
+      },
+      {
+        "id": 2,
+        "name": "vm2",
+        "url": "vnc://vm:vm@vmm0.interonet.org:6902"
+      }
+    ],
+    "switchToSwitchTunnelList": null,
+    "switchToVMTunnelList": null,
+    "userSW2domSW": null,
+    "userVM2domVM": null,
+    "exception": "NONE"
+  }
+]

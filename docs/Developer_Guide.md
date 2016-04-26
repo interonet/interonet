@@ -58,7 +58,7 @@ it will run successfully if the log is like the following.
  INFO [main] (ConfigurationCenter.java:29) - reading conf file from/Users/samuel/interonet/gdm/conf/conf.json
  INFO [main] (org.interonet.gdm.ConfigurationCenter.ConfigurationCenter:ConfigurationCenter.java:43) - reading TTProtMap file from/Users/samuel/github/interonet/gdm/db/TTPortMap.json
  INFO [main] (ConfigurationCenter.java:43) - reading TTProtMap file from/Users/samuel/github/interonet/gdm/db/TTPortMap.json
- INFO [main] (org.interonet.gdm.AuthenticationCenter.UserDBManager:UserDBManager.java:27) - reading userDB from/Users/samuel/github/interonet/gdm/db/userDB.json
+ INFO [main] (org.interonet.gdm.AuthenticationCenter.AuthTokenManager.UserManager.UserDBManager:UserDBManager.java:27) - reading userDB from/Users/samuel/github/interonet/gdm/db/userDB.json
  INFO [main] (UserDBManager.java:27) - reading userDB from/Users/samuel/github/interonet/gdm/db/userDB.json
  INFO [main] (org.interonet.gdm.Main:Main.java:17) - Starting InterONet GDM RPC Server
  INFO [main] (Main.java:17) - Starting InterONet GDM RPC Server

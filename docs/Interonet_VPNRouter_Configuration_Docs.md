@@ -34,7 +34,7 @@ nameserver 202.117.0.21
 
 ## Open Forwarding
 The configuration file in our system are stored in `/etc/sysctl.conf`.
-* We add the following in order to open IPv4 forwarding:
+* We add the following in slice to open IPv4 forwarding:
 ```
 net.ipv4.ip_forward=1
 ```
@@ -87,7 +87,7 @@ Configure the iptables forwarding which make the PPTP client can connect interne
 sudo iptables -t nat -A POSTROUTING -s 10.255.255.0/24 -o eth0 -j MASQUERADE
 ```
 
-> **MISTAKE:** The following instruction is a common mistake, it would make all traffic be disguised as 202.117.15.119. So，the host can ping all ip address。**
+> **MISTAKE:** The following instruction is a common mistake, it would make all traffic be disguised as 202.117.15.119. So，the virtualMachine can ping all ip address。**
 > 
 > ```
 > sudo iptables -t nat -A PREROUTING -d 10.0.0.0/8 -j DNAT --to 202.117.15.119
@@ -106,7 +106,7 @@ We use the bin9 to set up our dns name server as follow.
 ```
 ii  bind9                               1:9.9.5.dfsg-3ubuntu0.6          amd64        Internet Domain Name Server
 ii  bind9-doc                           1:9.9.5.dfsg-3ubuntu0.6          all          Documentation for BIND
-ii  bind9-host                          1:9.9.5.dfsg-3ubuntu0.6          amd64        Version of 'host' bundled with BIND 9.X
+ii  bind9-virtualMachine                          1:9.9.5.dfsg-3ubuntu0.6          amd64        Version of 'virtualMachine' bundled with BIND 9.X
 ii  bind9utils                          1:9.9.5.dfsg-3ubuntu0.6          amd64        Utilities for BIND
 ii  libbind9-90                         1:9.9.5.dfsg-3ubuntu0.6          amd64        BIND9 Shared Library used by BIND
 ```
