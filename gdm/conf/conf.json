@@ -6,7 +6,8 @@
   "userDB": "/Users/samuel/Github/interonet/gdm/db/userDB.json",
   "switchDB": "/Users/samuel/Github/interonet/gdm/db/switchDB.json",
   "vmDB": "/Users/samuel/Github/interonet/gdm/db/vmDB.json",
-  "SwitchesNumber": "1",
+  "SwitchesNumber": "8",
   "VMsNumber": "8",
-  "gdmDebug": "true"
+  "gdmDebug": "true",
+  "tokenUpdatePeriod": "1"
 }

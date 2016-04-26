@@ -1,21 +1,22 @@
 package org.interonet.gdm.ConfigurationCenter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.interonet.gdm.Core.GDMCore;
+import org.interonet.gdm.Core.Switch;
+import org.interonet.gdm.Core.VirtualMachine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class ConfigurationCenter implements IConfigurationCenter {
-    private GDMCore core;
-    public Map<String, String> globalConfiguration = new HashMap<>();
+public class ConfigurationCenter {
+    private Map<String, String> globalConfiguration = new HashMap<>();
 
-    public Map<String, Integer> TTPortMap = new HashMap<>();
-    Map<String, Map<String, String>> vmDB = new HashMap<>();
-    Map<String, Map<String, String>> switchDB = new HashMap<>();
+    private Map<Integer, VirtualMachine> vmDB = new HashMap<>();
+    private Map<Integer, Switch> switchDB = new HashMap<>();
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private Logger logger = LoggerFactory.getLogger(ConfigurationCenter.class);
@@ -26,31 +27,8 @@ public class ConfigurationCenter implements IConfigurationCenter {
             System.exit(1);
         }
         initGlobalConf();
-        initTopologyTransformerPortMap();
         initSwitchDB();
         initVMDB();
-    }
-
-    private void initVMDB() {
-        logger.info("reading vmDB file from " + globalConfiguration.get("vmDB"));
-        File vmDBFile = new File(globalConfiguration.get("vmDB"));
-
-        try {
-            vmDB = objectMapper.readValue(vmDBFile, Map.class);
-        } catch (Exception e) {
-            logger.error("initSwitchDB Error", e);
-        }
-    }
-
-    private void initSwitchDB() {
-        logger.info("reading vmDB file from " + globalConfiguration.get("switchDB"));
-        File switchDBFile = new File(globalConfiguration.get("switchDB"));
-
-        try {
-            switchDB = objectMapper.readValue(switchDBFile, Map.class);
-        } catch (Exception e) {
-            logger.error("initSwitchDB Error", e);
-        }
     }
 
     private void initGlobalConf() {
@@ -66,53 +44,69 @@ public class ConfigurationCenter implements IConfigurationCenter {
         }
     }
 
-    private void initTopologyTransformerPortMap() {
-        logger.info("reading TTProtMap file from " + globalConfiguration.get("TTPortMapDBTTPortMapDB"));
-        File confFile = new File(globalConfiguration.get("TTPortMapDBTTPortMapDB"));
-
+    private void initSwitchDB() {
+        logger.info("reading swDB file from " + globalConfiguration.get("switchDB"));
+        File switchDBFile = new File(globalConfiguration.get("switchDB"));
         try {
-            Map<String, Integer> map = objectMapper.readValue(confFile, Map.class);
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                TTPortMap.put(entry.getKey(), entry.getValue());
+            Map<String, Map<String, String>> switches = objectMapper.readValue(switchDBFile, Map.class);
+            for (Map.Entry<String, Map<String, String>> entry : switches.entrySet()) {
+                Integer id = Integer.parseInt(entry.getKey());
+                Map<String, String> s = entry.getValue();
+                String name = s.get("name");
+                String url = s.get("url");
+                switchDB.put(id, new Switch(id, name, url));
             }
         } catch (Exception e) {
             logger.error("initSwitchDB Error", e);
         }
     }
 
-    @Override
-    public int getTopologyTransformerPortFromPeerPort(int switchID, int switchIDPortNum) throws Exception {
-        String key;
-        int value = 0;
-        for (Map.Entry<String, Integer> entry : TTPortMap.entrySet()) {
-            key = entry.getKey();
-            value = entry.getValue();
-            if (Integer.parseInt(key.split(":")[0].substring(1, 2)) == switchID && Integer.parseInt(key.split(":")[1]) == switchIDPortNum) {
-                return value;
-            }
-        }
+    private void initVMDB() {
+        logger.info("reading vmDB file from " + globalConfiguration.get("vmDB"));
+        File vmDBFile = new File(globalConfiguration.get("vmDB"));
 
-        throw new Exception("Can not find this port<SwitchID:" + switchID + " SwitchIDPortNum:" + switchIDPortNum + "> on TT");
+        try {
+            Map<String, Map<String, String>> vms = objectMapper.readValue(vmDBFile, Map.class);
+            for (Map.Entry<String, Map<String, String>> entry : vms.entrySet()) {
+                Integer id = Integer.parseInt(entry.getKey());
+                Map<String, String> s = entry.getValue();
+                String name = s.get("name");
+                String url = s.get("url");
+                vmDB.put(id, new VirtualMachine(id, name, url));
+            }
+        } catch (Exception e) {
+            logger.error("initSwitchDB Error", e);
+        }
     }
 
-    @Override
     public String getConf(String key) {
         return globalConfiguration.get(key);
     }
 
-    @Override
-    public String getSwitchUrlById(Integer domSwitchId) throws Exception {
-        Map<String, String> switchInfo = switchDB.get(domSwitchId.toString());
-        if (switchInfo == null) throw new Exception("Can not find the switch's URL." + " domSwitchId = " + domSwitchId);
-        String switchUrl = switchInfo.get("url");
-        return switchUrl == null ? "N/A" : switchUrl;
+    public List<Switch> getSwitchList(List<Integer> idList) {
+        List<Switch> list = new ArrayList<>(idList.size());
+        for (Integer id : idList) {
+            list.add(switchDB.get(id));
+        }
+        return list;
     }
 
-    @Override
-    public String getVMUrlById(Integer domVMId) throws Exception {
-        Map<String, String> VMInfo = vmDB.get(domVMId.toString());
-        if (VMInfo == null) throw new Exception("Can not find the vm's URL." + " domVMId = " + domVMId);
-        String vmUrl = VMInfo.get("url");
-        return vmUrl == null ? "N/A" : vmUrl;
+    public List<VirtualMachine> getVMList(List<Integer> idList) {
+        List<VirtualMachine> list = new ArrayList<>(idList.size());
+        for (Integer id : idList) {
+            list.add(vmDB.get(id));
+        }
+        return list;
+    }
+
+
+    public Switch getSwitchById(Integer domSwitchId) throws Exception {
+        if (domSwitchId == null) return null;
+        return switchDB.get(domSwitchId);
+    }
+
+    public VirtualMachine getVMById(Integer domVMId) throws Exception {
+        if (domVMId == null) return null;
+        return vmDB.get(domVMId);
     }
 }

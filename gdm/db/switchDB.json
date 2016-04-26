@@ -1,8 +1,4 @@
 {
-  "0": {
-    "name": "s0",
-    "url": "telnet://s0.interonet.org"
-  },
   "1": {
     "name": "s1",
     "url": "telnet://s1.interonet.org"
@@ -19,6 +15,10 @@
     "name": "s4",
     "url": "telnet://s4.interonet.org"
   },
+  "5": {
+    "name": "s5",
+    "url": "telnet://s5.interonet.org"
+  },
   "6": {
     "name": "s6",
     "url": "telnet://s6.interonet.org"
@@ -34,5 +34,9 @@
   "9": {
     "name": "s9",
     "url": "telnet://s9.interonet.org"
+  },
+  "10": {
+    "name": "s10",
+    "url": "telnet://s10.interonet.org"
   }
 }
