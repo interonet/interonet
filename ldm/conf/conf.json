@@ -2,7 +2,7 @@
   "TTPortMapDBTTPortMapDB": "/Users/samuel/Github/interonet/ldm/db/TTPortMap.json",
   "switchDB": "/Users/samuel/Github/interonet/ldm/db/switchDB.json",
   "vmDB": "/Users/samuel/Github/interonet/ldm/db/vmDB.json",
-  "vmVlanIdDB": "/Users/samuel/Github/interonet/ldm/db/vmVlanId.json",
+  "vmVlanIdDB": "/Users/samuel/Github/interonet/ldm/db/VmVlanId.json",
   "SwitchesNumber": "1",
   "VMsNumber": "8"
 }
