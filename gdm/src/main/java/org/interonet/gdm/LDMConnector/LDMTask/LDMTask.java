@@ -1,8 +1,8 @@
 package org.interonet.gdm.LDMConnector.LDMTask;
 
 import org.interonet.gdm.Core.Slice;
-import org.interonet.gdm.LDMConnector.SwitchToSwitchTunnel;
-import org.interonet.gdm.LDMConnector.SwitchToVMTunnel;
+import org.interonet.ldm.service.SwitchToSwitchTunnel;
+import org.interonet.ldm.service.SwitchToVMTunnel;
 
 import java.util.List;
 import java.util.Map;

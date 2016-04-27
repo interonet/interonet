@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.interonet.gdm.Core.DateTime.SliceDuration;
 import org.interonet.gdm.Core.GDMCore;
 import org.interonet.gdm.Core.Slice;
+import org.interonet.gdm.service.GDMService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

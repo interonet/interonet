@@ -7,8 +7,8 @@ import org.interonet.gdm.Core.SlicePool.TerminatedWaitingPool;
 import org.interonet.gdm.LDMConnector.LDMConnector;
 import org.interonet.gdm.LDMConnector.LDMTask.LDMStopTask;
 import org.interonet.gdm.LDMConnector.LDMTask.LDMTaskReturn;
-import org.interonet.gdm.LDMConnector.SwitchToSwitchTunnel;
-import org.interonet.gdm.LDMConnector.SwitchToVMTunnel;
+import org.interonet.ldm.service.SwitchToSwitchTunnel;
+import org.interonet.ldm.service.SwitchToVMTunnel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

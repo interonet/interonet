@@ -1,8 +1,8 @@
 package org.interonet.gdm.Core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.interonet.gdm.LDMConnector.SwitchToSwitchTunnel;
-import org.interonet.gdm.LDMConnector.SwitchToVMTunnel;
+import org.interonet.ldm.service.SwitchToSwitchTunnel;
+import org.interonet.ldm.service.SwitchToVMTunnel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

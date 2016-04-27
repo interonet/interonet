@@ -1,10 +1,13 @@
-package org.interonet.gdm.LDMConnector;
+package org.interonet.ldm.service;
 
 public class SwitchToSwitchTunnel {
     private int switchId;
     private int switchIdPortNum;
     private int peerSwitchId;
     private int peerSwitchIdPortNum;
+
+    public SwitchToSwitchTunnel() {
+    }
 
     public SwitchToSwitchTunnel(int switchId, int switchIdPortNum, int peerSwitchId, int peerSwitchIdPortNum) {
         this.switchId = switchId;

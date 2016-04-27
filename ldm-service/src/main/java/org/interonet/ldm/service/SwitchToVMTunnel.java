@@ -1,10 +1,13 @@
-package org.interonet.gdm.LDMConnector;
+package org.interonet.ldm.service;
 
 public class SwitchToVMTunnel {
     private int switchId;
     private int switchPort;
     private int vmId;
     private int vmPort;
+
+    public SwitchToVMTunnel() {
+    }
 
     public SwitchToVMTunnel(int switchId, int switchPort, int vmId, int vmPort) {
         this.switchId = switchId;

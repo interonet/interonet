@@ -42,30 +42,34 @@ public class TopologyTransformer {
         }
     }
 
-    public void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) throws Exception {
+    public void createTunnelSW2SW(int portOnTT, int peerPortOnTT) throws Exception {
+        logger.info("portOnTT = [" + portOnTT + "], peerPortOnTT = [" + peerPortOnTT + "]");
         int vlanID = snmpManager.getNextFreeVlanID();
         snmpManager.addVlan(vlanID);
-        snmpManager.addPortToVlan(switchPortPeer, vlanID);
-        snmpManager.addPortToVlan(peerSwitchPortPeer, vlanID);
-        snmpManager.upPort(switchPortPeer);
-        snmpManager.upPort(peerSwitchPortPeer);
+        snmpManager.addPortToVlan(portOnTT, vlanID);
+        snmpManager.addPortToVlan(peerPortOnTT, vlanID);
+        snmpManager.upPort(portOnTT);
+        snmpManager.upPort(peerPortOnTT);
     }
 
-    public void createTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Exception {
-        snmpManager.addPortToVlan(switchPortPeeronTT, vmID);
-        snmpManager.upPort(switchPortPeeronTT);
+    public void createTunnelSW2VM(int portOnTT, int vlanId) throws Exception {
+        logger.info("portOnTT = [" + portOnTT + "], vlanId = [" + vlanId + "]");
+        snmpManager.addPortToVlan(portOnTT, vlanId);
+        snmpManager.upPort(portOnTT);
     }
 
-    public void deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) throws Exception {
-        snmpManager.downPort(switchPortPeeronTT);
-        snmpManager.downPort(athrSwitchPortPeeronTT);
-        int vlanid = snmpManager.isPortPeerPort(switchPortPeeronTT, athrSwitchPortPeeronTT);
+    public void deleteTunnelSW2SW(int portOnTT, int peerPortOnTT) throws Exception {
+        logger.info("portOnTT = [" + portOnTT + "], peerPortOnTT = [" + peerPortOnTT + "]");
+        snmpManager.downPort(portOnTT);
+        snmpManager.downPort(peerPortOnTT);
+        int vlanid = snmpManager.isPortPeerPort(portOnTT, peerPortOnTT);
         snmpManager.deleteVlan(vlanid);
     }
 
-    public void deleteTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Exception {
-        snmpManager.isPortPeerVlan(switchPortPeeronTT, vmID);
-        snmpManager.deletePortFromVlan(switchPortPeeronTT);
-        snmpManager.downPort(switchPortPeeronTT);
+    public void deleteTunnelSW2VM(int portOnTT, int vlanId) throws Exception {
+        logger.info("portOnTT = [" + portOnTT + "], vlanId = [" + vlanId + "]");
+        snmpManager.isPortPeerVlan(portOnTT, vlanId);
+        snmpManager.deletePortFromVlan(portOnTT);
+        snmpManager.downPort(portOnTT);
     }
 }

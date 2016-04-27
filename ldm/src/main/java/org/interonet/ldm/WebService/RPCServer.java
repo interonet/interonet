@@ -3,14 +3,14 @@ package org.interonet.ldm.WebService;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.interonet.ldm.Core.LDMAgent;
+import org.interonet.ldm.Core.LDMCore;
 
 public class RPCServer {
-    private LDMAgent ldmAgent;
+    private LDMCore ldmCore;
     private Server rpcServer;
 
-    public RPCServer(LDMAgent ldmAgent) {
-        this.ldmAgent = ldmAgent;
+    public RPCServer(LDMCore ldmCore) {
+        this.ldmCore = ldmCore;
     }
 
     public void start() {
@@ -20,7 +20,7 @@ public class RPCServer {
             context.setContextPath("/");
             context.setMaxFormContentSize(100000000); //100MB
             rpcServer.setHandler(context);
-            context.addServlet(new ServletHolder(new RPCServlet(ldmAgent)), "/*");
+            context.addServlet(new ServletHolder(new RPCServlet(ldmCore)), "/*");
 
             rpcServer.start();
         } catch (Exception e) {

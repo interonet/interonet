@@ -1,6 +1,5 @@
 package org.interonet.ldm;
 
-import org.interonet.ldm.Core.LDMAgent;
 import org.interonet.ldm.Core.LDMCore;
 import org.interonet.ldm.WebService.RPCServer;
 
@@ -23,8 +22,7 @@ public class Main
         ldmCore.start();
 
         ldmMainLogger.info("Starting InterONet LDM RPC Server");
-        LDMAgent ldmAgent = ldmCore.getAgent();
-        RPCServer ldmRPCServer = new RPCServer(ldmAgent);
+        RPCServer ldmRPCServer = new RPCServer(ldmCore);
         ldmRPCServer.start();
     }
 }

@@ -1,6 +1,6 @@
 package org.interonet.ldm.SwitchManager;
 
-import org.interonet.ldm.ConfigurationCenter.IConfigurationCenter;
+import org.interonet.ldm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.ldm.Core.LDMCore;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class SwitchManager implements ISwitchManager {
     private NFSManager nfsManager;
     private BootImageManager bootImageManager;
     private FPGAManager fpgaManager;
-    private IConfigurationCenter configurationCenter;
+    private ConfigurationCenter configurationCenter;
     private Logger logger;
 
     public SwitchManager(LDMCore ldmCore) {

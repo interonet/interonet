@@ -1,10 +1,20 @@
-package org.interonet.gdm.LDMConnector;
+package org.interonet.ldm.service;
 
 import java.util.List;
 import java.util.Map;
 
 public interface LDMService {
-    void createTunnelSW2SW(List<SwitchToSwitchTunnel> switchToSwitchTunnels) throws Throwable;
+    String createSwitchToSwitchTunnel(List<SwitchToSwitchTunnel> switchToSwitchTunnelList);
+
+    String createSwitchToVMTunnel(List<SwitchToVMTunnel> switchToVMTunnelList);
+
+    String deleteSwitchToSwitchTunnel(List<SwitchToSwitchTunnel> switchToSwitchTunnels);
+
+    String deleteSwitchToVMTunnel(List<SwitchToVMTunnel> switchToVMTunnelList);
+
+    String powerOnVM(List<Integer> vmIdList);
+
+    String powerOffVM(List<Integer> vmIdList);
 
     @Deprecated
     void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) throws Throwable;
@@ -12,8 +22,7 @@ public interface LDMService {
     @Deprecated
     void createTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Throwable;
 
-    void createTunnelSW2VM(List<SwitchToVMTunnel> switchToVMTunnelList) throws Throwable;
-
+    @Deprecated
     void addSwitchConf(String type, Integer switchId, String controllerIP, int controllerPort) throws Throwable;
 
     /*
@@ -25,25 +34,22 @@ public interface LDMService {
          *     "device-tree": "http://202.117.15.79/ons_bak/devicetree.dtb"
          *  }
          * */
-    void addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchId, String controllerIP, int controllerPort) throws Throwable;
+    @Deprecated
+    String addSwitchConf(Map<String, String> customSwitchConfGDM, Integer switchId, String controllerIP, int controllerPort);
 
-    void powerOnSwitch(Integer switchID) throws Throwable;
+    @Deprecated
+    String powerOnSwitch(Integer switchID) throws Throwable;
 
     @Deprecated
     String powerOnVM(Integer vmID) throws Throwable;
 
-    String powerOnVM(List<Integer> vmIDList) throws Throwable;
-
     @Deprecated
     void deleteTunnelSW2SW(int switchPortPeeronTT, int athrSwitchPortPeeronTT) throws Throwable;
-
-    void deleteTunnelSW2SW(List<SwitchToSwitchTunnel> switchToSwitchTunnels) throws Throwable;
 
     @Deprecated
     void deleteTunnelSW2VM(int switchPortPeeronTT, int vmID) throws Throwable;
 
-    void deleteTunnelSW2VM(List<SwitchToVMTunnel> switchToVMTunnelList) throws Throwable;
-
+    @Deprecated
     void deleteSWitchConf(Integer switchID) throws Throwable;
 
     @Deprecated
@@ -51,6 +57,4 @@ public interface LDMService {
 
     @Deprecated
     String powerOffVM(Integer vmID) throws Throwable;
-
-    String powerOffVM(List<Integer> vmIdList) throws Throwable;
 }

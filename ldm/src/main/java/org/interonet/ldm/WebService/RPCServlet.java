@@ -1,7 +1,7 @@
 package org.interonet.ldm.WebService;
 
 import com.googlecode.jsonrpc4j.JsonRpcServer;
-import org.interonet.ldm.Core.LDMAgent;
+import org.interonet.ldm.Core.LDMCore;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RPCServlet extends HttpServlet {
-    private LDMAgent ldmAgent;
+    private LDMCore ldmCore;
     private JsonRpcServer jsonRpcServer;
 
-    public RPCServlet(LDMAgent ldmAgent) {
-        this.ldmAgent = ldmAgent;
+    public RPCServlet(LDMCore ldmCore) {
+        this.ldmCore = ldmCore;
     }
 
 
@@ -25,8 +25,8 @@ public class RPCServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) {
-        RPCService rpcService = new RPCService(ldmAgent);
-        jsonRpcServer = new JsonRpcServer(rpcService, RPCService.class);
+        LDMServiceImpl LDMServiceImpl = new LDMServiceImpl(ldmCore);
+        jsonRpcServer = new JsonRpcServer(LDMServiceImpl, LDMServiceImpl.class);
     }
 
 }

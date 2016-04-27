@@ -1,4 +1,4 @@
-package org.interonet.gdm.WebService;
+package org.interonet.gdm.service;
 
 public interface GDMService {
     /**

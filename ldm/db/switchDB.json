@@ -1,0 +1,42 @@
+{
+  "1": {
+    "name": "s1",
+    "url": "telnet://s1.interonet.org"
+  },
+  "2": {
+    "name": "s2",
+    "url": "telnet://s2.interonet.org"
+  },
+  "3": {
+    "name": "s3",
+    "url": "telnet://s3.interonet.org"
+  },
+  "4": {
+    "name": "s4",
+    "url": "telnet://s4.interonet.org"
+  },
+  "5": {
+    "name": "s5",
+    "url": "telnet://s5.interonet.org"
+  },
+  "6": {
+    "name": "s6",
+    "url": "telnet://s6.interonet.org"
+  },
+  "7": {
+    "name": "s7",
+    "url": "telnet://s7.interonet.org"
+  },
+  "8": {
+    "name": "s8",
+    "url": "telnet://s8.interonet.org"
+  },
+  "9": {
+    "name": "s9",
+    "url": "telnet://s9.interonet.org"
+  },
+  "10": {
+    "name": "s10",
+    "url": "telnet://s10.interonet.org"
+  }
+}
