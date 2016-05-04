@@ -46,7 +46,7 @@ public class LDMCalls {
         return "Success";
     }
 
-    public String powerOnVM(List<Integer> vmIDList) {
+    public String powerOnVM(List<Integer> vmIDList) throws Throwable {
         logger.debug("LDM --> powerOnVM(vmIDList=" + vmIDList + ")");
         if (!DEBUG) {
             ldmService.powerOnVM(vmIDList);

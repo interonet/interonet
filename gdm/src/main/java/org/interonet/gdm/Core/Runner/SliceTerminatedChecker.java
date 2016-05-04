@@ -30,11 +30,12 @@ public class SliceTerminatedChecker implements Runnable {
                     Slice slice = terminatedWaitingSlicePool.consumeBySliceId(ldmTaskReturn.getSliceId());
                     slice.setException(Slice.SliceException.LDM_TASK_STOP_CALL_TIMEOUT);
                     slice.setStatus(Slice.SliceStatus.TERMINATED);
+                } else {
+                    Slice slice = terminatedWaitingSlicePool.consumeBySliceId(ldmTaskReturn.getSliceId());
+                    logger.info("submit slice to TERMINATED: sliceId=" + slice.getId());
+                    slice.setStatus(Slice.SliceStatus.TERMINATED);
+                    terminatedSlicePool.submit(slice);
                 }
-                Slice slice = terminatedWaitingSlicePool.consumeBySliceId(ldmTaskReturn.getSliceId());
-                logger.info("submit slice to TERMINATED: sliceId=" + slice.getId());
-                slice.setStatus(Slice.SliceStatus.TERMINATED);
-                terminatedSlicePool.submit(slice);
             }
         } catch (InterruptedException | ExecutionException e) {
             logger.error("Thread Exception", e);

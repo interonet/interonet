@@ -26,14 +26,15 @@ public class SliceRunningChecker implements Runnable {
             for (FutureTask<LDMTaskReturn> future : list) {
                 LDMTaskReturn ldmTaskReturn = future.get();
                 if (!ldmTaskReturn.getSuccess()) {
-                    Slice slice = runningSlicePool.consumeBySliceId(ldmTaskReturn.getSliceId());
+                    Slice slice = runningWaitingSlicePool.consumeBySliceId(ldmTaskReturn.getSliceId());
                     slice.setException(Slice.SliceException.LDM_TASK_START_CALL_TIMEOUT);
                     slice.setStatus(Slice.SliceStatus.TERMINATED);
+                } else {
+                    Slice slice = runningWaitingSlicePool.consumeBySliceId(ldmTaskReturn.getSliceId());
+                    slice.setStatus(Slice.SliceStatus.RUNNING);
+                    logger.info("submit slice to RUNNING: sliceId=" + slice.getId());
+                    runningSlicePool.submit(slice);
                 }
-                Slice slice = runningWaitingSlicePool.consumeBySliceId(ldmTaskReturn.getSliceId());
-                slice.setStatus(Slice.SliceStatus.RUNNING);
-                logger.info("submit slice to RUNNING: sliceId=" + slice.getId());
-                runningSlicePool.submit(slice);
             }
         } catch (InterruptedException | ExecutionException e) {
             logger.error("Thread Exception", e);

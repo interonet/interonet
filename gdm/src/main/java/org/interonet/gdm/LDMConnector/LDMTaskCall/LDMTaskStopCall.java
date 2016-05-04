@@ -24,12 +24,15 @@ public class LDMTaskStopCall extends LDMTaskCall implements Callable<LDMTaskRetu
             ldmCalls.deleteTunnelSW2SW(ldmStopTask.getSwitchToSwitchTunnels());
             ldmCalls.deleteTunnelSW2VM(ldmStopTask.getSwitchToVMTunnels());
             ldmCalls.powerOffVM(ldmStopTask.getHostIdList());
+            ldmTaskReturn.setSuccess(true);
+            return ldmTaskReturn;
         } catch (Throwable throwable) {
             ldmTaskReturn.setSuccess(false);
+            ldmTaskReturn.setThrowable(throwable);
             logger.error("ldmService RPC Call Exception", throwable);
+            return ldmTaskReturn;
         }
-        ldmTaskReturn.setSuccess(true);
-        return ldmTaskReturn;
+
 
         /*
         *

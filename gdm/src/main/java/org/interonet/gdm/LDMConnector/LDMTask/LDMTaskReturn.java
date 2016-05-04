@@ -3,15 +3,28 @@ package org.interonet.gdm.LDMConnector.LDMTask;
 public class LDMTaskReturn {
     private String sliceId;
     private Boolean isSuccess;
+    private Throwable throwable;
+
+    public LDMTaskReturn() {
+    }
 
     public LDMTaskReturn(String sliceId) {
         this.sliceId = sliceId;
         this.isSuccess = false;
+        this.throwable = null;
     }
 
     public LDMTaskReturn(String sliceId, Boolean isSuccess) {
         this.sliceId = sliceId;
         this.isSuccess = isSuccess;
+    }
+
+    public Throwable getThrowable() {
+        return throwable;
+    }
+
+    public void setThrowable(Throwable throwable) {
+        this.throwable = throwable;
     }
 
     public String getSliceId() {
