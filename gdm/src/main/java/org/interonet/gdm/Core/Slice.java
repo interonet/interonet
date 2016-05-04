@@ -309,14 +309,25 @@ public class Slice {
             topology = (Map) parser.get("topology");
             switchConf = (Map) parser.get("switchConf");
             if (topology == null || switchConf == null) throw new Exception("topology or swConf are null");
+            if (switchConf.size() != switchNum) throw new Exception("switchConf.size()!=switchNum");
+            for (Map.Entry<String, String> entry : switchConf.entrySet()) {
+                if (entry.getValue().equals("custom")) {
+                    customSwitchConf = (Map) parser.get("customSwitchConf");
+                    if (customSwitchConf == null)
+                        throw new Exception("Parse Error: 'customSwitchConf' is null but there exists custom in switchConf");
+                    logger.debug(entry.getKey() + ":" + entry.getValue());
+                    slice.setCustomSwitchConf(customSwitchConf);
+                } else if (entry.getValue().equals("OF1.0")) {
+                    logger.debug(entry.getKey() + ": OF1.0");
+                } else if (entry.getValue().equals("OF1.3")) {
+                    logger.debug(entry.getKey() + ": OF1.3");
+                }
+            }
             slice.setTopology(topology);
             slice.setSwitchConf(switchConf);
 
             controllerConf = (Map) parser.get("controllerConf");
             if (controllerConf == null) throw new Exception("Parse Error: 'controllerConf' is null");
-            customSwitchConf = (Map) parser.get("customSwitchConf");
-            if (customSwitchConf == null) throw new Exception("Parse Error: 'customSwitchConf' is null");
-
 
             String ctrlIP = controllerConf.get("ip");
             if (ctrlIP == null) throw new Exception("Parse Error: 'ip' in 'controllerConf' is null");
