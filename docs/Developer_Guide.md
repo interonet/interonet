@@ -12,7 +12,7 @@ The `ldm` is the slave node which dependent on serveral device(`virtual-machine-
 ##  Installation
 First, Clone the github repo and make a jar package.
 ```
-$ git clone https://github.com/samueldeng/interonet
+$ git clone https://github.com/interonet/interonet
 $ cd interonet/
 $ mvn package -Dmaven.test.skip=true
 ```
