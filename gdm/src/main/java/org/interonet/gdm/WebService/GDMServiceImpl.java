@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.interonet.gdm.Core.DateTime.SliceDuration;
 import org.interonet.gdm.Core.GDMCore;
 import org.interonet.gdm.Core.Slice;
+import org.interonet.gdm.WebService.VO.UserSlice;
 import org.interonet.gdm.service.GDMService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -140,10 +142,14 @@ public class GDMServiceImpl implements GDMService {
         try {
             List<Slice> slicePool = gdmCore.getUserSlicePool(authToken);
             if (slicePool == null) return "Failed";
+            List<UserSlice> userSlicePool = new ArrayList(slicePool.size());
+            for (Slice slice : slicePool) {
+                userSlicePool.add(new UserSlice(slice));
+            }
             ObjectMapper mapper = new ObjectMapper();
             mapper.findAndRegisterModules();
             mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            return mapper.writeValueAsString(slicePool);
+            return mapper.writeValueAsString(userSlicePool);
         } catch (IOException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
@@ -164,10 +170,11 @@ public class GDMServiceImpl implements GDMService {
         try {
             Slice slice = gdmCore.getUserSlice(auToken, sliceId);
             if (slice == null) return "Failed";
+            UserSlice userSlice = new UserSlice(slice);
             ObjectMapper mapper = new ObjectMapper();
             mapper.findAndRegisterModules();
             mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            return mapper.writeValueAsString(slice);
+            return mapper.writeValueAsString(userSlice);
         } catch (Exception e) {
             logger.error("getSlice", e);
             return "Exception";

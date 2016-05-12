@@ -1,12 +1,11 @@
 [
   {
-    "id": "09cc28b1-751a-4d1b-a4c1-cdc016a0f3d0",
-    "status": "TIME_WAITING",
-    "username": "root",
+    "id": "c05510cd-0df4-4302-b792-6e597e5fd2eb",
+    "status": "RUNNING",
     "switchesNum": 1,
     "vmsNum": 2,
-    "beginTime": "2016-04-26T20:51:39.546+08:00",
-    "endTime": "2016-04-26T21:11:36.563+08:00",
+    "beginTime": "2016-05-12T15:58:47.055+08:00",
+    "endTime": "2016-05-12T16:18:44.083+08:00",
     "topology": {
       "h0:0": "s0:0",
       "h1:0": "s0:1"
@@ -16,37 +15,40 @@
     },
     "controllerIP": "202.117.15.123",
     "controllerPort": 6633,
-    "customSwitchConf": null,
-    "switchIdList": [
-      1
-    ],
-    "switchList": [
-      {
+    "customSwitchConf": {
+      "s0": {
+        "root-fs": "http://202.117.15.79/ons_bak/backup.tar.xz",
+        "system-bit": "http://202.117.15.79/ons_bak/system.bit",
+        "uImage": "http://202.117.15.79/ons_bak/uImage",
+        "device-tree": "http://202.117.15.79/ons_bak/devicetree.dtb"
+      }
+    },
+    "switchList": {
+      "1": {
         "id": 1,
         "name": "s1",
         "url": "telnet://s1.interonet.org"
       }
-    ],
-    "vmIdList": [
-      1,
-      2
-    ],
-    "vmList": [
-      {
+    },
+    "vmList": {
+      "1": {
         "id": 1,
         "name": "vm1",
         "url": "vnc://vm:vm@vmm0.interonet.org:6901"
       },
-      {
+      "2": {
         "id": 2,
         "name": "vm2",
         "url": "vnc://vm:vm@vmm0.interonet.org:6902"
       }
-    ],
-    "switchToSwitchTunnelList": null,
-    "switchToVMTunnelList": null,
-    "userSW2domSW": null,
-    "userVM2domVM": null,
+    },
+    "userSW2domSW": {
+      "s0": 1
+    },
+    "userVM2domVM": {
+      "h0": 1,
+      "h1": 2
+    },
     "exception": "NONE"
   }
 ]
