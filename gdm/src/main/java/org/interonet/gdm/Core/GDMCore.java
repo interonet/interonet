@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -267,6 +268,7 @@ public class GDMCore {
 
             int switchesNum = slice.getSwitchesNum();
             int vmsNum = slice.getVmsNum();
+            Duration TimePeriod = slice.getTimePeriod();
             ZonedDateTime beginTime = slice.getBeginTime();
             ZonedDateTime endTime = slice.getEndTime();
             String sliceId = UUID.randomUUID().toString();
@@ -275,7 +277,7 @@ public class GDMCore {
             Map<String, Integer> resourceRequest = new HashMap<>(2);
             resourceRequest.put("switch", switchesNum);
             resourceRequest.put("vm", vmsNum);
-            Map<String, List<Integer>> reservedResources = timeTable.tryToReserve(sliceId, resourceRequest, beginTime, endTime);
+            Map<String, List<Integer>> reservedResources = timeTable.tryToReserve(sliceId, resourceRequest, beginTime, endTime,TimePeriod);
 
             List<Integer> reservedSwitch = reservedResources.get("switch");
             List<Integer> reservedVM = reservedResources.get("vm");

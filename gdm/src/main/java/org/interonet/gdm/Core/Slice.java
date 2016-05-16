@@ -1,15 +1,18 @@
 package org.interonet.gdm.Core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+//import javafx.util.Duration;
 import org.interonet.ldm.service.SwitchToSwitchTunnel;
 import org.interonet.ldm.service.SwitchToVMTunnel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Time;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.time.Duration;
 
 public class Slice {
     private String id;
@@ -33,6 +36,7 @@ public class Slice {
     private Map<String, Integer> userSW2domSW;
     private Map<String, Integer> userVM2domVM;
     private SliceException exception = SliceException.NONE;
+    private Duration TimePeriod;
 
 
     public Slice() {
@@ -49,6 +53,7 @@ public class Slice {
         controllerIP = other.getControllerIP();
         controllerPort = other.getControllerPort();
         customSwitchConf = other.getCustomSwitchConf();
+        TimePeriod = other.getTimePeriod();
     }
 
     public List<Switch> getSwitchList() {
@@ -121,6 +126,14 @@ public class Slice {
 
     public void setEndTime(ZonedDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public Duration getTimePeriod() {
+        return TimePeriod;
+    }
+
+    public void setTimePeriod(Duration TimePeriod) {
+        this.TimePeriod = TimePeriod;
     }
 
     public Map<String, String> getTopology() {
