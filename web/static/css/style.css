@@ -1,0 +1,756 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    text-decoration: none;
+    /*white-space:nowrap*/
+
+
+}
+body {
+    background-color: #EBE8E4;
+    font-size: 15px;
+    position: relative;
+
+}
+
+body,p,h1,h2,h3,h4,h5{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+}
+h1{
+    font-size: 60px;
+}
+h2{
+    font-size: 48px;
+}
+h3{
+    font-size: 36px;
+}
+ul
+{
+    list-style: none;
+}
+@media screen and (max-width: 1200px) {
+    body
+    {
+        width: 1200px;
+    }
+}
+div.clear
+{
+    clear: both;
+}
+
+nav
+{
+    background-color: #f4f4f4;
+    width: 100%;
+}
+
+nav > div.nav-container
+{
+    width: 90%;
+    margin: 0 auto;
+    height: 50px;
+}
+nav > div.nav-container > div.head
+{
+    margin:5px 0;
+    width: 25%;
+    float: left;
+}
+nav > div.nav-container > div.head > a.nav-head
+{
+    font-size: 2em;
+    color: black;
+    text-decoration: none;
+}
+nav > div.nav-container > div.head > div.logo
+{
+    display: inline-block;
+    width:13%;
+}
+nav > div.nav-container > div.head > div.logo >img
+{
+   width: 100%;
+}
+nav > div.nav-container > div.nav-user
+{
+    float: right;
+}
+
+nav > div.nav-container > div.nav-user li
+{
+    float: left;
+    margin: 0 10px;
+}
+nav > div.nav-container > div.nav-user a
+{
+    color: #888888;
+}
+nav > div.nav-container > div.nav-user a:hover
+{
+    color: #000000;
+}
+
+
+
+nav > div.nav-container > div.nav-bar
+{
+    display: block;
+}
+nav > div.nav-container > div.nav-bar > ul
+{
+    height: 50px;
+}
+nav > div.nav-container > div.nav-bar > ul > li
+{
+    float: left;
+    line-height: 50px;
+    width: 100px;
+    text-align: center;
+}
+nav > div.nav-container > div.nav-bar a
+{
+    color: #888888;
+    line-height: 30px;
+}
+nav > div.nav-container > div.nav-bar > ul > li > ul
+{
+    display: none;
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    width: 100px;
+    position: absolute;
+}
+nav > div.nav-container > div.nav-bar > ul >li >ul >li
+{
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+nav > div.nav-container > div.nav-bar li:hover
+{
+    background-color: #eeeeee;
+}
+nav > div.nav-container > div.nav-bar li:hover > a
+{
+    color: #000000;
+}
+nav > div.nav-container > div.nav-bar > ul >li:hover > ul
+{
+    display: block;
+}
+nav::after
+{
+    clear: both;
+}
+
+div.body
+{
+    margin: 0 auto;
+}
+
+
+div.body > div.container
+{
+    margin:20px 5%;
+    background-color: #ffffff;
+}
+
+div.body > div.container h3
+{
+    text-align: center;
+    line-height: 80px;
+}
+div.body > div.container > div.introduce
+{
+    display: inline-block;
+    width: 50%;
+}
+div.body > div.container > div.introduce > p
+{
+    margin: 10px;
+    font-size: 1.2em;
+    padding: 10px;
+    word-wrap:break-word;
+}
+div.body > div.container > div.picture
+{
+
+    display: inline-block;
+    float: right;
+    margin-right: 10%;
+    width: 30%;
+}
+div.body > div.container > div.picture >img
+{
+    width: 100%;
+    opacity: 0.8;
+}
+div.body > div.container > div.start
+{
+    text-align: center;
+    padding: 10px;
+}
+div.body > div.container > div.start > button
+{
+    background-image: -webkit-linear-gradient(top, #7db7f0, #1874cd);
+    background-image: -moz-linear-gradient(top, #7db7f0, #1874cd);
+    text-align: center;
+    border: 1px solid #7db7f0;
+    margin: 10px;
+    padding: 10px 20px;
+    color: #f4f4f4;
+    border-radius:4px ;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+div.body > div.div-login
+{
+    margin: 100px 35%;
+    /*height: 400px;*/
+    background-color: #f8f8f8;
+    border-radius: 5px;
+}
+div.body > div.div-login h2
+{
+    line-height: 60px;
+    text-align: center;
+    border-bottom: 1px dotted #888888;
+}
+
+div.body > div.div-login div.input-group
+{
+    text-align: center;
+    margin: 35px auto;
+}
+
+div.body > div.div-login div.input-group > input
+{
+   height: 50px;
+    width: 60%;
+    font-size: 20px;
+    border-radius: 2px;
+    border: 1px solid #cccccc;
+    padding: 15px;
+    font-weight: 300;
+}
+div.body > div.div-login  p
+{
+    color: red;
+    text-align: center;
+    margin: 20px;
+    font-size: 0.2em;
+}
+div.body > div.div-login div.button-group
+{
+    text-align: center;
+    padding: 20px;
+}
+div.body > div.div-login div.button-group > button
+{
+    width:25%;
+    height: 40px;
+    margin: 3%;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    color: #ffffff;
+    cursor: pointer;
+}
+div.body > div.div-login div.button-group > button:first-child
+{
+    background-color: rgb(0,162,202);
+
+}
+
+div.body > div.container > div.div-type > div
+{
+    display: inline-block;
+    width: 8%;
+    margin: 80px 20%;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 400;
+}
+div.body > div.container img
+{
+    width: 100%;
+}
+div.body > div.container > div.div-service
+{
+   margin: 30px auto;
+}
+div.body > div.container > div.div-service > div
+{
+    display: inline-block;
+    width: 70%;
+    margin-top: 10px;
+    vertical-align: middle;
+
+}
+div.body > div.container > div.div-service > div:first-child
+{
+    width: 8%;
+    margin: 10px 5% 10px 10%;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 400;
+}
+
+div.body > div.container div.progress
+{
+    width: 80%;
+    height: 30px;
+    border: 1px solid #f4f4f4;
+    margin: 0 auto;
+    transition: 0.4s linear;
+
+    border-radius: 4px;
+
+    /*box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);*/
+}
+div.body > div.container div.progress > div
+{
+    border: 1px solid #f4f4f4;
+    margin: 0 0;
+    height: 30px;
+    width: 16.66%;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    color: #888888;
+    float: left;
+    cursor: pointer;
+}
+div.body > div.container div.progress > div.active
+{
+    background-color: #E8E8E8;
+}
+
+
+div.body > div.container div.content
+{
+    margin: 0 5%;
+    display: none;
+}
+div.body > div.container  div > h3
+{
+    text-align: left;
+    font-size: 1.5em;
+    padding: 10px 15px;
+}
+
+div.div-time, div.div-switch, div.div-host,div.div-topology, div.div-controller,div.div-complete
+{
+    margin: 0 5%;
+}
+div.div-time  div.occupation
+{
+    float: right;
+}
+div.div-time  div.occupation > p
+{
+    color: #888888;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px;
+
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+}
+div.div-time  div.occupation> p:hover
+{
+    background-color: #f4f4f4;
+}
+
+div.div-time  div.time
+{
+    text-align: center;
+
+}
+div.div-time  div.time > label
+{
+    width: 10%;
+    display: inline-block;
+    line-height: 50px;
+}
+div.div-time  div.time > input
+{
+    width: 20%;
+    height: 30px;
+    display: inline-block;
+}
+div.describe
+{
+    margin: 50px 0;
+    text-align: center;
+}
+div.btn-group
+{
+    margin-top:50px ;
+    padding:20px ;
+    text-align: center;
+}
+div.btn-group > button
+{
+    background-image: -webkit-linear-gradient(top, #7db7f0, #1874cd);
+    background-image: -moz-linear-gradient(top, #7db7f0, #1874cd);
+    text-align: center;
+    border: 1px solid #7db7f0;
+    margin: 10px;
+    padding: 10px 20px;
+    color: #f4f4f4;
+    border-radius:4px ;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+div.div-switch > div.switch, div.div-host> div.host
+{
+    float: left;
+    background-image: url("/static/images/add.png");
+    background-color: #ffffff;
+    opacity: 0.3;
+    background-size: 100%;
+    background-position: center;
+    width: 100px;
+    height: 100px;
+    border: 1px dotted #888888;
+    cursor: pointer;
+    margin: 20px;
+}
+
+
+div.div-switch  div.switch-add, div.div-host div.host-add
+{
+    border: 1px dotted #aaaaaa;
+    margin: 20px;
+
+}
+div.div-switch  div.switch-add > div.switch-type, div.div-host  div.host-add > div.host-type
+{
+    margin: 10px 20px;
+
+}
+div.div-switch  div.switch-add  div.switch-select, div.div-host  div.host-add  div.host-select
+{
+    display: inline-block;
+    background-color: #ffffff;
+    background-size: 100%;
+    background-position: center;
+    width: 90px;
+    height: 30px;
+    cursor: pointer;
+    margin: 8px 30px;
+    border: 1px solid #eeeeee;
+
+}
+
+div.div-switch  div.switch-add div.active, div.div-host  div.host-add div.active
+{
+    border: 2px solid greenyellow;
+}
+
+div.div-switch  div.switch-add div.add-btn, div.div-host  div.host-add div.add-btn
+{
+    margin: 0 auto;
+    text-align: center;
+}
+div.div-switch  div.switch-add div.add-btn > button, div.div-host  div.host-add div.add-btn > button
+{
+    width: 50px;
+    margin: 0 20px;
+    padding: 5px;
+    border: 1px solid #f4f4f4;
+    border-radius: 4px;
+    background-color:#1874cd;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+div.div-switch  div.switch-add div.add-btn > button:first-child,div.div-host  div.host-add div.add-btn > button:first-child
+{
+    background-color: rgb(255,100,100);
+}
+
+div.div-switch > div.ons
+{
+    background-image: url("/static/images/onetswitch.png");
+    opacity: 1;
+    border: 0;
+}
+div.div-switch  div.switch-add  div.ons
+{
+    background-image: url("/static/images/onetswitch_sel.png");
+}
+
+div.div-switch  div.switch-add  div.ovs
+{
+    background-image: url("/static/images/vswitch_sel.png");
+    opacity: 0.3;
+
+}
+div.div-host > div.ubuntu
+{
+    background-image: url("/static/images/ubuntu.png");
+    opacity: 1;
+    border: 0;
+}
+div.div-host > div.windows
+{
+    background-image: url("/static/images/windows.jpg");
+    opacity: 1;
+    border: 0;
+}
+div.div-host  div.host-add  div.ubuntu
+{
+    background-image: url("/static/images/ubuntu_sel.jpg");
+}
+div.div-host  div.host-add  div.windows
+{
+    background-image: url("/static/images/windows_sel.png");
+    opacity: 0.3;
+}
+
+div.div-topology > div
+{
+    position: relative;
+    height: 400px;
+    width:100%;
+    overflow: auto;
+}
+
+div.div-controller  div.controller
+{
+    text-align: center;
+    margin: 10px 0;
+}
+div.controller > label
+{
+    width: 10%;
+    display: inline-block;
+    line-height: 50px;
+}
+div.div-controller  div.controller > input {
+    width: 20%;
+    height: 30px;
+    display: inline-block;
+}
+
+div.div-complete > div.show
+{
+    margin: 5px 35%;
+    width: 30%;
+
+}
+div.div-complete > div.show > p
+{
+    font-size: 1em;
+
+    line-height: 30px;
+}
+div.div-complete > div.hide
+{
+    display: none;
+}
+div.body > div.model-occupation
+{
+    position: fixed;
+    z-index: 20;
+    background-color: #f2f2f2;
+    width: 50%;
+    height: 200px;
+    top:40%;
+    left:25%;
+    display: none;
+}
+div.body > div.model-occupation > div.model-content
+{
+    height: 85%;
+}
+div.body > div.model-occupation > div.model-foot
+{
+    text-align: right;
+    height: 15%;
+}
+div.body > div.model-occupation > div.model-foot > button
+{
+    background-color:#2fa2db;
+    color: #ffffff;
+    padding: 5px;
+    border: 1px solid #2fa2db;
+    border-radius: 4px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+div.body > div.container table
+{
+    width: 80%;
+    margin: 20px auto;
+    border: 1px solid #f4f4f4;
+    text-align: center;
+}
+div.body > div.container table > thead  th
+{
+    font-weight: 400;
+    height: 50px;
+    line-height: 50px;
+
+}
+div.body > div.container table > tbody > tr
+{
+    border: 1px solid #f4f4f4;
+    height: 40px;
+}
+div.body > div.container table > tbody > tr > td > button
+{
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    color: #f4f4f4;
+    cursor: pointer;
+
+}
+div.body > div.container table > tbody > tr > td > button.check
+{
+    background-color: rgb(0,162,202);
+    border: 1px solid #7db7f0;
+}
+div.body > div.container table > tbody > tr > td > button.use
+{
+    background-color: rgb(186,207,147);
+    border: 1px solid #7db7c0;
+}
+div.body > div.container table > tbody > tr > td > button.disable
+{
+    border: 1px solid #7db7f0;
+}
+div.body > div.container table > tbody > tr > td > button.delete
+{
+    background-color: rgb(255,100,100);
+    border: 1px solid #ff4a5a;
+}
+
+div.body > div.container > div.check-slice
+{
+    margin: 0 5%;
+}
+div.body > div.container > div.check-slice > p
+{
+    margin: 10px ;
+}
+div.body > div.container  div.use-slice
+{
+
+}
+div.use-slice p.count-down
+{
+    margin: 0 5%;
+    text-align: right;
+    color:rgb(240,130,0);
+}
+
+div.use-slice > div.change-tab
+{
+    display: inline-block;
+    vertical-align: top;
+    width:25%
+}
+div.use-slice > div.change-tab > button
+{
+    display: block;
+    margin:60px auto 0 auto;
+    width: 60%;
+    font-size: 15px;
+    padding: 10px 10%;
+    border: 1px solid #f4f4f4;
+    color: #f4f4f4;
+    border-radius: 4px;
+    cursor: pointer;
+}
+div.use-slice > div.change-tab > button:nth-child(1)
+{
+    background-color: rgb(181,181,182);
+}
+div.use-slice > div.change-tab > button:nth-child(2)
+{
+    background-color: rgb(132,185,203);
+}
+div.use-slice > div.change-tab > button:nth-child(3)
+{
+    background-color: rgb(50,135,169);
+}
+
+div.use-slice > div.show-topology
+{
+    display: inline-block;
+    width: 74%;
+    vertical-align: top;
+    height: 400px;
+}
+div.use-slice  div.connect-div
+{
+    margin: 10px 5%;
+    min-height: 100px;
+}
+div.use-slice  div.connect-div p.ctl-type
+{
+    font-size: 20px;
+    color: rgb(0,123,187);
+}
+div.use-slice div.connect-div div.ctl-msg
+{
+
+    font-size: 18px;
+    margin: 50px auto;
+    width: 20%;
+}
+div.use-slice  div.connect-div div.ctl-msg > p
+{
+    margin: 10px;
+}
+div.use-slice div.connect-div ul.connect-tab
+{
+    border-bottom: 1px solid #eeeeee;
+}
+div.use-slice  div.connect-div ul.connect-tab::before
+{
+    display: table;
+    content: ' ';
+}
+div.use-slice  div.connect-div ul.connect-tab::after
+{
+    clear: both;
+    display: table;
+    content: ' ';
+}
+
+div.use-slice  div.connect-div ul.connect-tab > li
+{
+    float: left;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: #337ab7;
+}
+div.use-slice  div.connect-div ul.connect-tab > li.active
+{
+    border: 1px solid #eeeeee;
+    border-bottom-color: transparent;
+    background-color: #ffffff;
+    cursor: default;
+    color: #000000;
+    margin-bottom: -1px
+}
+/*div.use-slice div.tab-content > div*/
+/*{*/
+    /*height: 400px;*/
+    /*overflow: scroll;*/
+/*}*/
+

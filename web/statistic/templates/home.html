@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}INTERONET{% endblock %}
+{% block content %}
+    <div class="body">
+    <div class="container">
+        <h3>INTERONET</h3>
+        <div><img src="/static/images/divider.png" alt=""/></div>
+        <div class="introduce">
+            <p>a distributed system which contains the one master node called Global Domain Manager (gdm) and serveral slave node called Local Domain Manager (ldm).</p>
+            <p>The gdm is the master node which recieve the user request, allocate resources and call ldm. gdm is the independent of complicated type of devices in interonet.</p>
+            <p>The ldm is the slave node which dependent on serveral device (virtual-machine-manager, topology-transformer, power-system).</p>
+        </div>
+        <div class="picture">
+            <img src="/static/images/ons30.png" alt=""/>
+        </div>
+        <div class="clear"></div>
+        <div class="start"><button id="start">Get Start</button></div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/jquery-2.1.4.js"></script>
+<script>
+    $("#start").click(function () {
+        window.location = "{% url 'login' %}";
+
+    })
+</script>
+{%  endblock %}

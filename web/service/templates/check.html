@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Check{% endblock %}
+{% block content %}
+    <div class="body">
+    <div class="container">
+        <h3>CHECK</h3>
+        <div><img src="/static/images/divider.png" alt=""/></div>
+        <table>
+            <thead>
+            <tr>
+                <th>SliceID</th>
+                <th>StartTime</th>
+                <th>EndTime</th>
+                <th># of Switch</th>
+                <th># of Host</th>
+                <th>State</th>
+                <th>Check</th>
+                <th>Use</th>
+                <th>Delete</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+            {% for slice in info %}
+                <tr>
+                <td>{{ slice.id | slice:'8'}}</td>
+                <td>{{ slice.startTime }}</td>
+                <td>{{ slice.endTime }}</td>
+                <td>{{ slice.switchNum }}</td>
+                <td>{{ slice.hostNum }}</td>
+                <td>{{ slice.status }}</td>
+                <td><button data-id="{{ slice.id }}" class="check" onclick="window.location='{% url 'checkSlice' slice.id %}'">Check</button></td>
+                <td><button data-id="{{ slice.id }}"  {% if slice.status != 'RUNNING' %} disabled  class="disable" {% else %} class="use"  onclick="window.location = '{% url 'useSlice' slice.id %}'"{% endif %} >Use</button></td>
+                <td><button data-id="{{ slice.id }}"  class="delete">Delete</button></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br/>
+    </div>
+    </div>
+    <script>
+    </script>
+{%  endblock %}

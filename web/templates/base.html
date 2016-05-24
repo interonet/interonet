@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    {% block link %}{% endblock %}
+    <script type="text/javascript" src="/static/js/jquery-2.1.4.js"></script>
+</head>
+<body>
+{% include 'nav.html' %}
+{% block content %}
+{% endblock %}
+</body>
+</html>

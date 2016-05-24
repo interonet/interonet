@@ -1,0 +1,71 @@
+<html>
+
+    <head>
+        <title>Telnet client using WebSockets</title>
+
+        <!-- Uncomment to activate firebug lite -->
+        <!--
+        <script type='text/javascript'
+            src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
+        -->
+
+
+    </head>
+
+    <body>
+
+{#        Host: <input id='host' style='width:100'>&nbsp;#}
+{#        Port: <input id='port' style='width:50'>&nbsp;#}
+{#        Encrypt: <input id='encrypt' type='checkbox'>&nbsp;#}
+{#        <input id='connectButton' type='button' value='Connect' style='width:100px'#}
+{#            onclick="connect();">&nbsp;#}
+
+        <br><br>
+
+        <pre id="s0"></pre>
+<script src="/static/js/jquery-2.1.4.js"></script>
+                <script src="/static/js/vnc/base64.js"></script>
+        <script src="/static/js/vnc/util.js"></script>
+        <script src="/static/js/telnet/websock.js"></script>
+        <script src="/static/js/vnc/webutil.js"></script>
+        <script src="/static/js/telnet/keysym.js"></script>
+        <script src="/static/js/telnet/VT100.js"></script>
+        <script src="/static/js/telnet/wstelnet.js"></script>
+
+        <script>
+
+            var telnet;
+
+
+            function disconnect() {
+                $D('connectButton').disabled = true;
+                $D('connectButton').value = "Disconnecting";
+                telnet.disconnect();
+            }
+
+            function connected() {
+                console.log('connected');
+            }
+
+            function disconnected() {
+              console.log('disconnected')
+            }
+
+            window.onload = function() {
+
+                var host = '127.0.0.1';
+                var port = '6080';
+                var path = 'websockify?token=d';
+                telnet = Telnet('s0', connected, disconnected);
+                telnet.connect(host, port, path);
+                   $("#s0").on("mouseover", function () {
+                    telnet.vt100.curs_set(true, true);
+                }).on('mouseout', function () {
+                    telnet.vt100.curs_set(true, false);
+                })
+            }
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block title %}Check{% endblock %}
+{% block link %}
+    <link rel="stylesheet" href="/static/css/topology.css"/>
+{% endblock %}
+{% block content %}
+    <div class="body">
+        <div class="container">
+            <h3>USE</h3>
+            <div><img src="/static/images/divider.png" alt=""/></div>
+
+            <div class="use-slice" id="useSlice">
+             <p class="count-down">count down: <span id="countDown"></span></p>
+                <div class="change-tab" id="changeTab">
+                    <button data-id="controller" id="ctlBtn">Controller</button>
+                    <button data-id="switch" id="switchBtn">Switch</button>
+                    <button data-id="host" id="hostBtn">Host</button>
+                </div>
+                <div class="show-topology" id="divTopology">
+                    <div class="topology" id="topology">
+                    </div>
+                </div>
+                <div class="content-tab" id="contentTab">
+                    <div class="connect-div" data-id="controller">
+                        <p class="ctl-type">Remote Controller</p>
+                        <div class="ctl-msg">
+                            <p>IP: <span>{{ info.IP }}</span></p>
+                            <p>Port: <span>{{ info.Port }}</span></p>
+
+                        </div>
+                    </div>
+                    <div class="connect-div" data-id="switch">
+                        <ul class="connect-tab" id="tabSwitch">
+                            {% for key , value in info.switchMap.items %}
+                                <li data-id="{{ key }}">{{ key }}</li>
+                            {% endfor %}
+
+                        </ul>
+                        <div class="tab-content" id="contentSwitch">
+                            {% for key , value in info.switchMap.items %}
+                                <div data-id="{{ key }}">
+                                    <pre class="telnet" id="pre_{{ key }}" data-token="{{ value }}"></pre>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <div class="connect-div" data-id="host">
+                        <ul class="connect-tab" id="tabHost">
+                            {% for key, value in info.hostMap.items %}
+                                <li data-id="{{ key }}">{{ key }}</li>
+                            {% endfor %}
+                            {#                            <li data-id="h0">h0</li>#}
+                        </ul>
+                        <div class="tab-content" id="contentHost">
+                            {% for key, value in info.hostMap.items %}
+                                <div data-id={{ key }}>
+                                    <canvas id="canvas_{{ key }}" data-token="{{ value }}" class="noVNC-canvas" width="640px" height="20px">
+                                        Canvas not supported.
+                                    </canvas>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <br>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/static/js/dom.jsPlumb-1.7.5.js"></script>
+    <script src="/static/js/topology.js"></script>
+    <script src="/static/js/vnc/util.js"></script>
+    <script src="/static/js/telnet/websock.js"></script>
+    <script src="/static/js/telnet/keysym.js"></script>
+    <script src="/static/js/telnet/VT100.js"></script>
+    <script src="/static/js/telnet/wstelnet.js"></script>
+    <script src="/static/js/useSlice.js"></script>
+    <script>
+        var endTime = new Date('{{ info.endTime }}');
+        (function timeCount() {
+            var now = new Date();
+            var leftTime =new Date(endTime.getTime() - now.getTime());
+            $("#countDown").html(parseTimeCount(leftTime));
+            setTimeout(timeCount,1000);
+
+        }());
+    function parseTimeCount(leftTime) {
+        var year = leftTime.getYear() - 70;
+        var month = leftTime.getMonth();
+        var day = leftTime.getDate() - 1;
+        var hours = (leftTime.getHours()+16) % 24;
+        var minute = leftTime.getMinutes();
+        var second = leftTime.getSeconds();
+        var time = hours + ":" + minute + ":" + second;
+        return year== 0? (month == 0? (day == 0? time: day + "day "+ time): month + "Mon " +  day + "day "+ time):year + "Year " + month + "Mon " +  day + "day "+ time;
+    }
+    </script>
+    <script>
+        var topology = {{ info.topology | safe }};
+        var switchNum = {{ info.switchNum }};
+        var hostNum = {{ info.hostNum }};
+        var instance;
+        var divTopology = $("#divTopology");
+        var topologyContainer = $("#topology");
+        instance = Topology({"switchNum": switchNum, "hostNum": hostNum, "width": divTopology.width(), "height": divTopology.height(), "topology": topology});
+    </script>
+    <script>
+        Util.load_scripts(["webutil.js", "base64.js", "websock.js", "des.js",
+            "keysymdef.js", "keyboard.js", "input.js", "display.js",
+            "inflator.js", "rfb.js", "keysym.js"]);
+        window.onscriptsload = function () {
+            var host = {{ info.sockifyIP }}, port ={{ info.sockifyPort }}, password = '';
+            var conf = {
+                'encrypt': WebUtil.getConfigVar('encrypt', (window.location.protocol === "https:")),
+                'repeaterID': WebUtil.getConfigVar('repeaterID', ''),
+                'true_color': WebUtil.getConfigVar('true_color', true),
+                'local_cursor': WebUtil.getConfigVar('cursor', true),
+                'shared': WebUtil.getConfigVar('shared', true),
+                'view_only': WebUtil.getConfigVar('view_only', false),
+                'onUpdateState': updateState
+            };
+            $("pre.telnet").each(function () {
+                var path = 'websockify?token=' + $(this).attr('data-token');
+                var telnet = Telnet(this.id, connected, disconnected());
+                telnet.connect(host, port, path);
+                $(this).on("mouseover", function () {
+                    telnet.vt100.curs_set(true, true);
+                }).on('mouseout', function () {
+                    telnet.vt100.curs_set(true, false);
+                })
+
+            });
+            $('canvas.noVNC-canvas').each(function () {
+                try {
+                    var path = 'websockify?token=' + $(this).attr('data-token');
+                    var rfb = new RFB($.extend({}, {'target': this}, conf));
+                    rfb.connect(host, port, password, path);
+                    $(this).on('mouseover', function () {
+                        rfb.keyboard.grab();
+{#                       rfb.mouse.grab();#}
+                    }).on('mouseout', function () {
+                        rfb.keyboard.ungrab();
+{#                      rfb.mouse.ungrab();#}
+
+                    });
+                }
+                catch (exc) {
+                    updateState(null, 'fatal', null, 'Unable to create RFB client -- ' + exc);
+                }
+
+
+            });
+
+        };
+    </script>
+{% endblock %}

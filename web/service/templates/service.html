@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Create{% endblock %}
+{% block content %}
+<div class="body">
+    <div class="container">
+        <h3>SERVICE</h3>
+        <div class="div-type">
+            <div>
+                  <a href="{% url 'service' 'create' %}"><img src="/static/images/create.png" alt=""/></a>
+                <p>Create</p>
+            </div>
+            <div>
+                 <a href="{% url 'service' 'check' %}"><img src="/static/images/check.png" alt=""/></a>
+                <p>Check
+                </p>
+            </div>
+        </div>
+        <div><img src="/static/images/divider.png" alt=""/></div>
+        <div class="div-service">
+            <div>
+                <a href="{% url 'service' 'create' %}"><img src="/static/images/create.png" alt=""/></a>
+                <p>Check</p>
+            </div>
+            <div>
+                <p>a distributed system which contains the one master node called Global Domain Manager (gdm) and serveral slave node called Local Domain Manager (ldm).</p>
+            </div>
+
+
+        </div>
+        <div class="clear"></div>
+        <div class="div-service">
+            <div>
+                <a href="{% url 'service' 'check' %}"><img src="/static/images/check.png" alt=""/></a>
+                <p>Create</p>
+            </div>
+            <div>
+                <p>a distributed system which contains the one master node called Global Domain Manager (gdm) and serveral slave node called Local Domain Manager (ldm).</p>
+            </div>
+
+
+        </div>
+        <div class="clear"></div>
+
+    </div>
+</div>
+{%  endblock %}

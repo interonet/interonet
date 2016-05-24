@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Check{% endblock %}
+{% block link %}
+    <link rel="stylesheet" href="/static/css/topology.css"/>
+{% endblock %}
+{% block content %}
+    <div class="body">
+        <div class="container">
+            <h3>CHECK</h3>
+            <div><img src="/static/images/divider.png" alt=""/></div>
+            <div class="check-slice">
+                <p>SliceID : {{ info.id }}</p>
+                <p>Time : {{ info.startTime }} ~ {{ info.endTime }}</p>
+                <p>IP : {{ info.IP }}</p>
+                <p>Port : {{ info.Port }}</p>
+
+            </div>
+            <div class="div-topology">
+                <div id="divTopology">
+                    <div class="topology" id="topology">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/js/dom.jsPlumb-1.7.5.js"></script>
+    <script type="text/javascript" src="/static/js/topology.js"></script>
+    <script>
+        var topology = {{ info.topology | safe }};
+        var switchNum = {{ info.switchNum }};
+        var hostNum = {{ info.hostNum }};
+        var instance;
+        var divTopology = $("#divTopology");
+        var topologyContainer = $("#topology");
+        instance = Topology({"switchNum": switchNum, "hostNum": hostNum, "width": divTopology.width(), "height": divTopology.height(),"topology":topology});
+    </script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="body">
+    <div class="div-login">
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <h2>Login</h2>
+            <div class="input-group">
+                <input id="username" name="username" type="text" placeholder="username"/>
+            </div>
+            <div class="input-group">
+                <input id="password" name="password" type="password" placeholder="password"/>
+            </div>
+            <p>{{ Failed }}</p>
+
+            <div class="button-group">
+                <button class="submit">Login</button>
+                <button class="button">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

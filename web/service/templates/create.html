@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% block title %}Create{% endblock %}
+{% block link %}
+    <link rel="stylesheet" href="/static/css/jquery-ui.css"/>
+    <link rel="stylesheet" href="/static/css/topology.css"/>
+{% endblock %}
+{% block content %}
+
+<div class="body">
+    <div class="model-occupation" id="model-occupation">
+        <div class="model-content">
+
+        </div>
+        <div class="model-foot">
+            <button id="occupation-close">close</button>
+        </div>
+    </div>
+    <div class="container">
+        <h3>CREATE</h3>
+
+        <div><img src="/static/images/divider.png" alt=""/></div>
+        <form  method="post" id="orderForm">
+            {% csrf_token %}
+
+            <div class="progress" id="progress">
+                <div  id="progress1">Time</div>
+                <div  id="progress2">Switch</div>
+                <div  id="progress3">host</div>
+                <div  id="progress4">Topology</div>
+                <div  id="progress5">Controller</div>
+                <div  id="progress6">Complete</div>
+            </div>
+            <br/>
+
+            <div class="content" id="content1">
+
+                <div class="div-time">
+                    <h3>Time</h3>
+                    <div class="occupation" id="occupation">
+                        <p>occupation</p>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="time">
+                        <label for="startTime">Start Time</label>
+                        <input type="text" id="startTime" name="startTime"/>
+                    </div>
+                    <div class="time">
+                        <label for="startTime">End Time</label>
+                        <input type="text" id="endTime" name="endTime"/>
+                    </div>
+                    <div class="describe">
+                        <p>Choose the time you want to order, You can view the occupation time to confirm your scheduled time machine is available </p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="state-btn" id="next2" type="button">Next</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="content" id="content2">
+                <div class="div-switch" id="divSwitch">
+                    <h3>Switch</h3>
+
+                    <div class="switch add" id="switchAddBtn"></div>
+
+                    <div class="clear"></div>
+                    <div id="switchInformation">
+                    </div>
+                    <div class="describe">
+                        <p>add the switch that you need, if you want to choose a lot of switches, you can upload your configure file, avoiding add switch one by
+                            one (to be extended)</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="state-btn" id="back1" type="button">Back</button>
+                        <button class="state-btn" id="next3" type="button">Next</button>
+                    </div>
+                </div>
+            </div>
+            <div class="content" id="content3">
+                <div class="div-host" id="divHost">
+                    <h3>Host</h3>
+                    <div class="host add" id="hostAddBtn"></div>
+                    <div class="clear"></div>
+                    <div id="hostInformation">
+                    </div>
+                    <div class="describe">
+                        <p>add the host that you need, if you want to choose a lot of hosts, you can upload your configure file, avoiding add host one by one (to be extended)</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="state-btn" id="back2" type="button">Back</button>
+                        <button class="state-btn" id="next4" type="button">Next</button>
+                    </div>
+                </div>
+            </div>
+            <div class="content" id="content4">
+                <div class="div-topology">
+                    <h3>Topology</h3>
+                    <div id="divTopology">
+                        <div class="topology" id="topology">
+                            You have not set the number of switches and hosts,Please go back to set them
+                        </div>
+                    </div>
+                </div>
+
+                <div class="describe">
+                    <p>create the topology you want, you can also upload you configure file (to be extended)</p>
+                </div>
+                <div class="btn-group">
+                    <button class="state-btn" id="back3" type="button">Back</button>
+                    <button class="state-btn" id="next5" type="button">Next</button>
+                </div>
+            </div>
+            <div class="content" id="content5">
+                <div class="div-controller">
+                    <h3>Controller</h3>
+
+                    <div class="controller">
+                        <label for="IP">IP</label>
+                        <input type="text" id="IP" name="IP"/>
+                    </div>
+                    <div class="controller">
+                        <div class="controller">
+                            <label for="Port">Port</label>
+                            <input type="text" id="Port" name="Port"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="describe">
+                    <p>set the controller's IP and Port, you can also use the controller we provide (to be extended)</p>
+                </div>
+                <div class="btn-group">
+                    <button class="state-btn" id="back4" type="button">Back</button>
+                    <button class="state-btn" id="next6" type="button">Next</button>
+                </div>
+            </div>
+            <div class="content" id="content6">
+                <div class="div-complete">
+                    <h3>Complete</h3>
+                    <div class="show">
+                        <p>Start Time : <span id="startTimeShow"></span></p>
+                        <p>End Time : <span id="endTimeShow"></span></p>
+                        <p>Switch Number :  <span id="switchNumShow"></span></p>
+                        <p>Host Number : <span id="hostNumShow"></span></p>
+                        <p>IP : <span id="IPShow"></span></p>
+                        <p>Port : <span id="PortShow"></span></p>
+                        <br/>
+                    </div>
+                    <div class="hide">
+                        <input name="switchNum" id="switchNum" type="text"/>
+                        <input name="hostNum" id="hostNum" type="text"/>
+                        <input name="switchConf" id="switchConf" type="text"/>
+                        <input name="topology" id="topologyStr" type="text"/>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="state-btn" id="back5" type="button">Back</button>
+                        <button id="submit" type="button">Submit</button>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="/static/js/dom.jsPlumb-1.7.5.js"></script>
+<script type="text/javascript" src="/static/js/topology.js"></script>
+<script type="text/javascript" src="/static/js/create.js"></script>
+    <script>
+        $.ajaxSetup({
+        data: {csrfmiddlewaretoken: '{{ csrf_token }}' }
+    });
+    </script>
+    <script>
+        $("#submit").on("click", function () {
+         var form = new FormData($("#orderForm")[0]);
+        $.ajax({
+            url:'{% url "submit" %}',
+            type:"POST",
+            data:form,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                if(data == "Success")
+                {
+                    alert("Success");
+                    window.location = "{% url 'service' 'check' %}";
+                }
+                else
+                {
+                     alert("Failed");
+                }
+
+            },
+            error:function(e){
+                console.log(e);
+            }
+        });
+    });
+
+    </script>
+{% endblock %}
