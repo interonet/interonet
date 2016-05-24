@@ -68,20 +68,7 @@ public class TimeTable {
     private Residue SliceMiddle = new Residue();
     private Residue ini = new Residue();
     private List<Residue> SliceTimeTableIni = new ArrayList();
-    int flagR=0;
-    float f1;
-    float f2;
-    float fi;
-    //int flag = 0;
-    //int count=0;
-    //int S1;
-    //int S2=0;
-    //float gi;
-    //int d=0;
-    //int d2=1000;
-    double C;
-    //double C2=0;
-    //double S3;
+    double tightness;
     public TimeTable() {
         switchTimeTable = new HashMap<>();
         for (int i = 1; i < 10; i++) {
@@ -141,14 +128,11 @@ public class TimeTable {
         Residue SliceFinish = new Residue();
         int Tie1=0;
         int Tie2=0;
-        int ziyuan=0;
-        int ziyuan1=0;
-        double C2=0;
-        int d=0;
-        int d2=1000;
-        //int S2=0;
-        int count=0;
-        int flag=0;
+        int resource=0;
+        int resource1=0;
+        double tightness2=0;
+        int distance=0;
+        int distance2=1000;
         double gi;
         double S3;
         count3=0;
@@ -158,8 +142,6 @@ public class TimeTable {
         Long TimePeriodMinutes;
         TimePeriodMinutes = TimePeriod.toMinutes();
         gi = TimePeriodMinutes/reqTolerance;
-        //System.out.println(sliceId);
-        // S3=Math.sqrt(requestVMNum*TimePeriodMinutes);
         for(Map.Entry<String, List<Residue>> entry : SliceTimeTable.entrySet())
         {
             String SliceId = entry.getKey();
@@ -167,52 +149,46 @@ public class TimeTable {
             Residue BeforeSliceInstance = new Residue();
             BeforeSliceInstance = BeforeSlice.get(0);
 
-            SliceBlankInstance = SliceBlankTable.get(sliceId);//System.out.println("O1"+O1.getXi2());
+            SliceBlankInstance = SliceBlankTable.get(sliceId);
             for(int m=0;m<SliceBlankInstance.size();)
             {
-                //System.out.println(sliceId);
 
-                Residue Res3 = (Residue)SliceBlankInstance.get(m);
-                //System.out.println(Res3.getXi2());
-                //System.out.println("Xi1   "+Res3.getXi1()+" "+"Yi1   "+Res3.getYi1()+"Xi2   "+Res3.getXi2()+"Yi2   "+Res3.getYi2()+"Xi3 "+Res3.getXi3()+"Xi4"+Res3.getXi4());
-                //System.out.print("空闲空间有几个"+residue.size());
-                Residue Res6 = new Residue();
-                Residue Res7 = new Residue();
-                Residue Res8 = new Residue();
-                Residue Res9 = new Residue();
-                if (((BeforeSliceInstance.getXi1()>=Res3.getXi1()&&BeforeSliceInstance.getXi1()<=Res3.getXi2())||(BeforeSliceInstance.getXi2()>=Res3.getXi1()&&BeforeSliceInstance.getXi2()<=Res3.getXi2()))&&(((BeforeSliceInstance.getYi1().isAfter(Res3.getYi1())||BeforeSliceInstance.getYi1().isEqual(Res3.getYi1()))&&(BeforeSliceInstance.getYi1().isBefore(Res3.getYi2())||BeforeSliceInstance.getYi1().isEqual(Res3.getYi2())))||((BeforeSliceInstance.getYi2().isAfter(Res3.getYi1())||BeforeSliceInstance.getYi2().isEqual(Res3.getYi1()))&&(BeforeSliceInstance.getYi2().isBefore(Res3.getYi2())||BeforeSliceInstance.getYi2().isEqual(Res3.getYi2()))))&&((BeforeSliceInstance.getXi3()>=Res3.getXi3()&&BeforeSliceInstance.getXi3()<=Res3.getXi4())||(BeforeSliceInstance.getXi4()>=Res3.getXi3()&&BeforeSliceInstance.getXi4()<=Res3.getXi4())))
+                Residue Res1 = (Residue)SliceBlankInstance.get(m);
+                Residue Res2 = new Residue();
+                Residue Res3 = new Residue();
+                Residue Res4 = new Residue();
+                Residue Res5 = new Residue();
+                if (((BeforeSliceInstance.getXi1()>=Res1.getXi1()&&BeforeSliceInstance.getXi1()<=Res1.getXi2())||(BeforeSliceInstance.getXi2()>=Res1.getXi1()&&BeforeSliceInstance.getXi2()<=Res1.getXi2()))&&(((BeforeSliceInstance.getYi1().isAfter(Res1.getYi1())||BeforeSliceInstance.getYi1().isEqual(Res1.getYi1()))&&(BeforeSliceInstance.getYi1().isBefore(Res1.getYi2())||BeforeSliceInstance.getYi1().isEqual(Res1.getYi2())))||((BeforeSliceInstance.getYi2().isAfter(Res1.getYi1())||BeforeSliceInstance.getYi2().isEqual(Res1.getYi1()))&&(BeforeSliceInstance.getYi2().isBefore(Res1.getYi2())||BeforeSliceInstance.getYi2().isEqual(Res1.getYi2()))))&&((BeforeSliceInstance.getXi3()>=Res1.getXi3()&&BeforeSliceInstance.getXi3()<=Res1.getXi4())||(BeforeSliceInstance.getXi4()>=Res1.getXi3()&&BeforeSliceInstance.getXi4()<=Res1.getXi4())))
                 {
-                    //System.out.println("no");
                     SliceBlankInstance.remove(m);//此处正确，分配剩余空间
-                    //residue1.remove(count2);
-                    Res6.setXi1(Res3.getXi1());
-                    Res6.setYi1(Res3.getYi1());
-                    Res6.setXi2(Res3.getXi2());
-                    Res6.setYi2(BeforeSliceInstance.getYi1());
-                    Res6.setXi3(Res3.getXi3());
-                    Res6.setXi4(Res3.getXi4());
-                    Res7.setXi1(Res3.getXi1());
-                    Res7.setYi1(Res3.getYi1());
-                    Res7.setXi2(BeforeSliceInstance.getXi1());
-                    Res7.setYi2(Res3.getYi2());
-                    Res7.setXi3(Res3.getXi3());
-                    Res7.setXi4(BeforeSliceInstance.getXi3());
-                    Res8.setXi1(BeforeSliceInstance.getXi2());
-                    Res8.setYi1(Res3.getYi1());
-                    Res8.setXi2(Res3.getXi2());
-                    Res8.setYi2(Res3.getYi2());
-                    Res8.setXi3(BeforeSliceInstance.getXi4());
-                    Res8.setXi4(Res3.getXi4());
-                    Res9.setXi1(Res3.getXi1());
-                    Res9.setYi1(BeforeSliceInstance.getYi2());
-                    Res9.setXi2(Res3.getXi2());
-                    Res9.setYi2(Res3.getYi2());
-                    Res9.setXi3(Res3.getXi3());
-                    Res9.setXi4(Res3.getXi4());
-                    SliceBlankInstance.add(m,Res9);
-                    SliceBlankInstance.add(m,Res8);
-                    SliceBlankInstance.add(m,Res7);
-                    SliceBlankInstance.add(m,Res6);
+                    Res2.setXi1(Res1.getXi1());
+                    Res2.setYi1(Res1.getYi1());
+                    Res2.setXi2(Res1.getXi2());
+                    Res2.setYi2(BeforeSliceInstance.getYi1());
+                    Res2.setXi3(Res1.getXi3());
+                    Res2.setXi4(Res1.getXi4());
+                    Res3.setXi1(Res1.getXi1());
+                    Res3.setYi1(Res1.getYi1());
+                    Res3.setXi2(BeforeSliceInstance.getXi1());
+                    Res3.setYi2(Res1.getYi2());
+                    Res3.setXi3(Res1.getXi3());
+                    Res3.setXi4(BeforeSliceInstance.getXi3());
+                    Res4.setXi1(BeforeSliceInstance.getXi2());
+                    Res4.setYi1(Res1.getYi1());
+                    Res4.setXi2(Res1.getXi2());
+                    Res4.setYi2(Res1.getYi2());
+                    Res4.setXi3(BeforeSliceInstance.getXi4());
+                    Res4.setXi4(Res1.getXi4());
+                    Res5.setXi1(Res1.getXi1());
+                    Res5.setYi1(BeforeSliceInstance.getYi2());
+                    Res5.setXi2(Res1.getXi2());
+                    Res5.setYi2(Res1.getYi2());
+                    Res5.setXi3(Res1.getXi3());
+                    Res5.setXi4(Res1.getXi4());
+                    SliceBlankInstance.add(m,Res5);
+                    SliceBlankInstance.add(m,Res4);
+                    SliceBlankInstance.add(m,Res3);
+                    SliceBlankInstance.add(m,Res2);
                     m=m+4;
                 }
                 else
@@ -227,29 +203,29 @@ public class TimeTable {
             }
             for(int n=0;n<SliceBlankInstance.size();n++)
             {
-                Residue Res12 = (Residue)SliceBlankInstance.get(n);
-                if((Res12.getXi2()-Res12.getXi1())<=0||(Res12.getYi2().isBefore(Res12.getYi1()))||(Res12.getYi2().isEqual(Res12.getYi1()))/*(Res12.getYi2()-Res12.getYi1())<=0*/||(Res12.getXi4()-Res12.getXi3())<=0)
+                Residue Reserror = (Residue)SliceBlankInstance.get(n);
+                if((Reserror.getXi2()-Reserror.getXi1())<=0||(Reserror.getYi2().isBefore(Reserror.getYi1()))||(Reserror.getYi2().isEqual(Reserror.getYi1()))/*(Res12.getYi2()-Res12.getYi1())<=0*/||(Reserror.getXi4()-Reserror.getXi3())<=0)
                 {
-                    SliceBlankInstance2.add(Res12);
+                    SliceBlankInstance2.add(Reserror);
                     continue;
                 }
                 for(int q=0;q<SliceBlankInstance.size();q++)
                 {
-                    Residue Res13 = (Residue)SliceBlankInstance.get(q);//有问题部分
-                    if(Res12.getXi1()>=Res13.getXi1()&&Res12.getXi2()<=Res13.getXi2()&&(Res12.getYi1().isAfter(Res13.getYi1())||Res12.getYi1().isEqual(Res13.getYi1()))/*Res12.getYi1()>=Res13.getYi1()*/&&(Res12.getYi2().isBefore(Res13.getYi2())||Res12.getYi2().isEqual(Res13.getYi2()))/*Res12.getYi2()<=Res13.getYi2()*/&&Res12.getXi3()>=Res13.getXi3()&&Res12.getXi4()<=Res13.getXi4()&&q!=n)
+                    Residue Res6 = (Residue)SliceBlankInstance.get(q);//有问题部分
+                    if(Reserror.getXi1()>=Res6.getXi1()&&Reserror.getXi2()<=Res6.getXi2()&&(Reserror.getYi1().isAfter(Res6.getYi1())||Reserror.getYi1().isEqual(Res6.getYi1()))/*Res12.getYi1()>=Res13.getYi1()*/&&(Reserror.getYi2().isBefore(Res6.getYi2())||Reserror.getYi2().isEqual(Res6.getYi2()))/*Res12.getYi2()<=Res13.getYi2()*/&&Reserror.getXi3()>=Res6.getXi3()&&Reserror.getXi4()<=Res6.getXi4()&&q!=n)
                     {
-                        SliceBlankInstance2.add(Res12);
+                        SliceBlankInstance2.add(Reserror);
                         break;
                     }
                 }
             }
             for(int n=0;n<SliceBlankInstance.size();n++)
             {
-                Residue Res15 = (Residue)SliceBlankInstance.get(n);
+                Residue Res7 = (Residue)SliceBlankInstance.get(n);
                 for(int q=0;q<SliceBlankInstance2.size();q++)
                 {
-                    Residue Res16 = (Residue)SliceBlankInstance2.get(q);
-                    if(Res15.getXi1()==Res16.getXi1()&&Res15.getXi2()==Res16.getXi2()&&Res15.getYi1()==Res16.getYi1()&&Res15.getYi2()==Res16.getYi2())
+                    Residue Reserror = (Residue)SliceBlankInstance2.get(q);
+                    if(Res7.getXi1()==Reserror.getXi1()&&Res7.getXi2()==Reserror.getXi2()&&Res7.getYi1()==Reserror.getYi1()&&Res7.getYi2()==Reserror.getYi2())
                     {
                         count3++;
                         break;
@@ -257,31 +233,21 @@ public class TimeTable {
                 }
                 if(count3==0)
                 {
-                    SliceBlankInstance3.add(Res15);
+                    SliceBlankInstance3.add(Res7);
                 }
                 count3=0;
             }
             SliceBlankInstance.removeAll(SliceBlankInstance);
             for(int n=0;n<SliceBlankInstance3.size();n++)
             {
-                Residue Res17 = (Residue)SliceBlankInstance3.get(n);
-                SliceBlankInstance.add(Res17);
+                Residue Res7 = (Residue)SliceBlankInstance3.get(n);
+                SliceBlankInstance.add(Res7);
             }
             SliceBlankInstance3.removeAll(SliceBlankInstance3);
             SliceBlankInstance2.removeAll(SliceBlankInstance2);
-			/*for(int z=0;z<residue.size();z++)
-			{
-				Residue Res14 = (Residue)residue.get(z);
-				System.out.println("Xi1 "+Res14.getXi1()+" "+"Yi1 "+Res14.getYi1()+"Xi2 "+Res14.getXi2()+"Yi2 "+Res14.getYi2()+"Xi3 "+Res14.getXi3()+"Xi4"+Res14.getXi4());
-			}*/
             SliceBlankTable.put(sliceId,SliceBlankInstance);
         }
 
-        /*for(int z=0;z<SliceBlankInstance.size();z++)
-			{
-				Residue Res14 = (Residue)SliceBlankInstance.get(z);
-				System.out.println("Xi1 "+Res14.getXi1()+" "+"Yi1 "+Res14.getYi1()+"Xi2 "+Res14.getXi2()+"Yi2 "+Res14.getYi2()+"Xi3 "+Res14.getXi3()+"Xi4"+Res14.getXi4());
-			}*/
 
         List<Residue> SliceFinishList = new ArrayList();
 
@@ -295,57 +261,47 @@ public class TimeTable {
         if (requestSwitchNum == null || requestVMNum == null)
             throw new Exception("resourceRequest = [" + resourceRequest + "], reqBegin = [" + reqBegin + "], reqEnd = [" + reqEnd + "]");
         S3=Math.sqrt(requestVMNum*TimePeriodMinutes);
-        /*Try to find available switches and vms.*/
 
 
         if(gi<RandomIndex2)
         {
             for(int i= 0;i<SliceBlankInstance.size();i++)
             {
-                // if(i ==  0) {
-                //    System.out.println(requestSwitchNum);
-                //}
-                Residue Res1 = (Residue)SliceBlankInstance.get(i);
-                //System.out.print(Res1.getXi2());
-                int Res1Tolerance = (Res1.getYi2().getYear()-Res1.getYi1().getYear())*518400+(Res1.getYi2().getMonthValue()-Res1.getYi1().getMonthValue())*43200+(Res1.getYi2().getDayOfMonth()-Res1.getYi1().getDayOfMonth())*1440+(Res1.getYi2().getHour()-Res1.getYi1().getHour())*60+(Res1.getYi2().getMinute()-Res1.getYi1().getMinute());
-                if((Res1.getXi2()-Res1.getXi1())>=requestVMNum&&Res1Tolerance>=TimePeriodMinutes&&(Res1.getXi4()-Res1.getXi3())>=requestSwitchNum)
+                Residue ResMax = (Residue)SliceBlankInstance.get(i);
+                int Res1Tolerance = (ResMax.getYi2().getYear()-ResMax.getYi1().getYear())*518400+(ResMax.getYi2().getMonthValue()-ResMax.getYi1().getMonthValue())*43200+(ResMax.getYi2().getDayOfMonth()-ResMax.getYi1().getDayOfMonth())*1440+(ResMax.getYi2().getHour()-ResMax.getYi1().getHour())*60+(ResMax.getYi2().getMinute()-ResMax.getYi1().getMinute());
+                if((ResMax.getXi2()-ResMax.getXi1())>=requestVMNum&&Res1Tolerance>=TimePeriodMinutes&&(ResMax.getXi4()-ResMax.getXi3())>=requestSwitchNum)
                 {
-                    // System.out.println(requestSwitchNum);
-                    //ziyuan = Res1.getXi2()-Res1.getXi1(requestSwitchNum);
-                    if(ziyuan>(Res1.getXi2()-Res1.getXi1()))
+                    if(resource>(ResMax.getXi2()-ResMax.getXi1()))
                     {
                         continue;
                     }
-                    else if(ziyuan==(Res1.getXi2()-Res1.getXi1()))
+                    else if(resource==(ResMax.getXi2()-ResMax.getXi1()))
                     {
-                        if(ziyuan1>=(Res1.getXi4()-Res1.getXi3()))
+                        if(resource1>=(ResMax.getXi4()-ResMax.getXi3()))
                         {
-                            //System.out.print(ziyuan1);
                             continue;
                         }
                         else
                         {
 
-                            SliceFinish.setXi1(Res1.getXi1());
-                            SliceFinish.setYi1(Res1.getYi2().minusMinutes(TimePeriodMinutes));//-TimePeriod);
-                            SliceFinish.setXi2(Res1.getXi1()+requestVMNum);
-                            SliceFinish.setYi2(Res1.getYi2().minusSeconds(1));
-                            SliceFinish.setXi3(Res1.getXi3());
-                            SliceFinish.setXi4(Res1.getXi3()+requestSwitchNum);
-                            ziyuan1=(Res1.getXi4()-Res1.getXi3());
+                            SliceFinish.setXi1(ResMax.getXi1());
+                            SliceFinish.setYi1(ResMax.getYi2().minusMinutes(TimePeriodMinutes));//-TimePeriod);
+                            SliceFinish.setXi2(ResMax.getXi1()+requestVMNum);
+                            SliceFinish.setYi2(ResMax.getYi2().minusSeconds(1));
+                            SliceFinish.setXi3(ResMax.getXi3());
+                            SliceFinish.setXi4(ResMax.getXi3()+requestSwitchNum);
+                            resource1=(ResMax.getXi4()-ResMax.getXi3());
                         }
                     }
-                    else if(ziyuan<(Res1.getXi2()-Res1.getXi1()))
+                    else if(resource<(ResMax.getXi2()-ResMax.getXi1()))
                     {
-                        //System.out.print(ziyuan1);
-                        SliceFinish.setXi1(Res1.getXi1());
-                        SliceFinish.setYi1(Res1.getYi2().minusMinutes(TimePeriodMinutes));//-TimePeriod);
-                        SliceFinish.setXi2(Res1.getXi1()+requestVMNum);
-                        SliceFinish.setYi2(Res1.getYi2().minusSeconds(1));
-                        SliceFinish.setXi3(Res1.getXi3());
-                        SliceFinish.setXi4(Res1.getXi3()+requestSwitchNum);
-                        ziyuan=(Res1.getXi2()-Res1.getXi1());
-                        //System.out.println(requestSwitchNum);
+                        SliceFinish.setXi1(ResMax.getXi1());
+                        SliceFinish.setYi1(ResMax.getYi2().minusMinutes(TimePeriodMinutes));//-TimePeriod);
+                        SliceFinish.setXi2(ResMax.getXi1()+requestVMNum);
+                        SliceFinish.setYi2(ResMax.getYi2().minusSeconds(1));
+                        SliceFinish.setXi3(ResMax.getXi3());
+                        SliceFinish.setXi4(ResMax.getXi3()+requestSwitchNum);
+                        resource=(ResMax.getXi2()-ResMax.getXi1());
                     }
                 }
             }
@@ -354,90 +310,77 @@ public class TimeTable {
         {
             for(int k=0;k<SliceBlankInstance.size();k++)
             {
-                Residue Res1 = (Residue)SliceBlankInstance.get(k);
-                int Res1Tolerance = (Res1.getYi2().getYear()-Res1.getYi1().getYear())*518400+(Res1.getYi2().getMonthValue()-Res1.getYi1().getMonthValue())*43200+(Res1.getYi2().getDayOfMonth()-Res1.getYi1().getDayOfMonth())*1440+(Res1.getYi2().getHour()-Res1.getYi1().getHour())*60+(Res1.getYi2().getMinute()-Res1.getYi1().getMinute());
-                if((Res1.getXi2()-Res1.getXi1())>=requestVMNum&&/*(Res1.getYi2()-Res1.getYi1())*/Res1Tolerance>=TimePeriodMinutes&&(Res1.getXi4()-Res1.getXi3())>=requestSwitchNum)
+                Residue ResMax = (Residue)SliceBlankInstance.get(k);
+                int Res1Tolerance = (ResMax.getYi2().getYear()-ResMax.getYi1().getYear())*518400+(ResMax.getYi2().getMonthValue()-ResMax.getYi1().getMonthValue())*43200+(ResMax.getYi2().getDayOfMonth()-ResMax.getYi1().getDayOfMonth())*1440+(ResMax.getYi2().getHour()-ResMax.getYi1().getHour())*60+(ResMax.getYi2().getMinute()-ResMax.getYi1().getMinute());
+                if((ResMax.getXi2()-ResMax.getXi1())>=requestVMNum&&Res1Tolerance>=TimePeriodMinutes&&(ResMax.getXi4()-ResMax.getXi3())>=requestSwitchNum)
                 {
-                    //System.out.println("k"+k);
-                    if (requestVMNum != (Res1.getXi2() - Res1.getXi1()) &&/*(TimePeriod+Res1.getYi1())*/Res1.getYi1().plusMinutes(TimePeriodMinutes) != Res1.getYi2()) {
-                        Tie1 = 2;//I1.setTie(2);
-                    } else if ((requestVMNum == (Res1.getXi2() - Res1.getXi1()) &&/*(TimePeriod+Res1.getYi1())*/Res1.getYi1().plusMinutes(TimePeriodMinutes) != Res1.getYi2()) || (requestVMNum != (Res1.getXi2() - Res1.getXi1()) && (Res1.getYi1().plusMinutes(TimePeriodMinutes)) == Res1.getYi2())) {
-                        Tie1 = 3;//Ri1.setTie(3);
-                    } else if (requestVMNum == (Res1.getXi2() - Res1.getXi1()) &&/*(TimePeriod+Res1.getYi1())*/Res1.getYi1().plusMinutes(TimePeriodMinutes) == Res1.getYi2()) {
-                        Tie1 = 4;//Ri1.setTie(4);
+                    if (requestVMNum != (ResMax.getXi2() - ResMax.getXi1()) &&ResMax.getYi1().plusMinutes(TimePeriodMinutes) != ResMax.getYi2()) {
+                        Tie1 = 2;
+                    } else if ((requestVMNum == (ResMax.getXi2() - ResMax.getXi1()) &&ResMax.getYi1().plusMinutes(TimePeriodMinutes) != ResMax.getYi2()) || (requestVMNum != (ResMax.getXi2() - ResMax.getXi1()) && (ResMax.getYi1().plusMinutes(TimePeriodMinutes)) == ResMax.getYi2())) {
+                        Tie1 = 3;
+                    } else if (requestVMNum == (ResMax.getXi2() - ResMax.getXi1()) &&ResMax.getYi1().plusMinutes(TimePeriodMinutes) == ResMax.getYi2()) {
+                        Tie1 = 4;
                     }
-                    if (Tie2 > Tie1)//Ri2.getTie()>Ri1.getTie())
+                    if (Tie2 > Tie1)
                     {
                         continue;
                     }
-                    //Output O1 = new Output();
-                    //Ri2.setTie(Ri1.getTie());
-                    SliceMiddle.setXi1(Res1.getXi1());
-                    SliceMiddle.setYi1(Res1.getYi1());
-                    SliceMiddle.setXi2(Res1.getXi1() + requestVMNum);
-                    SliceMiddle.setYi2(/*TimePeriod+Res1.getYi1()*/Res1.getYi1().plusMinutes(TimePeriodMinutes));
-                    SliceMiddle.setXi3(Res1.getXi3());
-                    SliceMiddle.setXi4(Res1.getXi3() + requestSwitchNum);
-                    if (Tie2 == Tie1)//Ri2.getTie()==Ri1.getTie())
+                    SliceMiddle.setXi1(ResMax.getXi1());
+                    SliceMiddle.setYi1(ResMax.getYi1());
+                    SliceMiddle.setXi2(ResMax.getXi1() + requestVMNum);
+                    SliceMiddle.setYi2(ResMax.getYi1().plusMinutes(TimePeriodMinutes));
+                    SliceMiddle.setXi3(ResMax.getXi3());
+                    SliceMiddle.setXi4(ResMax.getXi3() + requestSwitchNum);
+                    if (Tie2 == Tie1)
                     {
                         for (Map.Entry<String, List<Residue>> entry : SliceTimeTable.entrySet()) {
-                            //String SliceId = entry.getKey();
                             List<Residue> BeforeSlice1 = entry.getValue();
                             Residue BeforeSliceInstance1 = BeforeSlice1.get(0);
-                            //Output O3 = (Output)Output1.get(e);
                             if (SliceMiddle.getXi2() < BeforeSliceInstance1.getXi1() && ((BeforeSliceInstance1.getYi1().isAfter(SliceMiddle.getYi1()) && BeforeSliceInstance1.getYi1().isBefore(SliceMiddle.getYi2())) || (BeforeSliceInstance1.getYi2().isAfter(SliceMiddle.getYi1()) && BeforeSliceInstance1.getYi2().isBefore(SliceMiddle.getYi2())))) {
-                                d = BeforeSliceInstance1.getXi1() - SliceMiddle.getXi2();
+                                distance = BeforeSliceInstance1.getXi1() - SliceMiddle.getXi2();
                             } else if (SliceMiddle.getXi1() > BeforeSliceInstance1.getXi2() && ((BeforeSliceInstance1.getYi1().isAfter(SliceMiddle.getYi1()) && BeforeSliceInstance1.getYi1().isBefore(SliceMiddle.getYi2())) || (BeforeSliceInstance1.getYi2().isAfter(SliceMiddle.getYi1()) && BeforeSliceInstance1.getYi2().isBefore(SliceMiddle.getYi2())))) {
-                                d = SliceMiddle.getXi1() - BeforeSliceInstance1.getXi2();
+                                distance = SliceMiddle.getXi1() - BeforeSliceInstance1.getXi2();
                             } else if (SliceMiddle.getYi1().isAfter(BeforeSliceInstance1.getYi2()) && ((BeforeSliceInstance1.getXi1() > SliceMiddle.getXi1() && BeforeSliceInstance1.getXi1() < SliceMiddle.getXi2()) || (BeforeSliceInstance1.getXi2() > SliceMiddle.getXi1() && BeforeSliceInstance1.getXi2() < SliceMiddle.getXi2()))) {
-                                    /*d=SliceMiddle.getYi1()-BeforeSliceInstance1.getYi1();*/
-                                d = (SliceMiddle.getYi1().getYear() - BeforeSliceInstance1.getYi1().getYear()) * 518400 + (SliceMiddle.getYi1().getMonthValue() - BeforeSliceInstance1.getYi1().getMonthValue()) * 43200 + (SliceMiddle.getYi1().getDayOfMonth() - BeforeSliceInstance1.getYi1().getDayOfMonth()) * 1440 + (SliceMiddle.getYi1().getHour() - BeforeSliceInstance1.getYi1().getHour()) * 60 + (SliceMiddle.getYi1().getMinute() - BeforeSliceInstance1.getYi1().getMinute());
+                                distance = (SliceMiddle.getYi1().getYear() - BeforeSliceInstance1.getYi1().getYear()) * 518400 + (SliceMiddle.getYi1().getMonthValue() - BeforeSliceInstance1.getYi1().getMonthValue()) * 43200 + (SliceMiddle.getYi1().getDayOfMonth() - BeforeSliceInstance1.getYi1().getDayOfMonth()) * 1440 + (SliceMiddle.getYi1().getHour() - BeforeSliceInstance1.getYi1().getHour()) * 60 + (SliceMiddle.getYi1().getMinute() - BeforeSliceInstance1.getYi1().getMinute());
                             } else if (SliceMiddle.getYi2().isBefore(BeforeSliceInstance1.getYi1()) && ((BeforeSliceInstance1.getXi1() > SliceMiddle.getXi1() && BeforeSliceInstance1.getXi1() < SliceMiddle.getXi2()) || (BeforeSliceInstance1.getXi2() > SliceMiddle.getXi1() && BeforeSliceInstance1.getXi2() < SliceMiddle.getXi2()))) {
-                                    /*d=BeforeSliceInstance1.getYi1()-SliceMiddle.getYi2();*/
-                                d = (BeforeSliceInstance1.getYi1().getYear() - SliceMiddle.getYi2().getYear()) * 518400 + (BeforeSliceInstance1.getYi1().getMonthValue() - SliceMiddle.getYi2().getMonthValue()) * 43200 + (BeforeSliceInstance1.getYi1().getDayOfMonth() - SliceMiddle.getYi2().getDayOfMonth()) * 1440 + (BeforeSliceInstance1.getYi1().getHour() - SliceMiddle.getYi2().getHour()) * 60 + (BeforeSliceInstance1.getYi1().getMinute() - SliceMiddle.getYi2().getMinute());
+                                distance = (BeforeSliceInstance1.getYi1().getYear() - SliceMiddle.getYi2().getYear()) * 518400 + (BeforeSliceInstance1.getYi1().getMonthValue() - SliceMiddle.getYi2().getMonthValue()) * 43200 + (BeforeSliceInstance1.getYi1().getDayOfMonth() - SliceMiddle.getYi2().getDayOfMonth()) * 1440 + (BeforeSliceInstance1.getYi1().getHour() - SliceMiddle.getYi2().getHour()) * 60 + (BeforeSliceInstance1.getYi1().getMinute() - SliceMiddle.getYi2().getMinute());
                             } else if (SliceMiddle.getXi2() < BeforeSliceInstance1.getXi1() && SliceMiddle.getYi1().isAfter(BeforeSliceInstance1.getYi2())) {
-                                d = BeforeSliceInstance1.getXi1() - SliceMiddle.getXi2() + (SliceMiddle.getYi1().getYear() - BeforeSliceInstance1.getYi2().getYear()) * 518400 + (SliceMiddle.getYi1().getMonthValue() - BeforeSliceInstance1.getYi2().getMonthValue()) * 43200 + (SliceMiddle.getYi1().getDayOfMonth() - BeforeSliceInstance1.getYi2().getDayOfMonth()) * 1440 + (SliceMiddle.getYi1().getHour() - BeforeSliceInstance1.getYi2().getHour()) * 60 + (SliceMiddle.getYi1().getMinute() - BeforeSliceInstance1.getYi2().getMinute());//SliceMiddle.getYi1()-BeforeSliceInstance1.getYi2();
+                                distance = BeforeSliceInstance1.getXi1() - SliceMiddle.getXi2() + (SliceMiddle.getYi1().getYear() - BeforeSliceInstance1.getYi2().getYear()) * 518400 + (SliceMiddle.getYi1().getMonthValue() - BeforeSliceInstance1.getYi2().getMonthValue()) * 43200 + (SliceMiddle.getYi1().getDayOfMonth() - BeforeSliceInstance1.getYi2().getDayOfMonth()) * 1440 + (SliceMiddle.getYi1().getHour() - BeforeSliceInstance1.getYi2().getHour()) * 60 + (SliceMiddle.getYi1().getMinute() - BeforeSliceInstance1.getYi2().getMinute());
                             } else if (SliceMiddle.getXi2() < BeforeSliceInstance1.getXi1() && SliceMiddle.getYi2().isBefore(BeforeSliceInstance1.getYi1())) {
-                                d = BeforeSliceInstance1.getXi1() - SliceMiddle.getXi2() + (BeforeSliceInstance1.getYi1().getYear() - SliceMiddle.getYi2().getYear()) * 518400 + (BeforeSliceInstance1.getYi1().getMonthValue() - SliceMiddle.getYi2().getMonthValue()) * 43200 + (BeforeSliceInstance1.getYi1().getDayOfMonth() - SliceMiddle.getYi2().getDayOfMonth()) * 1440 + (BeforeSliceInstance1.getYi1().getHour() - SliceMiddle.getYi2().getHour()) * 60 + (BeforeSliceInstance1.getYi1().getMinute() - SliceMiddle.getYi2().getMinute());//BeforeSliceInstance1.getYi1()-SliceMiddle.getYi2();
+                                distance = BeforeSliceInstance1.getXi1() - SliceMiddle.getXi2() + (BeforeSliceInstance1.getYi1().getYear() - SliceMiddle.getYi2().getYear()) * 518400 + (BeforeSliceInstance1.getYi1().getMonthValue() - SliceMiddle.getYi2().getMonthValue()) * 43200 + (BeforeSliceInstance1.getYi1().getDayOfMonth() - SliceMiddle.getYi2().getDayOfMonth()) * 1440 + (BeforeSliceInstance1.getYi1().getHour() - SliceMiddle.getYi2().getHour()) * 60 + (BeforeSliceInstance1.getYi1().getMinute() - SliceMiddle.getYi2().getMinute());
                             } else if (SliceMiddle.getXi1() > BeforeSliceInstance1.getXi2() && SliceMiddle.getYi1().isAfter(BeforeSliceInstance1.getYi2())) {
-                                d = SliceMiddle.getXi1() - BeforeSliceInstance1.getXi2() + (SliceMiddle.getYi1().getYear() - BeforeSliceInstance1.getYi2().getYear()) * 518400 + (SliceMiddle.getYi1().getMonthValue() - BeforeSliceInstance1.getYi2().getMonthValue()) * 43200 + (SliceMiddle.getYi1().getDayOfMonth() - BeforeSliceInstance1.getYi2().getDayOfMonth()) * 1440 + (SliceMiddle.getYi1().getHour() - BeforeSliceInstance1.getYi2().getHour()) * 60 + (SliceMiddle.getYi1().getMinute() - BeforeSliceInstance1.getYi2().getMinute());//SliceMiddle.getYi1()-BeforeSliceInstance1.getYi2();
+                                distance = SliceMiddle.getXi1() - BeforeSliceInstance1.getXi2() + (SliceMiddle.getYi1().getYear() - BeforeSliceInstance1.getYi2().getYear()) * 518400 + (SliceMiddle.getYi1().getMonthValue() - BeforeSliceInstance1.getYi2().getMonthValue()) * 43200 + (SliceMiddle.getYi1().getDayOfMonth() - BeforeSliceInstance1.getYi2().getDayOfMonth()) * 1440 + (SliceMiddle.getYi1().getHour() - BeforeSliceInstance1.getYi2().getHour()) * 60 + (SliceMiddle.getYi1().getMinute() - BeforeSliceInstance1.getYi2().getMinute());
                             } else if (SliceMiddle.getXi1() > BeforeSliceInstance1.getXi2() && SliceMiddle.getYi2().isBefore(BeforeSliceInstance1.getYi1())) {
-                                d = SliceMiddle.getXi1() - BeforeSliceInstance1.getXi2() + (BeforeSliceInstance1.getYi1().getYear() - SliceMiddle.getYi2().getYear()) * 518400 + (BeforeSliceInstance1.getYi1().getMonthValue() - SliceMiddle.getYi2().getMonthValue()) * 43200 + (BeforeSliceInstance1.getYi1().getDayOfMonth() - SliceMiddle.getYi2().getDayOfMonth()) * 1440 + (BeforeSliceInstance1.getYi1().getHour() - SliceMiddle.getYi2().getHour()) * 60 + (BeforeSliceInstance1.getYi1().getMinute() - SliceMiddle.getYi2().getMinute());//BeforeSliceInstance1.getYi1()-SliceMiddle.getYi2();
+                                distance = SliceMiddle.getXi1() - BeforeSliceInstance1.getXi2() + (BeforeSliceInstance1.getYi1().getYear() - SliceMiddle.getYi2().getYear()) * 518400 + (BeforeSliceInstance1.getYi1().getMonthValue() - SliceMiddle.getYi2().getMonthValue()) * 43200 + (BeforeSliceInstance1.getYi1().getDayOfMonth() - SliceMiddle.getYi2().getDayOfMonth()) * 1440 + (BeforeSliceInstance1.getYi1().getHour() - SliceMiddle.getYi2().getHour()) * 60 + (BeforeSliceInstance1.getYi1().getMinute() - SliceMiddle.getYi2().getMinute());
                             }
-                            C = 1 - d2 / S3;
-                            if (C <= C2) {
+                            tightness = 1 - distance2 / S3;
+                            if (tightness <= tightness2) {
                                 continue;
                             }
-                            d2 = d;
-                            C2 = C;
-                            Tie2 = Tie1;//Ri2.setTie(Ri1.getTie());
-                            SliceFinish.setXi1(Res1.getXi1());
-                            SliceFinish.setYi1(Res1.getYi1().plusSeconds(1));
-                            SliceFinish.setXi2(Res1.getXi1() + requestVMNum);
-                            SliceFinish.setYi2(Res1.getYi1().plusMinutes(TimePeriodMinutes));
-                            //O2.setUsername(I1.getUsername());
-                            SliceFinish.setXi3(Res1.getXi3());
-                            SliceFinish.setXi4(Res1.getXi3() + requestVMNum);
+                            distance2 = distance;
+                            tightness2 = tightness;
+                            Tie2 = Tie1;
+                            SliceFinish.setXi1(ResMax.getXi1());
+                            SliceFinish.setYi1(ResMax.getYi1().plusSeconds(1));
+                            SliceFinish.setXi2(ResMax.getXi1() + requestVMNum);
+                            SliceFinish.setYi2(ResMax.getYi1().plusMinutes(TimePeriodMinutes));
+                            SliceFinish.setXi3(ResMax.getXi3());
+                            SliceFinish.setXi4(ResMax.getXi3() + requestVMNum);
                         }
-                    } else if (Tie2 < Tie1)//Ri2.getTie()<Ri1.getTie())
+                    } else if (Tie2 < Tie1)
                     {
-                        Tie2 = Tie1;//Ri2.setTie(Ri1.getTie());
-                        SliceFinish.setXi1(Res1.getXi1());
-                        SliceFinish.setYi1(Res1.getYi1().plusSeconds(1));
-                        SliceFinish.setXi2(Res1.getXi1() + requestVMNum);
-                        SliceFinish.setYi2(Res1.getYi1().plusMinutes(TimePeriodMinutes));
-                        SliceFinish.setXi3(Res1.getXi3());
-                        SliceFinish.setXi4(Res1.getXi3() + requestVMNum);
+                        Tie2 = Tie1;
+                        SliceFinish.setXi1(ResMax.getXi1());
+                        SliceFinish.setYi1(ResMax.getYi1().plusSeconds(1));
+                        SliceFinish.setXi2(ResMax.getXi1() + requestVMNum);
+                        SliceFinish.setYi2(ResMax.getYi1().plusMinutes(TimePeriodMinutes));
+                        SliceFinish.setXi3(ResMax.getXi3());
+                        SliceFinish.setXi4(ResMax.getXi3() + requestVMNum);
                     }
 
                 }
-                else
-                {
-                    continue;
-                }
             }
         }
-        //System.out.println(SliceFinish.getXi1()+" "+SliceFinish.getXi2()+SliceFinish.getXi3()+" "+SliceFinish.getXi4()+" "+SliceFinish.getYi1()+" "+SliceFinish.getYi2());
         SliceFinishList.add(SliceFinish);
         SliceTimeTable.put(sliceId,SliceFinishList);
 
@@ -445,30 +388,20 @@ public class TimeTable {
 
         Set<Integer> availableSwitch = new HashSet<>();
         for (int switchId = SliceFinish.getXi3();switchId<SliceFinish.getXi4();switchId++) {
-            //int switchId = entry.getKey();
-            //TreeSet<SliceDuration> switchTimeLine = entry.getValue();
-            // if (!switchTimeLine.contains(new SliceDuration(sliceId, reqBegin, reqEnd)))
             availableSwitch.add(switchId);
         }
         Set<Integer> availableVM = new HashSet<>();
         for (int vmId = SliceFinish.getXi1();vmId<SliceFinish.getXi2();vmId++) {
-            // int vmId = entry.getKey();
-            //TreeSet<SliceDuration> vmTimeLine = entry.getValue();
-            //if (!vmTimeLine.contains(new SliceDuration(sliceId, reqBegin, reqEnd)))
             availableVM.add(vmId);
         }
         for (Map.Entry<Integer, TreeSet<SliceDuration>> entry : switchTimeTable.entrySet()) {
             int switchId = entry.getKey();
             TreeSet<SliceDuration> switchTimeLine = entry.getValue();
-            //if (!switchTimeLine.contains(new SliceDuration(sliceId, reqBegin, reqEnd)))
-            //  availableSwitch.add(switchId);
         }
         //Set<Integer> availableVM = new HashSet<>();
         for (Map.Entry<Integer, TreeSet<SliceDuration>> entry : vmTimeTable.entrySet()) {
             int vmId = entry.getKey();
             TreeSet<SliceDuration> vmTimeLine = entry.getValue();
-            //if (!vmTimeLine.contains(new SliceDuration(sliceId, reqBegin, reqEnd)))
-            //  availableVM.add(vmId);
         }
 
 
@@ -487,12 +420,9 @@ public class TimeTable {
         for (Integer switchId : availableSwitch) {
             TreeSet<SliceDuration> switchTimeLine = switchTimeTable.get(switchId);
             SliceDuration S = new SliceDuration(sliceId, SliceFinish.getYi1(), SliceFinish.getYi2());
-            //System.out.println(S.getStart());
             boolean b= switchTimeLine.add(S);
-            // System.out.println(b);
             if (b) {
                 reservedSwitch.add(switchId);
-                //       System.out.println(reservedSwitch);
             }
             if (reservedSwitch.size() == requestSwitchNum) break;
         }
@@ -507,11 +437,76 @@ public class TimeTable {
         Map<String, List<Integer>> resourceMap = new HashMap<>(resourceRequest.size());
         resourceMap.put("switch", reservedSwitch);
         resourceMap.put("vm", reservedVMs);
-        // System.out.println(reservedSwitch);
         return resourceMap;
 
     }
+    synchronized public Map<String, List<Integer>> tryToReserve(String sliceId, Map<String, Integer> resourceRequest, ZonedDateTime reqBegin, ZonedDateTime reqEnd) throws Exception {
+        ZonedDateTime nowTime = ZonedDateTime.now();
+        if (reqBegin.isBefore(nowTime)) {
+            logger.error("begin time is early than now time, failed");
+            logger.error("beginTime = " + reqBegin);
+            logger.error("nowTime = " + nowTime);
+            throw new Exception("resourceRequest = [" + resourceRequest + "], reqBegin = [" + reqBegin + "], reqEnd = [" + reqEnd + "], now= [" + nowTime + "]");
+        }
 
+        Integer requestSwitchNum = null;
+        Integer requestVMNum = null;
+        for (Map.Entry<String, Integer> entry : resourceRequest.entrySet()) {
+            String resourceName = entry.getKey(); //switch or vm
+            if (resourceName.equals("switch")) requestSwitchNum = entry.getValue();
+            if (resourceName.equals("vm")) requestVMNum = entry.getValue();
+        }
+        if (requestSwitchNum == null || requestVMNum == null)
+            throw new Exception("resourceRequest = [" + resourceRequest + "], reqBegin = [" + reqBegin + "], reqEnd = [" + reqEnd + "]");
+
+        /*Try to find available switches and vms.*/
+        Set<Integer> availableSwitch = new HashSet<>();
+        for (Map.Entry<Integer, TreeSet<SliceDuration>> entry : switchTimeTable.entrySet()) {
+            int switchId = entry.getKey();
+            TreeSet<SliceDuration> switchTimeLine = entry.getValue();
+            if (!switchTimeLine.contains(new SliceDuration(sliceId, reqBegin, reqEnd)))
+                availableSwitch.add(switchId);
+        }
+        Set<Integer> availableVM = new HashSet<>();
+        for (Map.Entry<Integer, TreeSet<SliceDuration>> entry : vmTimeTable.entrySet()) {
+            int vmId = entry.getKey();
+            TreeSet<SliceDuration> vmTimeLine = entry.getValue();
+            if (!vmTimeLine.contains(new SliceDuration(sliceId, reqBegin, reqEnd)))
+                availableVM.add(vmId);
+        }
+
+
+        List<Integer> reservedSwitch = new ArrayList<>();
+        List<Integer> reservedVMs = new ArrayList<>();
+
+        if (availableSwitch.size() < requestSwitchNum || availableVM.size() < requestVMNum) {
+            Map<String, List<Integer>> resourceMap = new HashMap<>(resourceRequest.size());
+            resourceMap.put("switch", reservedSwitch);
+            resourceMap.put("vm", reservedVMs);
+            return resourceMap;
+        }
+
+        /*Insert into time table actually */
+        for (Integer switchId : availableSwitch) {
+            TreeSet<SliceDuration> switchTimeLine = switchTimeTable.get(switchId);
+            if (switchTimeLine.add(new SliceDuration(sliceId, reqBegin, reqEnd)))
+                reservedSwitch.add(switchId);
+            if (reservedSwitch.size() == requestSwitchNum) break;
+        }
+
+        for (Integer vmId : availableVM) {
+            TreeSet<SliceDuration> vmTimeLine = vmTimeTable.get(vmId);
+            if (vmTimeLine.add(new SliceDuration(sliceId, reqBegin, reqEnd)))
+                reservedVMs.add(vmId);
+            if (reservedVMs.size() == requestVMNum) break;
+        }
+
+        Map<String, List<Integer>> resourceMap = new HashMap<>(resourceRequest.size());
+        resourceMap.put("switch", reservedSwitch);
+        resourceMap.put("vm", reservedVMs);
+        return resourceMap;
+
+    }
     synchronized public Map<Integer, TreeSet<SliceDuration>> getSwitchTimeTableSnapShot() {
         return new HashMap<>(switchTimeTable);
     }
