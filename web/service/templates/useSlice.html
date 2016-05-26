@@ -111,7 +111,7 @@
             "keysymdef.js", "keyboard.js", "input.js", "display.js",
             "inflator.js", "rfb.js", "keysym.js"]);
         window.onscriptsload = function () {
-            var host = {{ info.sockifyIP }}, port ={{ info.sockifyPort }}, password = '';
+            var host = '{{ info.sockifyIP }}', port ={{ info.sockifyPort }}, password = '';
             var conf = {
                 'encrypt': WebUtil.getConfigVar('encrypt', (window.location.protocol === "https:")),
                 'repeaterID': WebUtil.getConfigVar('repeaterID', ''),
