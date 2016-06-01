@@ -99,6 +99,15 @@ def useSlice(request, sliceID):
     # info['hostMap'] = json.dumps(info['hostMap'])
     return render(request, 'useSlice.html', {'info': info})
 
+def deleteSlice(request):
+    if request.method == 'POST':
+        username = request.session['username']
+        password = request.session['password']
+        server = jsonrpclib.Server(settings.JSONRPC)
+        authToken = server.getToken(username, password)
+        sliceID = request.POST['sliceID']
+        result = server.tryToTerminateSlice(authToken, sliceID)
+        return HttpResponse(result)
 
 def test(request):
     return render(request, 'vnc_auto.html')

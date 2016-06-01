@@ -129,7 +129,7 @@ STATICFILES_DIRS = (
 )
 
 
-JSONRPC = 'http://10.0.0.1:8080'
+JSONRPC = 'http://127.0.0.1:8080'
 WEBSOCKIFY_PATH = os.path.join(BASE_DIR, 'service', 'utils', 'websockify')
 WEB_PATH = os.path.join(BASE_DIR, 'service', 'utils')
 TARGET_PATH = os.path.join(BASE_DIR, 'service', 'utils', 'vnc_tokens')

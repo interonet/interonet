@@ -20,7 +20,7 @@
 
         <div><img src="/static/images/divider.png" alt=""/></div>
         <form  method="post" id="orderForm">
-            {% csrf_token %}
+{#            {% csrf_token %}#}
 
             <div class="progress" id="progress">
                 <div  id="progress1">Time</div>
@@ -172,11 +172,13 @@
 <script type="text/javascript" src="/static/js/dom.jsPlumb-1.7.5.js"></script>
 <script type="text/javascript" src="/static/js/topology.js"></script>
 <script type="text/javascript" src="/static/js/create.js"></script>
-    <script>
-        $.ajaxSetup({
-        data: {csrfmiddlewaretoken: '{{ csrf_token }}' }
-    });
-    </script>
+     <script src="/static/js/ajax.js"></script>
+
+{#    <script>#}
+{#        $.ajaxSetup({#}
+{#        data: {csrfmiddlewaretoken: '{{ csrf_token }}' }#}
+{#    });#}
+{#    </script>#}
     <script>
         $("#submit").on("click", function () {
          var form = new FormData($("#orderForm")[0]);

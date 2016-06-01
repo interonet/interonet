@@ -2,44 +2,98 @@
 {% block title %}Check{% endblock %}
 {% block content %}
     <div class="body">
-    <div class="container">
-        <h3>CHECK</h3>
-        <div><img src="/static/images/divider.png" alt=""/></div>
-        <table>
-            <thead>
-            <tr>
-                <th>SliceID</th>
-                <th>StartTime</th>
-                <th>EndTime</th>
-                <th># of Switch</th>
-                <th># of Host</th>
-                <th>State</th>
-                <th>Check</th>
-                <th>Use</th>
-                <th>Delete</th>
-            </tr>
+        <div id="confirmOverlay" class="confirm">
+            <div id="confirmBox">
 
-            </thead>
+                <p>Do you really want to delete this slice?</p>
 
-            <tbody>
-            {% for slice in info %}
+                <div class="button-group" id="confirmButtons">
+                    <button class="button blue" id="Yes">Yes</button>
+                    <button class="button gray" id="No">No</button>
+
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h3>CHECK</h3>
+            <div><img src="/static/images/divider.png" alt=""/></div>
+            <table>
+                <thead>
                 <tr>
-                <td>{{ slice.id | slice:'8'}}</td>
-                <td>{{ slice.startTime }}</td>
-                <td>{{ slice.endTime }}</td>
-                <td>{{ slice.switchNum }}</td>
-                <td>{{ slice.hostNum }}</td>
-                <td>{{ slice.status }}</td>
-                <td><button data-id="{{ slice.id }}" class="check" onclick="window.location='{% url 'checkSlice' slice.id %}'">Check</button></td>
-                <td><button data-id="{{ slice.id }}"  {% if slice.status != 'RUNNING' %} disabled  class="disable" {% else %} class="use"  onclick="window.location = '{% url 'useSlice' slice.id %}'"{% endif %} >Use</button></td>
-                <td><button data-id="{{ slice.id }}"  class="delete">Delete</button></td>
+                    <th>SliceID</th>
+                    <th>StartTime</th>
+                    <th>EndTime</th>
+                    <th># of Switch</th>
+                    <th># of Host</th>
+                    <th>State</th>
+                    <th>Check</th>
+                    <th>Use</th>
+                    <th>Delete</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <br/>
+
+                </thead>
+
+                <tbody>
+
+                {% for slice in info %}
+                    <tr id="tr_{{ slice.id }}">
+                        <td>{{ slice.id | slice:'8' }}</td>
+                        <td>{{ slice.startTime }}</td>
+                        <td>{{ slice.endTime }}</td>
+                        <td>{{ slice.switchNum }}</td>
+                        <td>{{ slice.hostNum }}</td>
+                        <td>{{ slice.status }}</td>
+                        <td>
+                            <button data-id="{{ slice.id }}" class="check" onclick="window.location='{% url 'checkSlice' slice.id %}'">Check</button>
+                        </td>
+                        <td>
+                            <button data-id="{{ slice.id }}"  {% if slice.status != 'RUNNING' %} disabled  class="disable" {% else %} class="use"
+                                    onclick="window.location = '{% url 'useSlice' slice.id %}'"{% endif %} >Use
+                            </button>
+                        </td>
+                        <td>
+                            <button data-id="{{ slice.id }}"  {% if slice.status == 'TERMINATED' %} disabled class="disable" {% else %} class="delete" {% endif %}
+                                    onclick="deleteSlice( '{{ slice.id }}' )">Delete
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br/>
+        </div>
     </div>
-    </div>
+    <script src="/static/js/ajax.js"></script>
     <script>
+        function deleteSlice(sliceID) {
+            (function (ID) {
+                $("#confirmOverlay").show();
+                $("#confirmButtons").one("click", "button", function () {
+                    if (this.id == "Yes") {
+                        $.ajax({
+                            url: '{% url "deleteSlice" %}',
+                            type: "POST",
+                            data: {sliceID: sliceID},
+                            success: function (data) {
+                                if (data == "Success") {
+                                    location.reload(true);
+                                }
+                                else {
+                                    alert("delete failure");
+                                    console.log(data);
+                                }
+                            },
+                            error: function (e) {
+                                console.log(e);
+                            }
+                        });
+                    }
+                    $("#confirmOverlay").hide();
+                })
+            })(sliceID);
+
+
+        }
+
     </script>
-{%  endblock %}
+{% endblock %}

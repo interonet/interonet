@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'service/submit$', service_views.submit, name='submit'),
     url(r'service/checkSlice/(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}$)', service_views.checkSlice, name='checkSlice'),
     url(r'service/useSlice/(\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}$)', service_views.useSlice, name='useSlice'),
-    # service (/service/home service/create /service/check)
+    url(r'service/deleteSlice', service_views.deleteSlice, name='deleteSlice'),
     url(r'service/([A-Za-z]+$)', service_views.service, name='service'),
     # home page
     url(r'^$', statistic_views.home, name='home'),

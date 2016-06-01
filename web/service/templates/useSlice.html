@@ -10,7 +10,7 @@
             <div><img src="/static/images/divider.png" alt=""/></div>
 
             <div class="use-slice" id="useSlice">
-             <p class="count-down">count down: <span id="countDown"></span></p>
+                <p class="count-down">count down: <span id="countDown"><span></span> <span></span> <span></span> <span> </span></span></p>
                 <div class="change-tab" id="changeTab">
                     <button data-id="controller" id="ctlBtn">Controller</button>
                     <button data-id="switch" id="switchBtn">Switch</button>
@@ -78,24 +78,31 @@
     <script src="/static/js/telnet/wstelnet.js"></script>
     <script src="/static/js/useSlice.js"></script>
     <script>
-        var endTime = new Date('{{ info.endTime }}');
+        var endTime = {{ info.endTime }};
+        var re = /(\d{4})-(\d{2})-(\d{2})\W(\d{2})\W(\d{2})\W(\d{2})/g;
+        var FormatTime = function (num, n) {return (new Array(n).join("0") + num).slice(-n);};
+        var parseTimeCount = function (leftTime) {
+            if (leftTime.getTime() > 0)
+                return [leftTime.getYear() - 70, leftTime.getMonth() ? FormatTime(leftTime.getMonth(), 2) : 0, (leftTime.getDate() - 1) ? FormatTime(leftTime.getDate(), 2) : 0, FormatTime((leftTime.getHours() + 16) % 24, 2) + ":" + FormatTime(leftTime.getMinutes(), 2) + ":" + FormatTime(leftTime.getSeconds(), 2)];
+        };
+        var SetCountDown = function (time) {
+            var postfix = ['year', 'month', 'day', ' '];
+            $("#countDown").children().each(function (index, span) {
+                $(span).html(time[index] ? time[index] + " " + postfix[index] : "");
+            })
+        };
+        endTime = re.exec(endTime);
         (function timeCount() {
-            var now = new Date();
-            var leftTime =new Date(endTime.getTime() - now.getTime());
-            $("#countDown").html(parseTimeCount(leftTime));
-            setTimeout(timeCount,1000);
-
+            var leftTime = new Date(new Date(endTime[1], endTime[2] - 1, endTime[3], endTime[4], endTime[5], endTime[6]) - new Date());
+            var parseLeftTime = parseTimeCount(leftTime);
+            if (parseLeftTime) {
+                SetCountDown(parseLeftTime);
+                setTimeout(timeCount, 1000);
+            }
+            else {
+                window.location = "{% url 'service'  'check' %}";
+            }
         }());
-    function parseTimeCount(leftTime) {
-        var year = leftTime.getYear() - 70;
-        var month = leftTime.getMonth();
-        var day = leftTime.getDate() - 1;
-        var hours = (leftTime.getHours()+16) % 24;
-        var minute = leftTime.getMinutes();
-        var second = leftTime.getSeconds();
-        var time = hours + ":" + minute + ":" + second;
-        return year== 0? (month == 0? (day == 0? time: day + "day "+ time): month + "Mon " +  day + "day "+ time):year + "Year " + month + "Mon " +  day + "day "+ time;
-    }
     </script>
     <script>
         var topology = {{ info.topology | safe }};
@@ -139,10 +146,10 @@
                     rfb.connect(host, port, password, path);
                     $(this).on('mouseover', function () {
                         rfb.keyboard.grab();
-{#                       rfb.mouse.grab();#}
+                        {#                       rfb.mouse.grab();#}
                     }).on('mouseout', function () {
                         rfb.keyboard.ungrab();
-{#                      rfb.mouse.ungrab();#}
+                        {#                      rfb.mouse.ungrab();#}
 
                     });
                 }
