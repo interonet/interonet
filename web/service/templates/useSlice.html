@@ -78,7 +78,7 @@
     <script src="/static/js/telnet/wstelnet.js"></script>
     <script src="/static/js/useSlice.js"></script>
     <script>
-        var endTime = {{ info.endTime }};
+        var endTime = '{{ info.endTime }}';
         var re = /(\d{4})-(\d{2})-(\d{2})\W(\d{2})\W(\d{2})\W(\d{2})/g;
         var FormatTime = function (num, n) {return (new Array(n).join("0") + num).slice(-n);};
         var parseTimeCount = function (leftTime) {
