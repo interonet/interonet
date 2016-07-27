@@ -1,7 +1,15 @@
 {
   "num": {
     "switchesNum": "1",
-    "vmsNum": "2"
+    "vmsNum": "2",
+    "switchNumMinineth0":"3",
+    "vmNumMinineth0":"4"
+  },
+  "deviceID": {
+    "switches": ["s0"],
+    "vms": ["h0","h1"],
+    "switchMinineth0":["s1","s2","s3"],
+    "vmMinineth0":["h2","h3","h4","h5"]
   },
   "time": {
     "begin": "2016-04-25T22:21:30+08:00",
@@ -11,6 +19,30 @@
     "h0:0": "s0:0",
     "h1:0": "s0:1"
   },
+
+  "mininetMapPort":[
+    {"source":"s1",
+      "target":"h0"}
+  ],
+
+  "topologyMinineth0": [
+    {"source":"h2",
+      "target":"s2"},
+    {"source":"h3",
+      "target":"s2"},
+    {"source":"s1",
+      "target":"s2"},
+    {"source":"h4",
+      "target":"s3"},
+    {"source":"h5",
+      "target":"s3"},
+    {"source":"s3",
+      "target":"s1"},
+    {"source":"s2",
+      "target":"s1"},
+    {"source":"s2",
+      "target":"s3"}
+  ],
   "switchConf": {
     "s0": "custom"
   },
