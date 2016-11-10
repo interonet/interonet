@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +35,11 @@ public class Slice {
     private Map<String, Integer> userSW2domSW;
     private Map<String, Integer> userVM2domVM;
     private SliceException exception = SliceException.NONE;
+    private Map<String,List<String>> deviceID;
+    private List<Map<String,String>> mininetMapPort;
+    private Map<String,List<Map<String,String>>> topologyMininet;
+    private Map<String,String> controllerConf;
+
 
 
     public Slice() {
@@ -230,6 +237,7 @@ public class Slice {
                 ", beginTime=" + beginTime +
                 ", endTime=" + endTime +
                 ", topology=" + topology +
+                ", mininetMapPort =" + mininetMapPort +
                 ", switchConf=" + switchConf +
                 ", controllerIP='" + controllerIP + '\'' +
                 ", controllerPort=" + controllerPort +
@@ -242,6 +250,38 @@ public class Slice {
                 ", userVM2domVM=" + userVM2domVM +
                 ", exception=" + exception +
                 '}';
+    }
+
+    public Map<String, List<String>> getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(Map<String, List<String>> deviceID) {
+        this.deviceID = deviceID;
+    }
+
+    public List<Map<String, String>> getMininetMapPort() {
+        return mininetMapPort;
+    }
+
+    public void setMininetMapPort(List<Map<String, String>> mininetMapPort) {
+        this.mininetMapPort = mininetMapPort;
+    }
+
+    public Map<String, List<Map<String, String>>> getTopologyMininet() {
+        return topologyMininet;
+    }
+
+    public void setTopologyMininet(Map<String, List<Map<String, String>>> topologyMininet) {
+        this.topologyMininet = topologyMininet;
+    }
+
+    public Map<String, String> getControllerConf() {
+        return controllerConf;
+    }
+
+    public void setControllerConf(Map<String, String> controllerConf) {
+        this.controllerConf = controllerConf;
     }
 
     public enum SliceStatus {
@@ -275,6 +315,10 @@ public class Slice {
             Map<String, String> switchConf;
             Map<String, String> controllerConf;
             Map<String, Map> customSwitchConf;
+            Map<String,List<Map<String,String>>> topologyMininet = new HashMap<>();
+            List<String> switchID = new ArrayList<>();
+            List<String> vmID = new ArrayList<>();
+            Integer countMin = 0;
 
             Slice slice = new Slice();
 
@@ -302,12 +346,21 @@ public class Slice {
             slice.setBeginTime(begin);
             slice.setEndTime(end);
 
+            Map<String,List<String>> deviceID = (Map) parser.get("deviceID");
+            switchID = deviceID.get("switches");
+            vmID = deviceID.get("vms");
             /*
             * TODO validate the topology and switch configuration.
             * Bug Tracking Link: https://github.com/samueldeng/interonet/issues/11
             * */
             topology = (Map) parser.get("topology");
             switchConf = (Map) parser.get("switchConf");
+            for(Map.Entry<String,Map<String,Object>> entry : parser.entrySet()) {
+                if(entry.getKey().startsWith("topologyMininet")){
+                    List<Map<String,String>> topologyMinTemp = (List) entry.getValue();
+                    topologyMininet.put(entry.getKey(),topologyMinTemp);
+                }
+            }
             if (topology == null || switchConf == null) throw new Exception("topology or swConf are null");
             if (switchConf.size() != switchNum) throw new Exception("switchConf.size()!=switchNum");
             for (Map.Entry<String, String> entry : switchConf.entrySet()) {
@@ -323,12 +376,60 @@ public class Slice {
                     logger.debug(entry.getKey() + ": OF1.3");
                 }
             }
+            List<Map<String,String>> mininetMapPort = (List) parser.get("mininetMapPort");
+            if(mininetMapPort.size()<topologyMininet.size())throw new Exception("Parse Error: Every Mininet should have one port connected to the outside network.");
+            if(topologyMininet.size() !=0){
+                for(Map.Entry<String,List<Map<String,String>>> entry1 : topologyMininet.entrySet()) {
+                    for (Map.Entry<String, String> entry : topology.entrySet()) {
+                        if (entry.getKey().substring(0, entry.getKey().indexOf(":")).equals(entry1.getKey().substring(15)) || entry.getValue().substring(0, entry.getKey().indexOf(":")).equals(entry1.getKey().substring(11))) {
+                            countMin++;
+                        }
+                    }
+                    if(countMin>1){
+                        throw new Exception("Parse Error: Every Mininet should have one port connected to the outside network.");
+                    }
+                    countMin=0;
+                }
+            }
+
+            int countSwitchID = 0;
+            int countVmID = 0;
+            for(int i =0;i<switchID.size();i++){
+                for(Map.Entry<String,String> entry : topology.entrySet()){
+                    if(entry.getKey().substring(0,entry.getKey().indexOf(":")).equals(switchID.get(i))||entry.getValue().substring(0,entry.getKey().indexOf(":")).equals(switchID.get(i))){
+                        countSwitchID++;
+                        break;
+                    }
+                }
+            }
+            for(int i =0;i<vmID.size();i++){
+                for(Map.Entry<String,String> entry : topology.entrySet()){
+                    if(entry.getKey().substring(0,entry.getKey().indexOf(":")).equals(vmID.get(i))||entry.getValue().substring(0,entry.getKey().indexOf(":")).equals(vmID.get(i))){
+                        countVmID++;
+                        break;
+                    }
+                }
+            }
+            for(Map.Entry<String,String> entry : topology.entrySet()){
+                if(entry.getKey().substring(0,entry.getKey().indexOf(":")).equals(entry.getValue().substring(0,entry.getKey().indexOf(":"))))
+                    throw new Exception("Parse Error: Any device can not connect to itself.");
+                else if(entry.getKey().startsWith("h")&&entry.getValue().startsWith("h"))
+                    throw new Exception("Parse Error: Vitual machine can not connect to itself.");
+            }
+            if(countSwitchID < switchID.size() || countVmID < vmID.size())
+                throw new Exception("Parse Error: There are isolated nodes here.");
+
+
+
             slice.setTopology(topology);
             slice.setSwitchConf(switchConf);
+            slice.setDeviceID(deviceID);
+            slice.setMininetMapPort(mininetMapPort);
+            slice.setTopologyMininet(topologyMininet);
 
             controllerConf = (Map) parser.get("controllerConf");
             if (controllerConf == null) throw new Exception("Parse Error: 'controllerConf' is null");
-
+            slice.setControllerConf(controllerConf);
             String ctrlIP = controllerConf.get("ip");
             if (ctrlIP == null) throw new Exception("Parse Error: 'ip' in 'controllerConf' is null");
             String match = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +

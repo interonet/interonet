@@ -1,8 +1,8 @@
 {
-  "TTPortMapDBTTPortMapDB": "/Users/samuel/Github/interonet/ldm/db/TTPortMap.json",
-  "switchDB": "/Users/samuel/Github/interonet/ldm/db/switchDB.json",
-  "vmDB": "/Users/samuel/Github/interonet/ldm/db/vmDB.json",
-  "vmVlanIdDB": "/Users/samuel/Github/interonet/ldm/db/VmVlanId.json",
+  "TTPortMapDBTTPortMapDB": "F:\\interonetplus\\interonet\\ldm\\db\\TTPortMap.json",
+  "switchDB": "F:\\interonetplus\\interonet\\ldm\\db\\switchDB.json",
+  "vmDB": "F:\\interonetplus\\interonet\\ldm\\db\\vmDB.json",
+  "vmVlanIdDB": "F:\\interonetplus\\interonet\\ldm\\db\\VmVlanId.json",
   "SwitchesNumber": "1",
   "VMsNumber": "8"
 }

@@ -1,5 +1,6 @@
 package org.interonet.ldm.Core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dom4j.DocumentException;
 import org.interonet.ldm.ConfigurationCenter.ConfigurationCenter;
 import org.interonet.ldm.PowerManager.PowerManager;
@@ -7,11 +8,18 @@ import org.interonet.ldm.SwitchManager.ISwitchManager;
 import org.interonet.ldm.TopologyTransformer.TopologyTransformer;
 import org.interonet.ldm.VMM.IVMManager;
 import org.interonet.ldm.VMM.VMManager;
+import org.interonet.ldm.VMMap.VMIdToMac;
+import org.interonet.ldm.VMMap.VMMacToIP;
+import org.interonet.ldm.WebService.HttpRequest;
 import org.interonet.ldm.service.SwitchToSwitchTunnel;
 import org.interonet.ldm.service.SwitchToVMTunnel;
 import org.libvirt.LibvirtException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,7 +110,83 @@ public class LDMCore {
 
         }
     }
+    public void powerOnDHCP(List<Integer> vmIdList) throws IOException {
+        File file = new File("/etc/dhcp/isc-dhcp-server.conf");
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file,true);
 
+        for(int i = 0;i<vmIdList.size();i++){
+            String str = "host vm"+vmIdList.get(i)+"{\r\n";
+            String mac = "hardware ethernet" +VMIdToMac.VMIdToMac().get(vmIdList.get(i))+"\r\n";
+            String ip = "fixed-address" +VMMacToIP.VMMacToIP().get(VMIdToMac.VMIdToMac().get(vmIdList.get(i)))+"}\r\n";
+            out.write(str.getBytes());
+            out.write(mac.getBytes());
+            out.write(ip.getBytes());
+            out.flush();
+        }
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Process pro = Runtime.getRuntime().exec(new String("/etc/init.d/isc-dhcp-server restart"));
+
+    }
+    public void powerOnMininet(Map<String,Integer> userVM2domVM,Map<String,List<Map<String,String>>> topologyMininet,List<Map<String,String>>mininetMapPort,Map<String,List<String>>deviceID,Map<String,String> controllerConf)throws IOException, InterruptedException, ExecutionException {
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(8);
+        final CountDownLatch countDownLatch = new CountDownLatch(mininetMapPort.size());
+
+        Map<String,List<Map<String,String>>> topologyMininetcopy = topologyMininet;
+        Runnable task1 = new Runnable() {
+            @Override
+            public void run() {
+                List<String> HttpResult = new ArrayList<>();
+                for(Map.Entry<String,List<Map<String,String>>> entry:topologyMininetcopy.entrySet()) {
+                    Map<String,Object> topologyMininetInfo = null;
+                    String url = new String();
+                    for(int i = 0;i<mininetMapPort.size();i++){
+                        if(entry.getKey().substring(15).equals(mininetMapPort.get(i).get("target"))){
+                            topologyMininetInfo.put("map",mininetMapPort.get(i).get("source"));
+                            topologyMininetInfo.put(entry.getKey(),entry.getValue());
+                        }
+                    }
+                    for(Map.Entry<String,List<String>> entry1 : deviceID.entrySet()){
+                        if(entry.getKey().substring(15).equals(entry1.getKey().substring(13))||entry.getKey().substring(15).equals(entry1.getKey().substring(9))){
+                            topologyMininetInfo.put("deviceID",entry1);
+                        }
+                    }
+                    topologyMininetInfo.put("controllerConf",controllerConf);
+                    ObjectMapper mapper = new ObjectMapper();
+                    String topologyMinJson = new String();
+                    try {
+                        topologyMinJson = mapper.writeValueAsString(topologyMininetInfo);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    for(Map.Entry<String,Integer> entry1 : userVM2domVM.entrySet()){
+                        if(entry1.getKey().equals(entry.getKey().substring(12))){
+
+                            String mac = VMIdToMac.VMIdToMac().get(entry1.getKey());
+                            String ip = VMMacToIP.VMMacToIP().get(mac);
+                            url = "http://"+ip;
+                        }
+                    }
+                    HttpRequest httpRequest = new HttpRequest();
+                    String result = httpRequest.sendPost(url,"data="+topologyMinJson);
+                   // HttpResult.add(result)
+                    if(result.equals( "success")){
+                        topologyMininetcopy.remove(entry.getKey());
+                        countDownLatch.countDown();
+                    }
+                }
+            }
+        };
+        ScheduledFuture future1 = service.scheduleAtFixedRate(task1, 0, 1, TimeUnit.SECONDS);
+        countDownLatch.await();
+        service.shutdown();
+    }
     public void deleteSwitchToSwitchTunnel(List<SwitchToSwitchTunnel> swswTunnelList) throws Exception {
         for (SwitchToSwitchTunnel swswTunnel : swswTunnelList) {
             int switchPortPeeronTT = configurationCenter.getTopologyTransformerPortFromPeerPort(swswTunnel.getSwitchId(), swswTunnel.getSwitchIdPortNum());

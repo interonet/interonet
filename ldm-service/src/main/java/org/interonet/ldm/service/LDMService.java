@@ -16,6 +16,10 @@ public interface LDMService {
 
     String powerOffVM(List<Integer> vmIdList);
 
+    String powerOnMininet(Map<String,Integer> userVM2domVM , Map<String,List<Map<String,String>>> topologyMininet , List<Map<String ,String>> mininetMapPort , Map<String,List<String>> deviceID , Map<String,String> controllerConf);
+
+    String powerOnDHCP(List<Integer> vmIdList);
+
     @Deprecated
     void createTunnelSW2SW(int switchPortPeer, int peerSwitchPortPeer) throws Throwable;
 

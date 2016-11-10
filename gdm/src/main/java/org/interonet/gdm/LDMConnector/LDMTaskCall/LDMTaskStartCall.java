@@ -25,6 +25,8 @@ public class LDMTaskStartCall extends LDMTaskCall implements Callable<LDMTaskRet
             ldmCalls.createTunnelSW2SW(ldmStartTask.getSwitchToSwitchTunnels());
             ldmCalls.createTunnelSW2VM(ldmStartTask.getSwitchToVMTunnels());
             ldmCalls.powerOnVM(ldmStartTask.getHostIdList());
+            ldmCalls.powerOnDHCP(ldmStartTask.getHostIdList());
+            ldmCalls.powerOnMininet(ldmStartTask.getUserVM2domVM(),ldmStartTask.getTopologyMininet(),ldmStartTask.getMininetMapPort(),ldmStartTask.getDeviceID(),ldmStartTask.getControllerConf());
             ldmTaskReturn.setSuccess(true);
             return ldmTaskReturn;
         } catch (Throwable throwable) {

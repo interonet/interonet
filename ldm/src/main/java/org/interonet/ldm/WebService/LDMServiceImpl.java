@@ -53,7 +53,27 @@ public class LDMServiceImpl implements LDMService {
             return "Failed";
         }
     }
+    public String powerOnMininet(Map<String,Integer> userVM2domVM , Map<String,List<Map<String,String>>> topologyMininet , List<Map<String ,String>> mininetMapPort , Map<String,List<String>> deviceID , Map<String,String> controllerConf){
+        logger.info("topologyMinList = [" + topologyMininet + "]");
+        try {
+            ldmCore.powerOnMininet(userVM2domVM,topologyMininet,mininetMapPort,deviceID,controllerConf);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
+    }
 
+    public String powerOnDHCP(List<Integer> vmIdList) {
+        logger.info("vmIdList = [" + vmIdList + "]");
+        try {
+            ldmCore.powerOnDHCP(vmIdList);
+            return "Success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed";
+        }
+    }
     @Override
     public String deleteSwitchToSwitchTunnel(List<SwitchToSwitchTunnel> switchToSwitchTunnels) {
         logger.info("switchToSwitchTunnels = [" + switchToSwitchTunnels + "]");

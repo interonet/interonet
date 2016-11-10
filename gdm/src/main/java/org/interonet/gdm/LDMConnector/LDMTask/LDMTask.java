@@ -17,6 +17,11 @@ public class LDMTask {
     private List<SwitchToSwitchTunnel> switchToSwitchTunnels;
     private List<SwitchToVMTunnel> switchToVMTunnels;
     private Map<String, Map> customSwitchConf;
+    private Map<String,List<Map<String,String>>> topologyMininet;
+    private List<Map<String,String>> mininetMapPort;
+    private Map<String,List<String>> deviceID;
+    private Map<String,String> controllerConf;
+    private Map<String, Integer> userVM2domVM;
 
     public LDMTask(Slice slice) {
         sliceId = slice.getId();
@@ -27,6 +32,11 @@ public class LDMTask {
         hostIdList = slice.getVmIdList();
         switchToSwitchTunnels = slice.getSwitchToSwitchTunnelList();
         switchToVMTunnels = slice.getSwitchToVMTunnelList();
+        topologyMininet = slice.getTopologyMininet();
+        mininetMapPort = slice.getMininetMapPort();
+        deviceID = slice.getDeviceID();
+        controllerConf = slice.getControllerConf();
+        userVM2domVM = slice.getUserVM2domVM();
     }
 
     public LDMTask() {
@@ -103,5 +113,45 @@ public class LDMTask {
 
     public void setCustomSwitchConf(Map<String, Map> customSwitchConf) {
         this.customSwitchConf = customSwitchConf;
+    }
+
+    public Map<String, List<Map<String, String>>> getTopologyMininet() {
+        return topologyMininet;
+    }
+
+    public void setTopologyMininet(Map<String, List<Map<String, String>>> topologyMininet) {
+        this.topologyMininet = topologyMininet;
+    }
+
+    public List<Map<String, String>> getMininetMapPort() {
+        return mininetMapPort;
+    }
+
+    public void setMininetMapPort(List<Map<String, String>> mininetMapPort) {
+        this.mininetMapPort = mininetMapPort;
+    }
+
+    public Map<String, List<String>> getDeviceID() {
+        return deviceID;
+    }
+
+    public void setDeviceID(Map<String, List<String>> deviceID) {
+        this.deviceID = deviceID;
+    }
+
+    public Map<String, String> getControllerConf() {
+        return controllerConf;
+    }
+
+    public void setControllerConf(Map<String, String> controllerConf) {
+        this.controllerConf = controllerConf;
+    }
+
+    public Map<String, Integer> getUserVM2domVM() {
+        return userVM2domVM;
+    }
+
+    public void setUserVM2domVM(Map<String, Integer> userVM2domVM) {
+        this.userVM2domVM = userVM2domVM;
     }
 }
