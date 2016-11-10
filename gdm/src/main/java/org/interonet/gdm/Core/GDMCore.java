@@ -287,7 +287,6 @@ public class GDMCore {
             slice.setVmIdList(reservedVM);
             slice.setVmList(configurationCenter.getVMList(reservedVM));
             slice.setStatus(Slice.SliceStatus.TIME_WAITING);
-
             slicePool.submit(slice);
             timeWaitingSlicePool.submit(slice);
 

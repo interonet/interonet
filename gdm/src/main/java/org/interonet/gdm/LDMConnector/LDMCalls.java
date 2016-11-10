@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class LDMCalls {
     private LDMService ldmService;
@@ -61,7 +62,20 @@ public class LDMCalls {
         }
         return "Success";
     }
-
+    public String powerOnMininet(Map<String,Integer> userVM2domVM , Map<String,List<Map<String,String>>> topologyMininet , List<Map<String ,String>> mininetMapPort , Map<String,List<String>> deviceID , Map<String,String> controllerConf) throws Throwable {
+        logger.debug("LDM --> powerOnMin(topologyMininet=" + topologyMininet + ")");
+        if (!DEBUG) {
+            ldmService.powerOnMininet(userVM2domVM,topologyMininet,mininetMapPort,deviceID,controllerConf);
+        }
+        return "Success";
+    }
+    public String powerOnDHCP(List<Integer> vmIDList) throws Throwable {
+        logger.debug("LDM --> powerOnVM(vmIDList=" + vmIDList + ")");
+        if (!DEBUG) {
+            ldmService.powerOnDHCP(vmIDList);
+        }
+        return "Success";
+    }
     public String deleteTunnelSW2VM(List<SwitchToVMTunnel> switchToVMTunnelList) {
         logger.debug("LDM --> deleteTunnelSW2VM(switchToVMTunnelList=" + switchToVMTunnelList + ")");
         if (!DEBUG) {
