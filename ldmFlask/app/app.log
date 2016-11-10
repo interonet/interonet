@@ -1,0 +1,253 @@
+Thu, 11 Aug 2016 15:02:05 _internal.py[line:87] WARNING  * Debugger is active!
+Thu, 11 Aug 2016 15:02:05 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Thu, 11 Aug 2016 15:03:51 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Thu, 11 Aug 2016 15:03:52 _internal.py[line:87] WARNING  * Debugger is active!
+Thu, 11 Aug 2016 15:03:52 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Thu, 11 Aug 2016 15:04:11 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:04:11 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:04:11 vertifyTopo.py[line:26] WARNING the value of nodes is not list
+Thu, 11 Aug 2016 15:04:11 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:04:11] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:04:31 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Thu, 11 Aug 2016 15:04:31 _internal.py[line:87] WARNING  * Debugger is active!
+Thu, 11 Aug 2016 15:04:31 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Thu, 11 Aug 2016 15:04:33 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:04:33 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:04:33 vertifyTopo.py[line:26] ERROR the value of nodes is not list
+Thu, 11 Aug 2016 15:04:33 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:04:33] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:17:51 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:17:51 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:17:51 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:17:51] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:18:01 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Thu, 11 Aug 2016 15:18:01 _internal.py[line:87] WARNING  * Debugger is active!
+Thu, 11 Aug 2016 15:18:01 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Thu, 11 Aug 2016 15:18:04 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:18:04 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:18:04 vertifyTopo.py[line:38] INFO node is legal
+Thu, 11 Aug 2016 15:18:04 vertifyTopo.py[line:43] INFO start to vertify the controller ...
+Thu, 11 Aug 2016 15:18:04 vertifyTopo.py[line:64] INFO the topology is legal
+Thu, 11 Aug 2016 15:18:04 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:18:04] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:19:27 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:19:27 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:19:27 vertifyTopo.py[line:38] INFO node is legal
+Thu, 11 Aug 2016 15:19:27 vertifyTopo.py[line:43] INFO start to vertify the controller ...
+Thu, 11 Aug 2016 15:19:27 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:19:27] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:21:40 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:21:40 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:21:40 vertifyTopo.py[line:38] INFO node is legal
+Thu, 11 Aug 2016 15:21:40 vertifyTopo.py[line:43] INFO start to vertify the controller ...
+Thu, 11 Aug 2016 15:21:40 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:21:40] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:21:45 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Thu, 11 Aug 2016 15:21:45 _internal.py[line:87] WARNING  * Debugger is active!
+Thu, 11 Aug 2016 15:21:45 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Thu, 11 Aug 2016 15:21:49 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:21:49 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:21:49 vertifyTopo.py[line:38] INFO node is legal
+Thu, 11 Aug 2016 15:21:49 vertifyTopo.py[line:43] INFO start to vertify the controller ...
+Thu, 11 Aug 2016 15:21:49 vertifyTopo.py[line:48] INFO the key of controller is legal
+Thu, 11 Aug 2016 15:21:49 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:21:49] "POST /testPost HTTP/1.1" 500 -
+Thu, 11 Aug 2016 15:21:57 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Thu, 11 Aug 2016 15:21:58 _internal.py[line:87] WARNING  * Debugger is active!
+Thu, 11 Aug 2016 15:21:58 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Thu, 11 Aug 2016 15:22:00 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:22:00 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:22:00 vertifyTopo.py[line:38] INFO node is legal
+Thu, 11 Aug 2016 15:22:00 vertifyTopo.py[line:43] INFO start to vertify the controller ...
+Thu, 11 Aug 2016 15:22:00 vertifyTopo.py[line:48] INFO the key of controller is legal
+Thu, 11 Aug 2016 15:22:00 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:22:00] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:22:48 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Thu, 11 Aug 2016 15:22:48 _internal.py[line:87] WARNING  * Debugger is active!
+Thu, 11 Aug 2016 15:22:48 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Thu, 11 Aug 2016 15:22:50 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:22:50 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:22:50 vertifyTopo.py[line:38] INFO node is legal
+Thu, 11 Aug 2016 15:22:50 vertifyTopo.py[line:43] INFO start to vertify the controller ...
+Thu, 11 Aug 2016 15:22:50 vertifyTopo.py[line:48] INFO the key of controller is legal
+Thu, 11 Aug 2016 15:22:50 vertifyTopo.py[line:56] ERROR the value of controller is illegal
+Thu, 11 Aug 2016 15:22:50 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:22:50] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:24:13 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Thu, 11 Aug 2016 15:24:13 _internal.py[line:87] WARNING  * Debugger is active!
+Thu, 11 Aug 2016 15:24:13 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Thu, 11 Aug 2016 15:24:34 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:24:34 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:24:34 vertifyTopo.py[line:28] INFO the value of nodes is list
+Thu, 11 Aug 2016 15:24:34 vertifyTopo.py[line:39] INFO node is legal
+Thu, 11 Aug 2016 15:24:34 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Thu, 11 Aug 2016 15:24:34 vertifyTopo.py[line:49] INFO the key of controller is legal
+Thu, 11 Aug 2016 15:24:34 vertifyTopo.py[line:57] ERROR the value of controller is illegal
+Thu, 11 Aug 2016 15:24:34 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:24:34] "POST /testPost HTTP/1.1" 200 -
+Thu, 11 Aug 2016 15:24:56 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Thu, 11 Aug 2016 15:24:56 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Thu, 11 Aug 2016 15:24:56 vertifyTopo.py[line:28] INFO the value of nodes is list
+Thu, 11 Aug 2016 15:24:56 vertifyTopo.py[line:39] INFO node is legal
+Thu, 11 Aug 2016 15:24:56 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Thu, 11 Aug 2016 15:24:56 vertifyTopo.py[line:49] INFO the key of controller is legal
+Thu, 11 Aug 2016 15:24:56 vertifyTopo.py[line:55] INFO the value of controller is legal
+Thu, 11 Aug 2016 15:24:56 vertifyTopo.py[line:69] ERROR the key of topology is illegal
+Thu, 11 Aug 2016 15:24:56 _internal.py[line:87] INFO 127.0.0.1 - - [11/Aug/2016 15:24:56] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:33:54 _internal.py[line:87] INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+Sat, 13 Aug 2016 11:33:54 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 11:33:54 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 11:33:54 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 11:34:06 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:34:06 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:34:06 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:34:06 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:34:06 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:34:06 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:34:06 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:34:06 vertifyTopo.py[line:75] INFO topology is legal
+Sat, 13 Aug 2016 11:34:06 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:34:06] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:74] ERROR the value of topology is illegal
+Sat, 13 Aug 2016 11:34:22 vertifyTopo.py[line:75] INFO topology is legal
+Sat, 13 Aug 2016 11:34:22 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:34:22] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:34:46 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Sat, 13 Aug 2016 11:34:46 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 11:34:46 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 11:34:46 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 11:34:48 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:34:48 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:34:48 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:34:48 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:34:48 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:34:48 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:34:48 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:34:48 vertifyTopo.py[line:74] ERROR the value of topology is illegal
+Sat, 13 Aug 2016 11:34:48 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:34:48] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:34:57 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:34:57 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:34:57 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:34:57 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:34:57 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:34:57 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:34:57 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:34:57 vertifyTopo.py[line:76] INFO topology is legal
+Sat, 13 Aug 2016 11:34:57 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:34:57] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:38:58 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Sat, 13 Aug 2016 11:38:58 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 11:38:58 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 11:38:58 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 11:39:06 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:39:06 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:39:06 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:39:06 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:39:06 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:39:06 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:39:06 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:39:06 vertifyTopo.py[line:74] ERROR the value of topology is illegal
+Sat, 13 Aug 2016 11:39:06 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:39:06] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:39:50 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Sat, 13 Aug 2016 11:39:50 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 11:39:50 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 11:39:50 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:74] ERROR the value of topology is illegal
+Sat, 13 Aug 2016 11:39:54 vertifyTopo.py[line:75] ERROR The error value is source: a5and target: s3
+Sat, 13 Aug 2016 11:39:54 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:39:54] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:40:04 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Sat, 13 Aug 2016 11:40:04 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 11:40:05 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 11:40:05 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:74] ERROR the value of topology is illegal
+Sat, 13 Aug 2016 11:40:06 vertifyTopo.py[line:75] ERROR The error value is source: a5 and target: s3
+Sat, 13 Aug 2016 11:40:06 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:40:06] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:40:12 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/vertifyTopo.py', reloading
+Sat, 13 Aug 2016 11:40:12 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 11:40:12 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 11:40:12 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:74] ERROR the value of topology is illegal
+Sat, 13 Aug 2016 11:40:21 vertifyTopo.py[line:75] ERROR The error value is source: H5 and target: s3
+Sat, 13 Aug 2016 11:40:21 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:40:21] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:74] ERROR the value of topology is illegal
+Sat, 13 Aug 2016 11:40:26 vertifyTopo.py[line:75] ERROR The error value is source: H5 and target: s3
+Sat, 13 Aug 2016 11:40:26 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:40:26] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:74] ERROR the value of topology is illegal
+Sat, 13 Aug 2016 11:40:34 vertifyTopo.py[line:75] ERROR The error value is source: H5 and target: s3
+Sat, 13 Aug 2016 11:40:34 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:40:34] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 11:40:42 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 11:40:42 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 11:40:42 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 11:40:42 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 11:40:42 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 11:40:42 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 11:40:42 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 11:40:42 vertifyTopo.py[line:77] INFO topology is legal
+Sat, 13 Aug 2016 11:40:42 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 11:40:42] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 12:00:55 _internal.py[line:87] INFO  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+Sat, 13 Aug 2016 12:00:55 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 12:00:55 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 12:00:55 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 12:00:58 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 12:00:58] "POST /testPost HTTP/1.1" 500 -
+Sat, 13 Aug 2016 12:01:18 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/views.py', reloading
+Sat, 13 Aug 2016 12:01:18 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 12:01:18 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 12:01:18 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 12:01:24 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 12:01:24] "POST /testPost HTTP/1.1" 500 -
+Sat, 13 Aug 2016 12:01:34 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/views.py', reloading
+Sat, 13 Aug 2016 12:01:34 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 12:01:34 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 12:01:34 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 12:03:25 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/views.py', reloading
+Sat, 13 Aug 2016 12:03:25 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 12:03:25 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 12:03:25 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 12:03:29 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 12:03:29] "POST /testPost HTTP/1.1" 500 -
+Sat, 13 Aug 2016 12:03:35 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/views.py', reloading
+Sat, 13 Aug 2016 12:03:35 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 12:03:35 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 12:03:35 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 12:03:49 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/views.py', reloading
+Sat, 13 Aug 2016 12:03:49 _internal.py[line:87] INFO  * Restarting with stat
+Sat, 13 Aug 2016 12:03:49 _internal.py[line:87] WARNING  * Debugger is active!
+Sat, 13 Aug 2016 12:03:49 _internal.py[line:87] INFO  * Debugger pin code: 673-583-251
+Sat, 13 Aug 2016 12:03:52 vertifyTopo.py[line:18] INFO start to vertify the post string ...
+Sat, 13 Aug 2016 12:03:52 vertifyTopo.py[line:22] INFO start to vertify the node including switch and host ...
+Sat, 13 Aug 2016 12:03:52 vertifyTopo.py[line:28] INFO the value of nodes is list
+Sat, 13 Aug 2016 12:03:52 vertifyTopo.py[line:39] INFO node is legal
+Sat, 13 Aug 2016 12:03:52 vertifyTopo.py[line:44] INFO start to vertify the controller ...
+Sat, 13 Aug 2016 12:03:52 vertifyTopo.py[line:49] INFO the key of controller is legal
+Sat, 13 Aug 2016 12:03:52 vertifyTopo.py[line:55] INFO the value of controller is legal
+Sat, 13 Aug 2016 12:03:52 vertifyTopo.py[line:77] INFO topology is legal
+Sat, 13 Aug 2016 12:03:52 _internal.py[line:87] INFO 127.0.0.1 - - [13/Aug/2016 12:03:52] "POST /testPost HTTP/1.1" 200 -
+Sat, 13 Aug 2016 12:06:42 _internal.py[line:87] INFO  * Detected change in '/Users/houlifei/FlaskProject/app/views.py', reloading
+Sat, 13 Aug 2016 12:06:42 _internal.py[line:87] INFO  * Restarting with stat
